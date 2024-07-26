@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,10 +13,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\SendMailTrait;
 
 class AuthController extends Controller
 {
-    use HandleTrait;
+    use HandleTrait, SendMailTrait;
     public function register(Request $request)
     {
         DB::beginTransaction();
@@ -113,6 +116,120 @@ class AuthController extends Controller
         }
 
     } 
+    public function askEmailCode(Request $request) {
+        $user = $request->user();
+
+
+        if ($user) {
+            $code = rand(100000, 999999);
+
+
+            $user->email_last_verfication_code = Hash::make($code);
+            $user->email_last_verfication_code_expird_at = Carbon::now()->addMinutes(10)->timezone('Europe/Istanbul');
+            $user->save();
+
+
+            $msg_title = "Here's your Authentication Code";
+            $msg_content = "<h1>";
+            $msg_content .= "Your Authentication code is<span style='color: blue'>" . $code . "</span>";
+            $msg_content .= "</h1>";
+
+
+            $this->sendEmail($user->email, $msg_title, $msg_content);
+
+
+            return $this->handleResponse(
+                true,
+                "Authentication Code Sent To Your Email Successfully! ",
+                [],
+                [],
+                [
+                    "code get expired after 10 minuts",
+                    "the same endpoint you can use for ask resend email"
+                ]
+            );
+        }
+
+
+        return $this->handleResponse(
+            false,
+            "",
+            ["invalid process"],
+            [],
+            [
+                "code get expired after 10 minuts",
+                "the same endpoint you can use for ask resend email"
+            ]
+        );
+    }
+
+    public function verifyEmail(Request $request) {
+        $validator = Validator::make($request->all(), [
+            "code" => ["required"],
+        ], [
+            "code.required" => "Enter Authentication Code",
+        ]);
+
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "",
+                [$validator->errors()->first()],
+                [],
+                []
+            );
+        }
+
+
+
+
+        $user = $request->user();
+        $code = $request->code;
+
+
+        if ($user) {
+            if (!Hash::check($code, $user->email_last_verfication_code ? $user->email_last_verfication_code : Hash::make(0000))) {
+                return $this->handleResponse(
+                    false,
+                    "",
+                    ["Incorrect Code"],
+                    [],
+                    []
+                );
+            } else {
+                $timezone = 'Europe/Istanbul'; // Replace with your specific timezone if different
+                $verificationTime = new Carbon($user->email_last_verfication_code_expird_at, $timezone);
+                if ($verificationTime->isPast()) {
+                    return $this->handleResponse(
+                        false,
+                        "",
+                        ["Code is Expired"],
+                        [],
+                        []
+                    );
+                } else {
+                    $user->is_email_verified = true;
+                    $user->save();
+
+
+                    if ($user) {
+                        return $this->handleResponse(
+                            true,
+                            "Your Email is Verifyied",
+                            [],
+                            [],
+                            []
+                        );
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
 
     public function login(Request $request)
     {
