@@ -22,4 +22,8 @@ class Pet extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function petgallery(){
+        return $this->hasMany(PetGallery::class);
+    }
 }

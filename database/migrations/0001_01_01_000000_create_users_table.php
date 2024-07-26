@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('address');
+            $table->string('picture')->nullable();
             $table->boolean('is_email_verified')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('email_last_verfication_code')->nullable();
