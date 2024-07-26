@@ -14,4 +14,7 @@ Route::get('/user/user', [AuthController::class,'getUser'])->middleware('auth:sa
 Route::get('/user/ask-email-verfication-code', [AuthController::class, "askEmailCode"])->middleware('auth:sanctum');
 Route::post('/user/verify-email', [AuthController::class, "verifyEmail"])->middleware('auth:sanctum');
 Route::post('/user/change-password', [AuthController::class, "changePassword"])->middleware('auth:sanctum');
+Route::post('/user/forgot-password', [AuthController::class, "forgetPassword"]);
+Route::post('/user/forgot-password-check-code', [AuthController::class, "forgetPasswordCheckCode"]);
+
 });
