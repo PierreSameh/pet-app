@@ -28,15 +28,20 @@ class AuthController extends Controller
             'phone' => 'required|string|numeric|digits:11|unique:users,phone',
             'address' => 'required|string|max:255',
             'password' => 'required|string|min:12|
-            regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/u
+            regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/u
             |confirmed',
         ]);
+
+        $passwordValidation = null;
+        if($validator->errors()->has('password')) {
+            $passwordValidation = "Password must have Captial and small letters, and a special character";
+        }
 
         if ($validator->fails()) {
                 return $this->handleResponse(
                 false,
                 "Error Signing UP",
-                [$validator->errors()],
+                [$validator->errors(), $passwordValidation],
                 [],
                 []
             );
