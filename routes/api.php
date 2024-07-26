@@ -21,4 +21,5 @@ Route::post('/user/forgot-password-check-code', [AuthController::class, "forgetP
     // PetContoller
 Route::get('/user/pet', [PetController::class,'getPet'])->middleware('auth:sanctum');
 Route::post('/user/add-pet', [PetController::class,'addPet'])->middleware('auth:sanctum');
+Route::post('/user/{pet}/update', [PetController::class,'editPet'])->middleware('auth:sanctum');
 });

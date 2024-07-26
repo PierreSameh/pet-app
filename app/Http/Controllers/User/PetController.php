@@ -73,15 +73,71 @@ class PetController extends Controller
             ],
             []
         );
-        
+
      } catch (\Exception $e) {
         return $this->handleResponse(
             false,
-            "Error Signing UP",
+            "Coudln't Add Your Pet",
             [$e->getMessage()],
             [],
             []
         );
     }
     }
+
+    public function editPet(Request $request, $petID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'=> 'required|string|max:255',
+                'age'=> 'required|integer',
+                'type'=> 'required|string',
+                'gender'=> 'required|string',
+                'breed'=> 'nullable|string',
+                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Getting Your Pet Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $imagePath = $request->file('picture')->store('/storage/pets', 'public');
+    
+            $pet = Pet::find( $petID );
+
+                $pet->name = $request->name;
+                $pet->age = $request->age;
+                $pet->type = $request->type;
+                $pet->gender = $request->gender;
+                $pet->breed = $request->breed;
+                $pet->picture = $imagePath;
+                $pet->save();
+ 
+
+    
+            return $this->handleResponse(
+                true,
+                "Info Updated Successfully",
+                [],
+                [
+                    $pet,
+                ],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Pet's Info",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+        }
+    
 }
