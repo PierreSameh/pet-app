@@ -17,4 +17,8 @@ class Pet extends Model
         "gender",
         "breed",
     ] ;
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
