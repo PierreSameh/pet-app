@@ -72,7 +72,19 @@ class AuthController extends Controller
 
         DB::commit();
 
-        return response()->json(compact(['user', 'pet'], 'token'), 201);
+        // return response()->json(compact(['user', 'pet'], 'token'), 201);
+
+        return $this->handleResponse(
+            true,
+            "You are Signed Up",
+            [],
+            [
+                $user,
+                $pet
+            ],
+            []
+        );
+
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -95,10 +107,25 @@ class AuthController extends Controller
             $token = $userManual->createToken('token')->plainTextToken;
 
         }else  {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+                return $this->handleResponse(
+                false,
+                "Error Signing UP",
+                ['Invalid Credentials'],
+                [],
+                []
+            );
         }
 
-        return response()->json(compact('token'));
+        // return response()->json(compact('token'));
+        return $this->handleResponse(
+            true,
+            "You are Signed Up",
+            [],
+            [
+                $token,
+            ],
+            []
+        );
     }
 
     public function getUser(Request $request) {
