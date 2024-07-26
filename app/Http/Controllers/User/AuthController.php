@@ -30,18 +30,15 @@ class AuthController extends Controller
             'password' => 'required|string|min:12|
             regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/u
             |confirmed',
+        ], [
+            "password.regex" => "Password must have Captial and small letters, and a special character",
         ]);
-
-        $passwordValidation = null;
-        if($validator->errors()->has('password')) {
-            $passwordValidation = "Password must have Captial and small letters, and a special character";
-        }
 
         if ($validator->fails()) {
                 return $this->handleResponse(
                 false,
                 "Error Signing UP",
-                [$validator->errors(), $passwordValidation],
+                [$validator->errors()],
                 [],
                 []
             );
