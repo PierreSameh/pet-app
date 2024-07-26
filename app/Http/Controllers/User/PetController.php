@@ -138,6 +138,30 @@ class PetController extends Controller
                 []
             );
         }
-        }
+    }
     
+    public function deletePet($petID) {
+    
+        $pet = Pet::where('id', $petID);
+        if ($pet) {
+        $pet->delete();
+
+        return $this->handleResponse(
+            true,
+            "Pet Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                true,
+                "Couldn't Delete Your Pet",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
 }
