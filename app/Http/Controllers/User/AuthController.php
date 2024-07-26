@@ -92,7 +92,8 @@ class AuthController extends Controller
             [],
             [
                 $user,
-                $pet
+                $pet,
+                $token
             ],
             []
         );
