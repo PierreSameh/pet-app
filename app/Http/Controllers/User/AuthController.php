@@ -6,14 +6,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Pet;
+use App\HandleTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+    use HandleTrait;
     public function register(Request $request)
     {
+        DB::beginTransaction();
+
+        try {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -38,10 +45,47 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        
+
+        $petValidator = Validator::make($request->all(), [
+            'name'=> 'required|string|max:255',
+            'age'=> 'required|integer',
+            'type'=> 'required|string',
+            'gender'=> 'required|string',
+            'breed'=> 'nullable|string',
+        ]);
+
+        if ($petValidator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $pet = Pet::create([
+            'user_id'=> $user->id,
+            'name'=> $request->name,
+            'age'=> $request->age,
+            'type'=> $request->type,
+            'gender'=> $request->gender,
+            'breed'=> $request->breed,
+        ]);
+
         $token = $user->createToken('token')->plainTextToken;
 
-        return response()->json(compact('user', 'token'), 201);
-    }
+        DB::commit();
+
+        return response()->json(compact(['user', 'pet'], 'token'), 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return $this->handleResponse(
+                false,
+                "Error Signing UP",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+
+    } 
 
     public function login(Request $request)
     {
