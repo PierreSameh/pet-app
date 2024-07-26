@@ -23,5 +23,6 @@ Route::get('/user/{pet}', [PetController::class,'getPet'])->middleware('auth:san
 Route::post('/user/add-pet', [PetController::class,'addPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/update', [PetController::class,'editPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/delete', [PetController::class,'deletePet'])->middleware('auth:sanctum');
-Route::post('/user/{pet}/add-photo', [PetController::class,'addImage'])->middleware('auth:sanctum');
+Route::post('/user/{pet}/add-image', [PetController::class,'addImage'])->middleware('auth:sanctum');
+Route::post('/user/{image}/delete-image', [PetController::class,'deleteImage'])->middleware('auth:sanctum');
 });

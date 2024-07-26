@@ -216,10 +216,32 @@ class PetController extends Controller
                 []
             );
          }
- 
- 
     }
 
+    public function deleteImage($imageID) {
+    
+        $image = PetGallery::where('id', $imageID);
+        if ($image) {
+        $image->delete();
+
+        return $this->handleResponse(
+            true,
+            "Image Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                true,
+                "Couldn't Delete Your Image",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
 
     
 }
