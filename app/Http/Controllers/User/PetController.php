@@ -147,7 +147,7 @@ class PetController extends Controller
     public function deletePet($petID) {
     
         $pet = Pet::where('id', $petID);
-        if ($pet) {
+        if ($pet->count() > 0) {
         $pet->delete();
 
         return $this->handleResponse(
@@ -221,7 +221,7 @@ class PetController extends Controller
     public function deleteImage($imageID) {
     
         $image = PetGallery::where('id', $imageID);
-        if ($image) {
+        if ($image ->count() > 0) {
         $image->delete();
 
         return $this->handleResponse(
@@ -233,7 +233,7 @@ class PetController extends Controller
         );
         } else {
             return $this->handleResponse(
-                true,
+                false,
                 "Couldn't Delete Your Image",
                 [],
                 [],
