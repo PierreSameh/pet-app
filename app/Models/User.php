@@ -36,6 +36,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function pets() {
+        return $this->hasMany(Pet::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

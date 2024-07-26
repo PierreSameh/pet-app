@@ -464,6 +464,13 @@ class AuthController extends Controller
     public function getUser(Request $request) {
        $user = $request->user();
 
-        return response()->json(compact('user'));
+       return $this->handleResponse(
+        true,
+        "User Data",
+        [],
+        [$user],
+        []
+    );
+        // return response()->json(compact('user'));
     }
 }
