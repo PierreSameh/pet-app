@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pet;
+use App\Models\PetGallery;
 use App\HandleTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -19,6 +20,9 @@ class PetController extends Controller
 {
     use HandleTrait;
 
+    //////////////////////////////////////
+    //        PETS METHODS              //
+    /////////////////////////////////////
     public function getPet(Request $request) {
         $pets = $request->user()->pets;
  
@@ -164,4 +168,48 @@ class PetController extends Controller
         }
 
     }
+    //////////////////////////////////////
+    //        GALLERY METHODS           //
+    /////////////////////////////////////
+
+    public function addImage(Request $request, $petID) {
+        $validator = Validator::make($request->all(), [
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Uploading Your Photo",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/pets', 'public');
+    
+                $petImage = PetGallery::create([
+                    'pet_id' => $petID,
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedImages[] = $petImage;
+            }             
+         }
+ 
+        $petImages = [PetGallery::where("pet_id", $petID)->get()];
+        return $this->handleResponse(
+            true,
+            "Image Added Successfully",
+            [],
+            [$petImages],
+            []
+        );
+    }
+
+
+    
 }
