@@ -199,6 +199,15 @@ class PetController extends Controller
                 $uploadedImages[] = $petImage;
             }             
          }
+          else {
+            return $this->handleResponse(
+                false,
+                "Upload Images Correctly",
+                ["No Images Uploaded"],
+                [],
+                []
+            );
+         }
  
         $petImages = [PetGallery::where("pet_id", $petID)->get()];
         return $this->handleResponse(
