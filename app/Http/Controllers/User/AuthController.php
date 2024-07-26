@@ -33,7 +33,13 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+                return $this->handleResponse(
+                false,
+                "Error Signing UP",
+                [$validator->errors()],
+                [],
+                []
+            );
         }
 
         $user = User::create([
@@ -56,7 +62,13 @@ class AuthController extends Controller
         ]);
 
         if ($petValidator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return $this->handleResponse(
+                false,
+                "Error Getting Your Pet Informations",
+                [$validator->errors()],
+                [],
+                []
+            );
         }
 
         $pet = Pet::create([
