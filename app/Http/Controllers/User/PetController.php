@@ -197,7 +197,15 @@ class PetController extends Controller
                 ]);
 
                 $uploadedImages[] = $petImage;
-            }             
+            } 
+            $petImages = [PetGallery::where("pet_id", $petID)->get()];
+            return $this->handleResponse(
+                true,
+                "Image Added Successfully",
+                [],
+                [$petImages],
+                []
+            );            
          }
           else {
             return $this->handleResponse(
@@ -209,14 +217,7 @@ class PetController extends Controller
             );
          }
  
-        $petImages = [PetGallery::where("pet_id", $petID)->get()];
-        return $this->handleResponse(
-            true,
-            "Image Added Successfully",
-            [],
-            [$petImages],
-            []
-        );
+ 
     }
 
 
