@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('gender');
             $table->string('breed')->nullable();
+            $table->string('picture')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

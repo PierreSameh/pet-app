@@ -452,7 +452,7 @@ class AuthController extends Controller
         // return response()->json(compact('token'));
         return $this->handleResponse(
             true,
-            "You are Signed Up",
+            "You are Loged In",
             [],
             [
                 $token,

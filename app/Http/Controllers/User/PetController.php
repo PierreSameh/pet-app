@@ -30,4 +30,58 @@ class PetController extends Controller
          []
      );
     } 
+
+    public function addPet(Request $request) {
+
+        try {
+        $validator = Validator::make($request->all(), [
+            'name'=> 'required|string|max:255',
+            'age'=> 'required|integer',
+            'type'=> 'required|string',
+            'gender'=> 'required|string',
+            'breed'=> 'nullable|string',
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Getting Your Pet Informations",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+        $imagePath = $request->file('picture')->store('/storage/pets', 'public');
+
+        $pet = Pet::create([
+            'user_id'=> $request->user()->id,
+            'name'=> $request->name,
+            'age'=> $request->age,
+            'type'=> $request->type,
+            'gender'=> $request->gender,
+            'breed'=> $request->breed,
+            'picture'=> $imagePath,
+        ]);
+
+        return $this->handleResponse(
+            true,
+            "Pet Added Successfully",
+            [],
+            [
+                $request->user()->pets,
+            ],
+            []
+        );
+        
+     } catch (\Exception $e) {
+        return $this->handleResponse(
+            false,
+            "Error Signing UP",
+            [$e->getMessage()],
+            [],
+            []
+        );
+    }
+    }
 }
