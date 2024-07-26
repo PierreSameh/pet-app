@@ -23,14 +23,14 @@ class PetController extends Controller
     //////////////////////////////////////
     //        PETS METHODS              //
     /////////////////////////////////////
-    public function getPet(Request $request) {
+    public function getPet(Request $request, $petID) {
         $pets = $request->user()->pets;
- 
+        $petImages = [PetGallery::where("pet_id", $petID)->get()];
         return $this->handleResponse(
          true,
          "Pet Data",
          [],
-         [$pets],
+         [$pets, $petImages],
          []
      );
     } 
