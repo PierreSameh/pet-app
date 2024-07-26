@@ -16,6 +16,7 @@ class Pet extends Model
         "type",
         "gender",
         "breed",
+        "picture",
     ] ;
 
     public function user(){
