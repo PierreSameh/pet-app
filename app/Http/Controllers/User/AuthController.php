@@ -567,4 +567,27 @@ class AuthController extends Controller
             []
             );
     }
+
+    public function deleteBankCard($cardID) {
+        $card = BankCard::where('id', $cardID);
+        if ($card->count() > 0) {
+        $card->delete();
+
+        return $this->handleResponse(
+            true,
+            "Card Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Card",
+                [],
+                [],
+                []
+            );
+        }
+    }
 }
