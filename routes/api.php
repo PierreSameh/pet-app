@@ -4,12 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\PetController;
+use App\Http\Controllers\User\HomeController;
 
 
 
 
-Route::group(['namespace' => 'User'], function () {
-    // AuthController
+
+
+// AuthController
 Route::post('/user/register', [AuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
 Route::get('/user/user', [AuthController::class,'getUser'])->middleware('auth:sanctum');
@@ -24,11 +26,19 @@ Route::post('/user/{card}/delete-card', [AuthController::class,'deleteBankCard']
 Route::post('/user/add-wallet', [AuthController::class,'addWallet'])->middleware('auth:sanctum');
 Route::post('/user/{wallet}/delete-wallet', [AuthController::class,'deleteWallet'])->middleware('auth:sanctum');
 
-    // PetContoller
+// PetContoller
 Route::get('/user/{pet}', [PetController::class,'getPet'])->middleware('auth:sanctum');
 Route::post('/user/add-pet', [PetController::class,'addPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/update', [PetController::class,'editPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/delete', [PetController::class,'deletePet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/add-image', [PetController::class,'addImage'])->middleware('auth:sanctum');
 Route::post('/user/{image}/delete-image', [PetController::class,'deleteImage'])->middleware('auth:sanctum');
-});
+// HomeController
+Route::get('/home/dogs', [HomeController::class,'getDogs']);
+Route::get('/home/cats', [HomeController::class,'getCats']);
+Route::get('/home/birds', [HomeController::class,'getBirds']);
+Route::get('/home/turtles', [HomeController::class,'getTurtles']);
+Route::get('/home/fishes', [HomeController::class,'getFishes']);
+Route::get('/home/monkeys', [HomeController::class,'getMonkeys']);
+Route::get('/home/males', [HomeController::class,'getMales']);
+Route::get('/home/females', [HomeController::class,'getFemales']);
