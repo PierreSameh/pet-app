@@ -34,12 +34,13 @@ Route::post('/user/{pet}/delete', [PetController::class,'deletePet'])->middlewar
 Route::post('/user/{pet}/add-image', [PetController::class,'addImage'])->middleware('auth:sanctum');
 Route::post('/user/{image}/delete-image', [PetController::class,'deleteImage'])->middleware('auth:sanctum');
 // HomeController
-Route::get('/home/dogs', [HomeController::class,'getDogs']);
-Route::get('/home/cats', [HomeController::class,'getCats']);
-Route::get('/home/birds', [HomeController::class,'getBirds']);
-Route::get('/home/turtles', [HomeController::class,'getTurtles']);
-Route::get('/home/fishes', [HomeController::class,'getFishes']);
-Route::get('/home/monkeys', [HomeController::class,'getMonkeys']);
-Route::get('/home/males', [HomeController::class,'getMales']);
-Route::get('/home/females', [HomeController::class,'getFemales']);
-Route::get('/pets', [HomeController::class, 'filterPets']);
+Route::get('/home/dogs', [HomeController::class,'getDogs'])->middleware('auth:sanctum');
+Route::get('/home/cats', [HomeController::class,'getCats'])->middleware('auth:sanctum');
+Route::get('/home/birds', [HomeController::class,'getBirds'])->middleware('auth:sanctum');
+Route::get('/home/turtles', [HomeController::class,'getTurtles'])->middleware('auth:sanctum');
+Route::get('/home/fishes', [HomeController::class,'getFishes'])->middleware('auth:sanctum');
+Route::get('/home/monkeys', [HomeController::class,'getMonkeys'])->middleware('auth:sanctum');
+Route::get('/home/males', [HomeController::class,'getMales'])->middleware('auth:sanctum');
+Route::get('/home/females', [HomeController::class,'getFemales'])->middleware('auth:sanctum');
+Route::get('/pets', [HomeController::class, 'filterPets'])->middleware('auth:sanctum');
+Route::get('/home/{pet}', [HomeController::class,'getPetDating'])->middleware('auth:sanctum');

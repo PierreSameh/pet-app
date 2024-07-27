@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pet;
+use App\Models\PetGallery;
 use App\Models\BankCard;
 use App\Models\Wallet;
 use App\HandleTrait;
@@ -207,4 +208,18 @@ class HomeController extends Controller
             []
         );
     }
+
+    // Pet Dating Profile
+    public function getPetDating($petID) {
+        $pet = Pet::where('id', $petID)->first();
+        $petImages = [PetGallery::where("pet_id", $petID)->get()];
+        $owner = User::where("id", $pet['user_id'])->first();
+        return $this->handleResponse(
+         true,
+         "Pet Data",
+         [],
+         [$pet, $owner, $petImages],
+         []
+     );
+    } 
 }
