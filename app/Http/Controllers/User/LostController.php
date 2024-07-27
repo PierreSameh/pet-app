@@ -124,4 +124,27 @@ class LostController extends Controller
             []
         );
     }
+
+    public function getLostPet($lostPetID) {
+        $lostPet = LostPet::where('id', $lostPetID)->first();
+        // $petImages = [LostPetGallery::where("pet_id", $lostPetID)->get()];
+        
+        if (isset($lostPet)) {
+        $owner = User::where("id", $lostPet['user_id'])->first();
+        return $this->handleResponse(
+         true,
+         "Pet Data",
+         [],
+         [$lostPet, $owner],
+         []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Pet Not Found",
+            [],
+            [],
+            []
+            );
+    } 
 }

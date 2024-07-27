@@ -212,6 +212,7 @@ class HomeController extends Controller
     // Pet Dating Profile
     public function getPetDating($petID) {
         $pet = Pet::where('id', $petID)->first();
+        if (isset($pet)) {
         $petImages = [PetGallery::where("pet_id", $petID)->get()];
         $owner = User::where("id", $pet['user_id'])->first();
         return $this->handleResponse(
@@ -220,6 +221,14 @@ class HomeController extends Controller
          [],
          [$pet, $owner, $petImages],
          []
-     );
+         );
+        }
+        return $this->handleResponse(
+            false,
+            "Pet Not Found",
+            [],
+            [],
+            []
+            );
     } 
 }

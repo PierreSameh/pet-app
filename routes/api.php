@@ -50,3 +50,4 @@ Route::get('/home/{pet}', [HomeController::class,'getPetDating'])->middleware('a
 Route::post('/lost/add-pet', [LostController::class,'addLostPet'])->middleware('auth:sanctum');
 Route::get('/lost-pets', [LostController::class,'showLostPets'])->middleware('auth:sanctum');
 Route::get('/lost-pets-filter', [LostController::class, 'filterLostPets'])->middleware('auth:sanctum');
+Route::get('/lost-pets/{lostpet}', [LostController::class,'getLostPet'])->middleware('auth:sanctum');
