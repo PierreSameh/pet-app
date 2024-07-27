@@ -40,6 +40,18 @@ class User extends Authenticatable
         return $this->hasMany(Pet::class);
     }
 
+
+    public function bankcard() {
+        return $this->hasMany(BankCard::class);
+    }
+
+    public function wallet() {
+        return $this->hasMany(Wallet::class);
+    }
+
+
+
+
     /**
      * Get the attributes that should be cast.
      *
