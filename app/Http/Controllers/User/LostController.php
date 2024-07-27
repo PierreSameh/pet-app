@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Validator;
 class LostController extends Controller
 {
     use HandleTrait;
+    //////////////////////////////////////
+    //       Lost PETS METHODS          //
+    /////////////////////////////////////
 
     public function addLostPet(Request $request) {
 
@@ -230,4 +233,81 @@ class LostController extends Controller
         }
 
     }
+
+
+    //////////////////////////////////////
+    //        GALLERY METHODS           //
+    /////////////////////////////////////
+
+    public function addImage(Request $request, $lostPetID) {
+        $validator = Validator::make($request->all(), [
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Uploading Your Photo",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/lostpets', 'public');
+    
+                $petImage = LostPetGallery::create([
+                    'lostpet_id' => $lostPetID,
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedImages[] = $petImage;
+            } 
+            $lostPetImages = [LostPetGallery::where("lostpet_id", $lostPetID)->get()];
+            return $this->handleResponse(
+                true,
+                "Image Added Successfully",
+                [],
+                [$lostPetImages],
+                []
+            );            
+         }
+          else {
+            return $this->handleResponse(
+                false,
+                "Upload Images Correctly",
+                ["No Images Uploaded"],
+                [],
+                []
+            );
+         }
+    }
+
+    public function deleteImage($imageID) {
+    
+        $image = LostPetGallery::where('id', $imageID);
+        if ($image ->count() > 0) {
+        $image->delete();
+
+        return $this->handleResponse(
+            true,
+            "Image Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Image",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
+
 }
