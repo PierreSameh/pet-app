@@ -175,4 +175,36 @@ class HomeController extends Controller
             []
         );
     }
+
+    public function filterPets(Request $request)
+    {
+        $query = Pet::query();
+
+        // Filter by age if provided
+        if ($request->has('age')) {
+            $query->where('age', $request->input('age'));
+        }
+
+        // Filter by type if provided
+        if ($request->has('type')) {
+            $query->where('type', $request->input('type'));
+        }
+
+        // Filter by gender if provided
+        if ($request->has('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+
+        // Get the filtered results
+        $pets = $query->get();
+
+        // Return the filtered data as a JSON response
+        return $this->handleResponse(
+            true,
+            '',
+            [],
+            [$pets],
+            []
+        );
+    }
 }

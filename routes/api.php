@@ -42,3 +42,4 @@ Route::get('/home/fishes', [HomeController::class,'getFishes']);
 Route::get('/home/monkeys', [HomeController::class,'getMonkeys']);
 Route::get('/home/males', [HomeController::class,'getMales']);
 Route::get('/home/females', [HomeController::class,'getFemales']);
+Route::get('/pets', [HomeController::class, 'filterPets']);
