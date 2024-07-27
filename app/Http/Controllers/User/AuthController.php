@@ -473,4 +473,56 @@ class AuthController extends Controller
     );
         // return response()->json(compact('user'));
     }
+
+    public function editProfile(Request $request) {
+        try {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+            false,
+            "Error Signing UP",
+            [$validator->errors()],
+            [],
+            []
+            );
+        }
+        $user = $request->user();
+
+        if ($request->picture) {
+        $imagePath = $request->file('picture')->store('/storage/profile', 'public');
+        $user->picture = $imagePath;
+        }
+        
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->address = $request->address;
+
+        $user->save();
+        
+        return $this->handleResponse(
+            true,
+            "Info Updated Successfully",
+            [],
+            [
+                $user,
+            ],
+            []
+        );
+        } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Pet's Info",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+        
+    }
 }
