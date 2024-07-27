@@ -532,7 +532,9 @@ class AuthController extends Controller
     }
 
     // Payment Section
+    // Bank Card //
     public function addBankCard(Request $request) {
+        try {
         $validator = Validator::make($request->all(), [
             'cardholder_name'=> 'required|string|max:255',
             'card_number'=> 'required|numeric|digits_between:13,19',
@@ -566,6 +568,15 @@ class AuthController extends Controller
             [$bankCards],
             []
             );
+        } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Add Your Bank Card",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
     }
 
     public function deleteBankCard($cardID) {
@@ -584,6 +595,72 @@ class AuthController extends Controller
             return $this->handleResponse(
                 false,
                 "Couldn't Delete Your Card",
+                [],
+                [],
+                []
+            );
+        }
+    }
+
+    // Wallet //
+    
+    public function addWallet(Request $request) {
+        try {
+        $validator = Validator::make($request->all(), [
+            "phone"=> "required|string|numeric|digits:11|unique:wallets,phone",
+            "pin"=> "required|numeric|digits:6",
+        ]);
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Ented a Valid Wallet",
+                [$validator->errors()->first()],
+                [],
+                []
+                );
+        }
+        $user = $request->user();
+        Wallet::create([
+            "user_id"=> $user->id,
+            "phone"=> $request->phone,
+            "pin"=> Crypt::encrypt($request->pin),
+            
+        ]);
+        return $this->handleResponse(
+            true,
+            "Wallet Added Successfully!",
+            [],
+            [],
+            []
+            );
+
+    } catch (\Exception $e) {
+        return $this->handleResponse(
+            false,
+            "Coudln't Add Your Wallet",
+            [$e->getMessage()],
+            [],
+            []
+        );
+     }
+    }
+
+    public function deleteWallet($walletID) {
+        $wallet = BankCard::where('id', $walletID);
+        if ($wallet->count() > 0) {
+        $wallet->delete();
+
+        return $this->handleResponse(
+            true,
+            "Wallet Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Wallet",
                 [],
                 [],
                 []
