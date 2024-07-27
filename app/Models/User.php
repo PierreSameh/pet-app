@@ -49,6 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Wallet::class);
     }
 
+    public function lostpet() {
+        return $this->hasMany(LostPet::class);
+    }
 
 
 
