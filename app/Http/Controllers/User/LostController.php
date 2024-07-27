@@ -148,6 +148,64 @@ class LostController extends Controller
             );
     } 
 
+    public function editLostPet(Request $request, $lostPetID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'=> 'required|string|max:255',
+                'age'=> 'required|integer',
+                'type'=> 'required|string',
+                'gender'=> 'required|string',
+                'breed'=> 'nullable|string',
+                'lastseen_location'=> 'required|string|max:255',
+                'lastseen_time'=> 'required|string|max:255',
+                'lastseen_info'=> 'required|string|max:1000',
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Getting Your Lost Pet Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+    
+            $lostPet = LostPet::find( $lostPetID );
+
+                $lostPet->name = $request->name;
+                $lostPet->age = $request->age;
+                $lostPet->type = $request->type;
+                $lostPet->gender = $request->gender;
+                $lostPet->breed = $request->breed;
+                $lostPet->lastseen_location = $request->lastseen_location;
+                $lostPet->lastseen_time = $request->lastseen_time;
+                $lostPet->lastseen_info = $request->lastseen_info;
+                $lostPet->save();
+ 
+
+    
+            return $this->handleResponse(
+                true,
+                "Info Updated Successfully",
+                [],
+                [
+                    $lostPet,
+                ],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Pet's Info",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    }
+
     public function deleteLostPet($lostPetID) {
     
         $lostPet = LostPet::where('id', $lostPetID);
