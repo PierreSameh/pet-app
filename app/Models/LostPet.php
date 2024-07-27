@@ -16,7 +16,8 @@ class LostPet extends Model
         "type",
         "gender",
         "breed",
-        "lastseen_locatoin",
+        "found",
+        "lastseen_location",
         "lastseen_time",
         "lastseen_info",
      ];

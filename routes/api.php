@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\PetController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\LostController;
 
 
 
@@ -44,3 +45,6 @@ Route::get('/home/males', [HomeController::class,'getMales'])->middleware('auth:
 Route::get('/home/females', [HomeController::class,'getFemales'])->middleware('auth:sanctum');
 Route::get('/pets', [HomeController::class, 'filterPets'])->middleware('auth:sanctum');
 Route::get('/home/{pet}', [HomeController::class,'getPetDating'])->middleware('auth:sanctum');
+
+// LostController
+Route::post('/lost/add-pet', [LostController::class,'addLostPet'])->middleware('auth:sanctum');

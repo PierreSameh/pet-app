@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('breed');
             $table->string('lastseen_location');
             $table->string('lastseen_time');
-            $table->string('lastseen_info');
+            $table->text('lastseen_info');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
