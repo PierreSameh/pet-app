@@ -147,4 +147,29 @@ class LostController extends Controller
             []
             );
     } 
+
+    public function deleteLostPet($lostPetID) {
+    
+        $lostPet = LostPet::where('id', $lostPetID);
+        if ($lostPet->count() > 0) {
+        $lostPet->delete();
+
+        return $this->handleResponse(
+            true,
+            "Lost Pet Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Lost Pet",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
 }

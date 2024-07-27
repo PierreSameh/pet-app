@@ -159,7 +159,7 @@ class PetController extends Controller
         );
         } else {
             return $this->handleResponse(
-                true,
+                false,
                 "Couldn't Delete Your Pet",
                 [],
                 [],
