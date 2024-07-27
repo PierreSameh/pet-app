@@ -4,10 +4,13 @@ namespace App\Http\Controllers\User;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pet;
+use App\Models\BankCard;
+use App\Models\Wallet;
 use App\HandleTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -19,6 +22,8 @@ use App\SendMailTrait;
 class AuthController extends Controller
 {
     use HandleTrait, SendMailTrait;
+
+    // Sign Up Section
     public function register(Request $request)
     {
         DB::beginTransaction();
@@ -431,7 +436,7 @@ class AuthController extends Controller
 
 
 
-
+    // Login Section
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -498,7 +503,7 @@ class AuthController extends Controller
         $imagePath = $request->file('picture')->store('/storage/profile', 'public');
         $user->picture = $imagePath;
         }
-        
+
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->address = $request->address;
@@ -524,5 +529,42 @@ class AuthController extends Controller
             );
         }
         
+    }
+
+    // Payment Section
+    public function addBankCard(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'cardholder_name'=> 'required|string|max:255',
+            'card_number'=> 'required|numeric|digits_between:13,19',
+            'expiry_date' => 'required|date_format:m/y|after_or_equal:now',
+            'encrypted_cvv' => 'required|digits_between:3,4'
+        ]);
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                'Enter a Valid Bank Information',
+                [$validator->errors(),],
+                [],
+                []
+            );
+        }
+        $user = $request->user();
+        $expiryDate = Carbon::createFromFormat('m/y', $request->expiry_date)->startOfMonth();
+        BankCard::create([
+            'user_id'=> $user->id,
+            'cardholder_name'=> $request->cardholder_name,
+            'card_number'=> $request->card_number,
+            'expiry_date'=> $expiryDate,
+            'encrypted_cvv'=> Crypt::encrypt($request->encrypted_cvv),
+        ]);
+        $bankCards = BankCard::where('user_id', $user->id)->get();
+
+        return $this->handleResponse(
+            true,
+            'Bank Card Saved!',
+            [],
+            [$bankCards],
+            []
+            );
     }
 }

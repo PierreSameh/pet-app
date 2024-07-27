@@ -12,6 +12,7 @@ class BankCard extends Model
     protected $fillable = [
         "user_id",
         "cardholder_name",
+        "card_number",
         "expiry_date",
         "encrypted_cvv",
     ] ;

@@ -19,6 +19,7 @@ Route::post('/user/change-password', [AuthController::class, "changePassword"])-
 Route::post('/user/forgot-password', [AuthController::class, "forgetPassword"]);
 Route::post('/user/forgot-password-check-code', [AuthController::class, "forgetPasswordCheckCode"]);
 Route::post("/user/edit", [AuthController::class,"editProfile"])->middleware('auth:sanctum');
+Route::post("/user/add-bank-card", [AuthController::class,"addBankCard"])->middleware('auth:sanctum');
     // PetContoller
 Route::get('/user/{pet}', [PetController::class,'getPet'])->middleware('auth:sanctum');
 Route::post('/user/add-pet', [PetController::class,'addPet'])->middleware('auth:sanctum');
