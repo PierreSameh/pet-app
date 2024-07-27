@@ -71,4 +71,25 @@ class LostController extends Controller
         );
     }
     }
+
+    public function showLostPets() {
+        $lostPets = LostPet::all();
+
+        if (count($lostPets) > 0) {
+            return $this->handleResponse(
+                true,
+                "",
+                [],
+                [$lostPets],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Lost Pets list is Empty",
+            [],
+            [],
+            []
+            );
+    }
 }
