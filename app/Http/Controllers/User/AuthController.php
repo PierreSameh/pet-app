@@ -468,12 +468,14 @@ class AuthController extends Controller
 
     public function getUser(Request $request) {
        $user = $request->user();
+        $bankCards = $request->user()->bankcard;
+        $wallets   = $request->user()->wallet;
 
        return $this->handleResponse(
         true,
         "User Data",
         [],
-        [$user],
+        [$user, $bankCards, $wallets],
         []
     );
         // return response()->json(compact('user'));
@@ -646,7 +648,7 @@ class AuthController extends Controller
     }
 
     public function deleteWallet($walletID) {
-        $wallet = BankCard::where('id', $walletID);
+        $wallet = Wallet::where('id', $walletID);
         if ($wallet->count() > 0) {
         $wallet->delete();
 
