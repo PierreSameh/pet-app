@@ -128,12 +128,20 @@ class CartController extends Controller
                 );
             }
         $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        
         if (count($cartItems) > 0) {
+            $totalPrice = 0;
+            $products = [];
+            foreach ( $cartItems as $cartItem ) {
+                $product = Product::where('id', $cartItem->product_id)->first();
+                $totalPrice += $product->price * $cartItem->quantity;
+                $products[] = $product;
+            }
             return $this->handleResponse(
                 true,
                 'Your Products In Cart',
                 [],
-                [$cartItems],
+                [$cartItems, "Total Price: $totalPrice", $products],
                 []
                 );
             }
