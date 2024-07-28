@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Product;
+use App\Models\ProductImages;
 
 
 
@@ -298,6 +300,54 @@ class StoreController extends Controller
             );
         }
 
+    }
+
+    // Products
+    public function addProduct(Request $request) {
+        try {
+            $validator = Validator::make($request->all(), [
+                "category_id"=> ["required","numeric"],
+                "name"=> ["required","string","max:255"],
+                "description"=> ["nullable","string","max:1000"],
+                "type"=> ["required","string","max:255"],
+                "price"=> ["required","string","max:100"],
+                "quantity"=> ["required","numeric","max:1000"],
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $store = Store::where("admin_id", $request->user()->id)->first();
+            $product = Product::create([
+                "store_id"=> $store->id,
+                "category_id"=> $request->category_id,
+                "name"=> $request->name,
+                "description"=> $request->description,
+                "type"=> $request->type,
+                "price"=> $request->price,
+                "quantity"=> $request->quantity
+            ]);
+            return $this->handleResponse(
+                true,
+                "Product Added Successfully",
+                [],
+                [$product],
+                []
+            );
+            } catch (\Exception $e) {
+                return $this->handleResponse(
+                    false,
+                    "Coudln't Add Your Product",
+                    [$e->getMessage()],
+                    [],
+                    []
+                );
+            }
     }
 
 }
