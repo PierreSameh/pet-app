@@ -202,6 +202,39 @@ class CartController extends Controller
             );
 
     }
+
+    public function deleteCartItem(Request $request, $cartID) {
+        $validator = Validator::make($request->all(), [
+            'product_id'=> 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                '',
+                [],
+                [$validator->errors()],
+                []
+                );
+            }
+        $cartItem = CartItem::where('cart_id', $cartID)->where('product_id', $request->product_id)->first();
+        if (isset($cartItem)) {
+            $cartItem->delete();
+            return $this->handleResponse(
+                true,
+                'Product Removed From Cart',
+                [],
+                [],
+                []
+                );
+            }
+            return $this->handleResponse(
+                false,
+                "Couldn't Remove Product From Cart",
+                [],
+                [],
+                []
+                );
+    }
 }
         
         
