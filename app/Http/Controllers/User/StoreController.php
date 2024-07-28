@@ -427,4 +427,24 @@ class StoreController extends Controller
         );
     } 
 
+    public function getProduct($productID) {
+        $product = Product::where("id", $productID)->first();
+        if (isset($product)) {
+        return $this->handleResponse(
+         true,
+         "$product->name",
+         [],
+         [$product],
+         []
+     );
+    }
+    return $this->handleResponse(
+        false,
+        "Not Found",
+        [],
+        [],
+        []
+        );
+    } 
+
 }
