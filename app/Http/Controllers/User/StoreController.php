@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\HandleTrait;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -58,5 +59,26 @@ class StoreController extends Controller
                     []
                 );
             }
+    }
+
+    public function getStore($storeID) {
+        $store = Store::where('id', $storeID)->first();
+        
+        if (isset($store)) {
+        return $this->handleResponse(
+         true,
+         "Pet Data",
+         [],
+         [$store],
+         []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Store Not Found",
+            [],
+            [],
+            []
+            );
     }
 }
