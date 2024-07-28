@@ -81,4 +81,5 @@ Route::post('/store/add-product', [StoreController::class,'addProduct'])->middle
 Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->middleware('auth:sanctum');
 Route::get('/store/category/{category}', [StoreController::class,'getCategory'])->middleware('auth:sanctum');
 Route::get('/store/product/{product}', [StoreController::class,'getProduct'])->middleware('auth:sanctum');
+Route::post('/store/{product}/delete-product', [StoreController::class,'deleteProduct'])->middleware('auth:sanctum');
 

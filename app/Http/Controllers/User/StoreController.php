@@ -447,4 +447,25 @@ class StoreController extends Controller
         );
     } 
 
+    public function deleteProduct($productID) {
+        $product = Product::where("id", $productID)->first();
+        if (isset($product)) {
+            $product->delete();
+            return $this->handleResponse(
+                true,
+                "$product->name Deleted Successfully",
+                [],
+                [],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Product Not Found",
+            [],
+            [],
+            []
+            );
+    }
+
 }
