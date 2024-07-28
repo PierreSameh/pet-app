@@ -7,6 +7,7 @@ use App\Http\Controllers\User\PetController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\LostController;
 use App\Http\Controllers\User\StoreController;
+use App\Http\Controllers\User\CartController;
 
 
 
@@ -84,5 +85,6 @@ Route::get('/store/product/{product}', [StoreController::class,'getProduct'])->m
 Route::post('/store/{product}/delete-product', [StoreController::class,'deleteProduct'])->middleware('auth:sanctum');
 Route::post('/store/{product}/add-product-image', [StoreController::class,'addProductImages'])->middleware('auth:sanctum');
 Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->middleware('auth:sanctum');
-
+// CartController
+Route::post('/cart/add-to-cart', [CartController::class,'addCart'])->middleware('auth:sanctum');
 
