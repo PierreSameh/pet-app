@@ -406,4 +406,25 @@ class StoreController extends Controller
         }
     }
 
+    public function getCategory($categoryID) {
+        $products = Product::where("category_id", $categoryID)->get();
+        $category = Category::where("id", $categoryID)->first();
+        if (count($products) > 0) {
+        return $this->handleResponse(
+         true,
+         "$category->name",
+         [],
+         [$products],
+         []
+     );
+    }
+    return $this->handleResponse(
+        false,
+        "Empty",
+        [],
+        [],
+        []
+        );
+    } 
+
 }

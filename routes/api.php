@@ -79,4 +79,5 @@ Route::post('/store/{category}/delete-category', [StoreController::class,'delete
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('/store/add-product', [StoreController::class,'addProduct'])->middleware('auth:sanctum');
 Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->middleware('auth:sanctum');
+Route::get('/store/category/{category}', [StoreController::class,'getCategory'])->middleware('auth:sanctum');
 
