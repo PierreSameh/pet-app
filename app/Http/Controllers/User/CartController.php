@@ -114,6 +114,37 @@ class CartController extends Controller
                 );
         }
     }   
+
+    public function getCart(Request $request) {
+
+        $cart = Cart::where('user_id', $request->user()->id)->first();
+        if (!isset($cart)) {
+            return $this->handleResponse(
+                false,
+                'Empty Cart, Add Products Now!',
+                [],
+                [],
+                []
+                );
+            }
+        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        if (count($cartItems) > 0) {
+            return $this->handleResponse(
+                true,
+                'Your Products In Cart',
+                [],
+                [$cartItems],
+                []
+                );
+            }
+            return $this->handleResponse(
+                false,
+                'Empty Cart, Add Products Now!',
+                [],
+                [],
+                []
+                );
+    }
 }
         
         
