@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\LostPet;
 use App\Models\LostPetGallery;
+use App\Models\FoundPet;
+use App\Models\FoundPetGallery;
 use App\HandleTrait;
 use Illuminate\Support\Facades\Validator;
 class LostController extends Controller
@@ -115,9 +117,14 @@ class LostController extends Controller
             $query->where('gender', $request->input('gender'));
         }
 
+
+        if ($request->has('breed')) {
+            $query->where('breed', $request->input('breed'));
+        }
+
         // Get the filtered results
         $lostPets = $query->get();
-
+        if (count($lostPets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
             true,
@@ -126,6 +133,16 @@ class LostController extends Controller
             [$lostPets],
             []
         );
+        }
+
+        return $this->handleResponse(
+            false,
+            'No Search Matches',
+            [],
+            [],
+            []
+        );
+        
     }
 
     public function getLostPet($lostPetID) {
@@ -377,4 +394,322 @@ class LostController extends Controller
 
     }
 
+    //////////////////////////////////////
+    //       FOUND PETS METHODS          //
+    /////////////////////////////////////
+
+    public function addFoundPet(Request $request) {
+
+        try {
+        $validator = Validator::make($request->all(), [
+            'type'=> 'required|string',
+            'gender'=> 'required|string',
+            'breed'=> 'nullable|string',
+            'found_location'=> 'required|string|max:255',
+            'found_time'=> 'required|string|max:255',
+            'found_info'=> 'required|string|max:1000',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Getting Your Found Pet Informations",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+
+        $pet = FoundPet::create([
+            'user_id'=> $request->user()->id,
+            'type'=> $request->type,
+            'gender'=> $request->gender,
+            'breed'=> $request->breed,
+            'found_location'=> $request->found_location,
+            'found_time'=> $request->found_time,
+            'found_info'=> $request->found_info,
+
+        ]);
+
+        return $this->handleResponse(
+            true,
+            "Found Pet Added Successfully",
+            [],
+            [
+                $request->user()->foundpet,
+            ],
+            []
+        );
+
+     } catch (\Exception $e) {
+        return $this->handleResponse(
+            false,
+            "Coudln't Add Your Found Pet",
+            [$e->getMessage()],
+            [],
+            []
+        );
+    }
+    }
+
+    public function showFoundPets() {
+        $foundPets = FoundPet::all();
+
+        if (count($foundPets) > 0) {
+            return $this->handleResponse(
+                true,
+                "",
+                [],
+                [$foundPets],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Found Pets list is Empty",
+            [],
+            [],
+            []
+            );
+    }
+
+    public function filterFoundPets(Request $request)
+    {
+        $query = FoundPet::query();
+
+        // Filter by type if provided
+        if ($request->has('type')) {
+            $query->where('type', $request->input('type'));
+        }
+
+        // Filter by gender if provided
+        if ($request->has('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+
+        if ($request->has('breed')) {
+            $query->where('breed', $request->input('breed'));
+        }
+
+        // Get the filtered results
+        $foundPets = $query->get();
+
+        if (count($foundPets) > 0) {
+            // Return the filtered data as a JSON response
+            return $this->handleResponse(
+                true,
+                '',
+                [],
+                [$foundPets],
+                []
+            );
+            }
+    
+            return $this->handleResponse(
+                false,
+                'No Search Matches',
+                [],
+                [],
+                []
+            );
+    }
+
+    public function getFoundPet($foundPetID) {
+        $foundPet = FoundPet::where('id', $foundPetID)->first();
+        
+        if (isset($foundPet)) {
+        $petImages = [FoundPetGallery::where("foundpet_id", $foundPetID)->get()];
+        $owner = User::where("id", $foundPet['user_id'])->first();
+        return $this->handleResponse(
+         true,
+         "Pet Data",
+         [],
+         [$foundPet, $owner, $petImages],
+         []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Pet Not Found",
+            [],
+            [],
+            []
+            );
+    } 
+
+    public function editFoundPet(Request $request, $foundPetID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'type'=> 'required|string',
+                'gender'=> 'required|string',
+                'breed'=> 'nullable|string',
+                'found_location'=> 'required|string|max:255',
+                'found_time'=> 'required|string|max:255',
+                'found_info'=> 'required|string|max:1000',
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Getting Your Found Pet Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+    
+            $foundPet = FoundPet::find( $foundPetID );
+            if (!$foundPet) {
+                return $this->handleResponse(
+                    false,
+                    "Pet Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
+
+                $foundPet->type = $request->type;
+                $foundPet->gender = $request->gender;
+                $foundPet->breed = $request->breed;
+                $foundPet->found_location = $request->found_location;
+                $foundPet->found_time = $request->found_time;
+                $foundPet->found_info = $request->found_info;
+                $foundPet->save();
+ 
+
+    
+            return $this->handleResponse(
+                true,
+                "Info Updated Successfully",
+                [],
+                [
+                    $foundPet,
+                ],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Pet's Info",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    }
+
+    public function deleteFoundPet($foundPetID) {
+    
+        $foundPet = FoundPet::where('id', $foundPetID);
+        if ($foundPet->count() > 0) {
+        $foundPet->delete();
+
+        return $this->handleResponse(
+            true,
+            "Found Pet Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Found Pet",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
+
+
+    //////////////////////////////////////
+    //        GALLERY METHODS           //
+    /////////////////////////////////////
+
+    public function addImageF(Request $request, $foundPetID) {
+        $validator = Validator::make($request->all(), [
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Uploading Your Photo",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/foundpets', 'public');
+    
+                $petImage = FoundPetGallery::create([
+                    'foundpet_id' => $foundPetID,
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedImages[] = $petImage;
+            } 
+            $foundPetImages = [FoundPetGallery::where("foundpet_id", $foundPetID)->get()];
+            return $this->handleResponse(
+                true,
+                "Image Added Successfully",
+                [],
+                [$foundPetImages],
+                []
+            );            
+         }
+          else {
+            return $this->handleResponse(
+                false,
+                "Upload Images Correctly",
+                ["No Images Uploaded"],
+                [],
+                []
+            );
+         }
+    }
+
+    public function deleteImageF($imageID) {
+    
+        $image = FoundPetGallery::where('id', $imageID);
+        if (!$image) {
+            return $this->handleResponse(
+                false,
+                "Image Not Found",
+                [],
+                [],
+                []
+            );
+        }
+        if ($image ->count() > 0) {
+        $image->delete();
+
+        return $this->handleResponse(
+            true,
+            "Image Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Image",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
+
+
 }
+
