@@ -430,11 +430,12 @@ class StoreController extends Controller
     public function getProduct($productID) {
         $product = Product::where("id", $productID)->first();
         if (isset($product)) {
+            $productImages = ProductImage::where("product_id", $product->id)->get();
         return $this->handleResponse(
          true,
          "$product->name",
          [],
-         [$product],
+         [$product, $productImages],
          []
      );
     }
@@ -471,7 +472,7 @@ class StoreController extends Controller
     // Product Images
     public function addProductImages(Request $request, $productID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'notes'=> 'nullable|string|max:1000'
         ]);
 
@@ -484,6 +485,8 @@ class StoreController extends Controller
                 []
             );
         }
+        $productSet = Product::where("id", $productID)->first();
+        if (isset($productSet)) {
         $uploadedImages = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -504,8 +507,7 @@ class StoreController extends Controller
                 [$productImages],
                 []
             );            
-         }
-          else {
+         }  else {
             return $this->handleResponse(
                 false,
                 "Upload Images Correctly",
@@ -514,6 +516,15 @@ class StoreController extends Controller
                 []
             );
          }
+        }
+        return $this->handleResponse(
+            false,
+            "Upload Images Correctly",
+            ["Product: " . $productSet . "is Null"],
+            [],
+            []
+        );
+         
     }
 
 }
