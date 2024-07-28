@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\HandleTrait;
 use App\Models\Store;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class StoreController extends Controller
 {
     use HandleTrait;
     
+    // Store 
     public function addStore(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
@@ -122,4 +124,50 @@ class StoreController extends Controller
                 []
                 );
     }
+
+    // Category
+    public function addCategory(Request $request) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'=> 'required|string|max:255|unique:stores,name',
+                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'notes'=> 'nullable|string|max:1000',
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Getting Your Category Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+
+            $category = new Category();
+            $category->name = $request->name;
+
+            if ($request->image) {
+                $imagePath = $request->file('image')->store('/storage/category', 'public');
+                $category->image = $imagePath;
+            }
+
+            $category->save();
+            return $this->handleResponse(
+                true,
+                "Category Added Successfully",
+                [],
+                [$category],
+                []
+            );
+            } catch (\Exception $e) {
+                return $this->handleResponse(
+                    false,
+                    "Coudln't Add Your Category",
+                    [$e->getMessage()],
+                    [],
+                    []
+                );
+            }
+    }
+
 }

@@ -70,4 +70,5 @@ Route::post('/found-pets/{image}/delete-image', [LostController::class,'deleteIm
 Route::post('/store/add-store', [StoreController::class,'addStore'])->middleware('auth:sanctum');
 Route::get('/store/{store}', [StoreController::class,'getStore'])->middleware('auth:sanctum');
 Route::get('/store', [StoreController::class,'allStore'])->middleware('auth:sanctum');
-Route::post('/store/{store}/delete', [StoreController::class,'deleteStore'])->middleware('auth:sanctum');
+Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->middleware('auth:sanctum');
+Route::post('/store/add-category', [StoreController::class, 'addCategory'])->middleware('auth:sanctum');
