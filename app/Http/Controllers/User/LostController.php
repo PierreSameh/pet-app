@@ -346,6 +346,15 @@ class LostController extends Controller
     public function deleteImage($imageID) {
     
         $image = LostPetGallery::where('id', $imageID);
+        if (!$image) {
+            return $this->handleResponse(
+                false,
+                "Image Not Found",
+                [],
+                [],
+                []
+            );
+        }
         if ($image ->count() > 0) {
         $image->delete();
 
