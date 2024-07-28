@@ -350,4 +350,60 @@ class StoreController extends Controller
             }
     }
 
+    public function editProduct(Request $request, $productID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                "category_id"=> ["required","numeric"],
+                "name"=> ["required","string","max:255"],
+                "description"=> ["nullable","string","max:1000"],
+                "type"=> ["required","string","max:255"],
+                "price"=> ["required","string","max:100"],
+                "quantity"=> ["required","numeric","max:1000"],
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $product = Product::find($productID);
+            if (!$product) {
+                return $this->handleResponse(
+                    false,
+                    "Category Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
+            $product->category_id = $request->category_id;
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->type = $request->type;
+            $product->price = $request->price;
+            $product->quantity = $request->quantity;
+            $product->save();
+
+            return $this->handleResponse(
+                true,
+                "Product Updated Successfully",
+                [],
+                [$product],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Product",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    }
+
 }

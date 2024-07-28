@@ -78,3 +78,5 @@ Route::post('/store/{category}/edit-category', [StoreController::class, 'editCat
 Route::post('/store/{category}/delete-category', [StoreController::class,'deleteCategory'])->middleware('auth:sanctum');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('/store/add-product', [StoreController::class,'addProduct'])->middleware('auth:sanctum');
+Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->middleware('auth:sanctum');
+
