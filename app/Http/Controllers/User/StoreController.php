@@ -170,4 +170,57 @@ class StoreController extends Controller
             }
     }
 
+    public function editCategory(Request $request, $categoryID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                "name"=> 'required|string|max:255|unique:stores,name',
+                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'notes'=> 'nullable|string|max:1000',
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Editting Your Category Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $category = Category::find($categoryID);
+            if (!$category) {
+                return $this->handleResponse(
+                    false,
+                    "Category Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
+            $category->name = $request->name;
+            if ($request->image) {
+                $imagePath = $request->file('image')->store('/storage/category', 'public');
+                $category->image = $imagePath;
+            }
+            $category->notes = $request->notes;
+            $category->save();
+
+            return $this->handleResponse(
+                true,
+                "Category Updated Successfully",
+                [],
+                [$category],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Category",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    }
+
 }
