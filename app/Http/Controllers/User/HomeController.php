@@ -196,15 +196,28 @@ class HomeController extends Controller
             $query->where('gender', $request->input('gender'));
         }
 
+        if ($request->has('breed')) {
+            $query->where('breed', $request->input('breed'));
+        }
+
         // Get the filtered results
         $pets = $query->get();
-
+        if (count($pets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
             true,
             '',
             [],
             [$pets],
+            []
+        );
+        }
+        
+        return $this->handleResponse(
+            false,
+            'No Search Matches',
+            [],
+            [],
             []
         );
     }

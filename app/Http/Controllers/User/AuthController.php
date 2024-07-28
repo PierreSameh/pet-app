@@ -501,15 +501,16 @@ class AuthController extends Controller
         }
         $user = $request->user();
 
-        if ($request->picture) {
-        $imagePath = $request->file('picture')->store('/storage/profile', 'public');
-        $user->picture = $imagePath;
-        }
 
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->address = $request->address;
 
+        if ($request->picture) {
+            $imagePath = $request->file('picture')->store('/storage/profile', 'public');
+            $user->picture = $imagePath;
+        }
+        
         $user->save();
         
         return $this->handleResponse(
