@@ -6,6 +6,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\PetController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\LostController;
+use App\Http\Controllers\User\StoreController;
 
 
 
@@ -65,5 +66,6 @@ Route::post('/found-pets/{foundpet}/delete', [LostController::class,'deleteFound
 Route::post('/found-pets/{foundpet}/update', [LostController::class,'editFoundPet'])->middleware('auth:sanctum');
 Route::post('/found-pets/{foundpet}/add-image', [LostController::class,'addImageF'])->middleware('auth:sanctum');
 Route::post('/found-pets/{image}/delete-image', [LostController::class,'deleteImageF'])->middleware('auth:sanctum');
-
+// StoreController
+Route::post('/store/add-store', [StoreController::class,'addStore'])->middleware('auth:sanctum');
 

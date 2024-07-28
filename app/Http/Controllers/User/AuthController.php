@@ -510,7 +510,7 @@ class AuthController extends Controller
             $imagePath = $request->file('picture')->store('/storage/profile', 'public');
             $user->picture = $imagePath;
         }
-        
+
         $user->save();
         
         return $this->handleResponse(
@@ -525,7 +525,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return $this->handleResponse(
                 false,
-                "Coudln't Edit Your Pet's Info",
+                "Coudln't Edit Your Info",
                 [$e->getMessage()],
                 [],
                 []
