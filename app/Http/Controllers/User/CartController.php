@@ -74,7 +74,7 @@ class CartController extends Controller
                     false,
                     "No Enough Stock!",
                     [],
-                    [],
+                    ["Available Stock:$product->quantity"],
                     []
                     );
             }
@@ -84,7 +84,7 @@ class CartController extends Controller
                         false,
                         "No Enough Stock!",
                         [],
-                        [],
+                        ["Available Stock:$product->quantity"],
                         []
                         );
                     } else {
@@ -144,6 +144,63 @@ class CartController extends Controller
                 [],
                 []
                 );
+    }
+
+    public function editCart(Request $request, $cartID) {
+        $validator = Validator::make($request->all(), [
+            "product_id" => ["required"],
+            "quantity" => ["numeric"],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "",
+                [$validator->errors()->first()],
+                [],
+                [
+                    "Increase Quantity When product in Cart"
+                ]
+            );
+        }
+        $cart = Cart::where("id", $cartID)->first();
+        $product = Product::where("id", $request->product_id)->first();
+        if (isset($request->quantity)) {
+            $cartItem =  CartItem::where("cart_id", $cart->id)->where('product_id', $request->product_id)->first();
+            if (isset($cartItem) && $cartItem->quantity > 0 ) {
+                if ($request->quantity < $product->quantity) {
+                $cartItem->quantity = $request->quantity;
+                $cartItem->save();
+
+                return $this->handleResponse(
+                    true,
+                    'Quantity Updated',
+                    [],
+                    [$cartItem],
+                    []
+                    );
+                } else {
+                    return $this->handleResponse(
+                        false,
+                        'Product Stock is Running Low!',
+                        [],
+                        ["Available Stock:$product->quantity"],
+                        []
+                        );
+            
+                }
+
+            }
+            
+        }
+        return $this->handleResponse(
+            false,
+            'No Update Request Sent',
+            [],
+            [],
+            []
+            );
+
     }
 }
         
