@@ -101,4 +101,25 @@ class StoreController extends Controller
         []
     );
     }
+
+    public function deleteStore($storeID) {
+        $store = Store::where("id", $storeID)->first();
+        if (isset($store)) {
+            $store->delete();
+            return $this->handleResponse(
+                true,
+                "$store->name . 'Deleted Successfully'",
+                [],
+                [],
+                []
+                );
+            }
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Store",
+                [],
+                [],
+                []
+                );
+    }
 }
