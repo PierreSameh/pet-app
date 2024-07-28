@@ -527,4 +527,25 @@ class StoreController extends Controller
          
     }
 
+    public function deleteProductImage($imageID) {
+        $image = ProductImage::where("id", $imageID)->first();
+        if (isset($image)) {
+            $image->delete();
+            return $this->handleResponse(
+                true,
+                "Image Deleted Successfully",
+                [],
+                [],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Image Not Found",
+            [],
+            [],
+            []
+            );
+    }
+
 }
