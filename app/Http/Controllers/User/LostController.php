@@ -175,7 +175,15 @@ class LostController extends Controller
             }
     
             $lostPet = LostPet::find( $lostPetID );
-
+            if (!$lostPet) {
+                return $this->handleResponse(
+                    false,
+                    "Pet Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
                 $lostPet->name = $request->name;
                 $lostPet->age = $request->age;
                 $lostPet->type = $request->type;
