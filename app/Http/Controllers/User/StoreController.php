@@ -89,9 +89,7 @@ class StoreController extends Controller
                     []
                 );
             }
-            if ($request->name or $request->name !== $store->name) {
-                $store->name = $request->name;
-            }
+            $store->name = $request->name;
             if ($request->image) {
                 $imagePath = $request->file('picture')->store('/storage/store', 'public');
                 $store->image = $imagePath;
