@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Product;
-use App\Models\ProductImages;
+use App\Models\ProductImage;
 
 
 
@@ -466,6 +466,54 @@ class StoreController extends Controller
             [],
             []
             );
+    }
+
+    // Product Images
+    public function addProductImages(Request $request, $productID) {
+        $validator = Validator::make($request->all(), [
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'notes'=> 'nullable|string|max:1000'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Uploading Your Photos",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/products', 'public');
+    
+                $productImage = ProductImage::create([
+                    'product_id' => $productID,
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedImages[] = $productImage;
+            } 
+            $productImages = [ProductImage::where("product_id", $productID)->get()];
+            return $this->handleResponse(
+                true,
+                "Image Added Successfully",
+                [],
+                [$productImages],
+                []
+            );            
+         }
+          else {
+            return $this->handleResponse(
+                false,
+                "Upload Images Correctly",
+                ["No Images Uploaded"],
+                [],
+                []
+            );
+         }
     }
 
 }
