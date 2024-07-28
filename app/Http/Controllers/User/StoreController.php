@@ -81,4 +81,24 @@ class StoreController extends Controller
             []
             );
     }
+
+    public function allStore(){
+        $stores = Store::get();
+        if (count($stores) > 0) {
+        return $this->handleResponse(
+            true,
+            "",
+            [],
+            [$stores],
+            []
+        );
+    }
+    return $this->handleResponse(
+        false,
+        "Empty",
+        [],
+        [],
+        []
+    );
+    }
 }
