@@ -78,7 +78,16 @@ class CartController extends Controller
                     []
                     );
             }
-            } else {
+            } 
+             if ($quantity > $product->quantity) {
+                    return $this->handleResponse(
+                        false,
+                        "No Enough Stock!",
+                        [],
+                        [],
+                        []
+                        );
+                    } else {
             // If the item does not exist, create a new cart item
             $cartItem = CartItem::create([
                 'cart_id' => $cart->id,
