@@ -183,7 +183,7 @@ class StoreController extends Controller
     public function addCategory(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
-                'name'=> 'required|string|max:255|unique:stores,name',
+                'name'=> 'required|string|max:255|unique:categories,name',
                 'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'notes'=> 'nullable|string|max:1000',
             ]);
@@ -227,7 +227,7 @@ class StoreController extends Controller
     public function editCategory(Request $request, $categoryID) {
         try {
             $validator = Validator::make($request->all(), [
-                'name'=> ['string','max:255',Rule::unique('stores', 'name')->ignore($categoryID)],
+                'name'=> ['string','max:255',Rule::unique('categories', 'name')->ignore($categoryID)],
                 'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'notes'=> 'nullable|string|max:1000',
             ]);
