@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 
@@ -61,6 +62,59 @@ class StoreController extends Controller
                     []
                 );
             }
+    }
+
+    public function editStore(Request $request, $storeID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                "name"=> ['string','max:255',Rule::unique('stores', 'name')->ignore($storeID)],
+                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Editting Your Store Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $store = Store::find($storeID);
+            if (!$store) {
+                return $this->handleResponse(
+                    false,
+                    "Store Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
+            if ($request->name or $request->name !== $store->name) {
+                $store->name = $request->name;
+            }
+            if ($request->image) {
+                $imagePath = $request->file('picture')->store('/storage/store', 'public');
+                $store->image = $imagePath;
+            }
+            $store->save();
+
+            return $this->handleResponse(
+                true,
+                "Store Updated Successfully",
+                [],
+                [$store],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Store",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
     }
 
     public function getStore($storeID) {
@@ -173,7 +227,7 @@ class StoreController extends Controller
     public function editCategory(Request $request, $categoryID) {
         try {
             $validator = Validator::make($request->all(), [
-                "name"=> 'required|string|max:255|unique:stores,name',
+                "name"=> 'required|string|max:255|unique:categories,name',
                 'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'notes'=> 'nullable|string|max:1000',
             ]);

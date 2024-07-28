@@ -68,6 +68,7 @@ Route::post('/found-pets/{foundpet}/add-image', [LostController::class,'addImage
 Route::post('/found-pets/{image}/delete-image', [LostController::class,'deleteImageF'])->middleware('auth:sanctum');
 // StoreController
 Route::post('/store/add-store', [StoreController::class,'addStore'])->middleware('auth:sanctum');
+Route::post('/store/{store}/edit-store', [StoreController::class, 'editStore'])->middleware('auth:sanctum');
 Route::get('/store/{store}', [StoreController::class,'getStore'])->middleware('auth:sanctum');
 Route::get('/store', [StoreController::class,'allStore'])->middleware('auth:sanctum');
 Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->middleware('auth:sanctum');
