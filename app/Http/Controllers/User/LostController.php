@@ -209,6 +209,56 @@ class LostController extends Controller
         }
     }
 
+    public function isFound(Request $request, $lostPetID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                "found" => 'boolean'
+            ]);
+
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Getting Your Lost Pet Informations",
+                    [$validator->errors()],
+                    [],
+                    ['Use 0 or 1 in this boolean']
+                );
+            }
+
+            $lostPet = LostPet::find( $lostPetID );
+            if (!$lostPet) {
+                return $this->handleResponse(
+                    false,
+                    "Pet Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
+            $lostPet->found = $request->found;
+            $lostPet->save();
+
+            return $this->handleResponse(
+                true,
+                "Info Updated Successfully",
+                [],
+                [
+                    $lostPet,
+                ],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Pet's Info",
+                [$e->getMessage()],
+                [],
+                ['Use 0 or 1 in this boolean']
+            );
+        }
+    }
+
     public function deleteLostPet($lostPetID) {
     
         $lostPet = LostPet::where('id', $lostPetID);

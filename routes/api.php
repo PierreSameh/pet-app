@@ -53,6 +53,7 @@ Route::get('/lost-pets-filter', [LostController::class, 'filterLostPets'])->midd
 Route::get('/lost-pets/{lostpet}', [LostController::class,'getLostPet'])->middleware('auth:sanctum');
 Route::post('/lost-pets/{lostpet}/delete', [LostController::class,'deleteLostPet'])->middleware('auth:sanctum');
 Route::post('/lost-pets/{lostpet}/update', [LostController::class,'editLostPet'])->middleware('auth:sanctum');
+Route::post('/lost-pets/{lostpet}/found', [LostController::class,'isFound'])->middleware('auth:sanctum');
 Route::post('/lost-pets/{lostpet}/add-image', [LostController::class,'addImage'])->middleware('auth:sanctum');
 Route::post('/lost-pets/{image}/delete-image', [LostController::class,'deleteImage'])->middleware('auth:sanctum');
 
