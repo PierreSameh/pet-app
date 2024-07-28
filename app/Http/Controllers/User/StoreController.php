@@ -223,4 +223,29 @@ class StoreController extends Controller
         }
     }
 
+    public function deleteCategory($categoryID) {
+    
+        $category = Category::where('id', $categoryID);
+        if ($category->count() > 0) {
+        $category->delete();
+
+        return $this->handleResponse(
+            true,
+            "Category Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Category",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
+
 }
