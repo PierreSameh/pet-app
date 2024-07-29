@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('gender');
             $table->string('breed');
-            $table->string('picture');
+            $table->string('picture')->nullable();
             $table->boolean('for_adoption')->default(0);
             $table->string('price')->nullable();
             $table->timestamps();

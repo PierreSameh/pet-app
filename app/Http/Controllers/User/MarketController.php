@@ -2,28 +2,84 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Pet;
-use App\Models\PetGallery;
+use App\Models\MarketPet;
+use App\Models\MarketPetGallery;
 use App\Models\BankCard;
 use App\Models\Wallet;
 use App\HandleTrait;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 
-
-class HomeController extends Controller
+class MarketController extends Controller
 {
     use HandleTrait;
-    // Get Pet Type
-    public function getDogs() {
-        $dogs = Pet::where('type', 'dog')->get();
+    public function addMarketPet(Request $request) {
+        try {
+        $petValidator = Validator::make($request->all(), [
+            'name'=> 'required|string|max:255',
+            'age'=> 'required|integer',
+            'type'=> 'required|string',
+            'gender'=> 'required|string',
+            'breed'=> 'nullable|string',
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'for_adoption'=> 'numeric|max:1',
+            'price'=> 'nullable|numeric',
+        ]);
+
+        if ($petValidator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Getting Your Pet Informations",
+                [$petValidator->errors()],
+                [],
+                []
+            );
+        }
+
+
+        $user = $request->user();
+        $pet = new MarketPet();
+
+        $pet->user_id = $user->id;
+        $pet->name= $request->name;
+        $pet->age= $request->age;
+        $pet->type= $request->type;
+        $pet->gender= $request->gender;
+        $pet->breed= $request->breed;
+        $pet->for_adoption= $request->for_adoption;
+        $pet->price= $request->price;
+
+        if ($request->picture) {
+            $imagePath = $request->file('picture')->store('/storage/profile', 'public');
+            $pet->picture = $imagePath;
+        }
+        $pet->save();
+
+        return $this->handleResponse(
+            true,
+            "You are Pet Added Successfully",
+            [],
+            [
+                $user,
+                $pet,
+            ],
+            []
+        );
+        } catch (\Exception $e) {
+        return $this->handleResponse(
+            false,
+            "Error Adding Your Pet",
+            [$e->getMessage()],
+            [],
+            []
+        );
+        }
+    }
+    public function getMarketDogs() {
+        $dogs = MarketPet::where('type', 'dog')->get();
             if (count($dogs) > 0) {
             return $this->handleResponse(
                 true,
@@ -41,8 +97,8 @@ class HomeController extends Controller
             []
         );
     }
-    public function getCats() {
-        $cats = Pet::where('type', 'cat')->get();
+    public function getMarketCats() {
+        $cats = MarketPet::where('type', 'cat')->get();
             if (count($cats) > 0) {
             return $this->handleResponse(
                 true,
@@ -62,8 +118,8 @@ class HomeController extends Controller
 
     }
 
-    public function getBirds() {
-        $birds = Pet::where('type', 'bird')->get();
+    public function getMarketBirds() {
+        $birds = MarketPet::where('type', 'bird')->get();
             if (count($birds) > 0) {
             return $this->handleResponse(
                 true,
@@ -81,8 +137,8 @@ class HomeController extends Controller
             []
         );
     }
-    public function getTurtles() {
-        $turtles = Pet::where('type', 'turtle')->get();
+    public function getMarketTurtles() {
+        $turtles = MarketPet::where('type', 'turtle')->get();
             if (count($turtles) > 0) {
             return $this->handleResponse(
                 true,
@@ -100,8 +156,8 @@ class HomeController extends Controller
             []
         );
     }
-    public function getFishes() {
-        $fishes = Pet::where('type', 'fish')->get();
+    public function getMarketFishes() {
+        $fishes = MarketPet::where('type', 'fish')->get();
             if (count($fishes) > 0) {
             return $this->handleResponse(
                 true,
@@ -119,8 +175,8 @@ class HomeController extends Controller
             []
         );
     }
-    public function getMonkeys() {
-        $monkeys = Pet::where('type', 'monkey')->get();
+    public function getMarketMonkeys() {
+        $monkeys = MarketPet::where('type', 'monkey')->get();
             if (count($monkeys) > 0) {
             return $this->handleResponse(
                 true,
@@ -140,8 +196,8 @@ class HomeController extends Controller
     }
 
     // Get Pet Gender
-    public function getMales() {
-        $males = Pet::where('gender', 'male')->get();
+    public function getMarketMales() {
+        $males = MarketPet::where('gender', 'male')->get();
             if (count($males) > 0) {
             return $this->handleResponse(
                 true,
@@ -159,8 +215,8 @@ class HomeController extends Controller
             []
         );
     }
-    public function getFemales() {
-        $females = Pet::where('gender', 'female')->get();
+    public function getMarketFemales() {
+        $females = MarketPet::where('gender', 'female')->get();
             if (count($females) > 0) {
             return $this->handleResponse(
                 true,
@@ -179,9 +235,9 @@ class HomeController extends Controller
         );
     }
 
-    public function filterPets(Request $request)
+    public function filterMarketPets(Request $request)
     {
-        $query = Pet::query();
+        $query = MarketPet::query();
 
         // Filter by age if provided
         if ($request->has('age')) {
@@ -200,6 +256,10 @@ class HomeController extends Controller
 
         if ($request->has('breed')) {
             $query->where('breed', $request->input('breed'));
+        }
+
+        if ($request->has('for_adoption')) {
+            $query->where('for_adoption', $request->input('for_adoption'));
         }
 
         // Get the filtered results
@@ -225,10 +285,10 @@ class HomeController extends Controller
     }
 
     // Pet Dating Profile
-    public function getPetDating($petID) {
-        $pet = Pet::where('id', $petID)->first();
+    public function getMarketPet($petID) {
+        $pet = MarketPet::where('id', $petID)->first();
         if (isset($pet)) {
-        $petImages = [PetGallery::where("pet_id", $petID)->get()];
+        $petImages = [MarketPetGallery::where("pet_id", $petID)->get()];
         $owner = User::where("id", $pet['user_id'])->first();
         return $this->handleResponse(
          true,
@@ -247,3 +307,5 @@ class HomeController extends Controller
             );
     } 
 }
+
+

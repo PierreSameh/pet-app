@@ -19,6 +19,7 @@ class MarketPet extends Model
         "picture",
         "for_adoption",
         "price",
+        "picture",
     ];
 
     public function user() {

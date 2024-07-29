@@ -9,6 +9,7 @@ use App\Http\Controllers\User\LostController;
 use App\Http\Controllers\User\StoreController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\MarketController;
 
 
 
@@ -93,5 +94,17 @@ Route::post('/cart/{cart}/edit-cart', [CartController::class,'editCart'])->middl
 Route::post('/cart/{cart}/remove-from-cart', [CartController::class,'deleteCartItem'])->middleware('auth:sanctum');
 // CheckoutController
 Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->middleware('auth:sanctum');
+// MarketController
+Route::post('/market/add-pet', [MarketController::class,'addMarketPet'])->middleware('auth:sanctum');
+Route::get('/market/dogs', [MarketController::class,'getMarketDogs'])->middleware('auth:sanctum');
+Route::get('/market/cats', [MarketController::class,'getMarketCats'])->middleware('auth:sanctum');
+Route::get('/market/birds', [MarketController::class,'getMarketBirds'])->middleware('auth:sanctum');
+Route::get('/market/turtles', [MarketController::class,'getMarketTurtles'])->middleware('auth:sanctum');
+Route::get('/market/fishes', [MarketController::class,'getMarketFishes'])->middleware('auth:sanctum');
+Route::get('/market/monkeys', [MarketController::class,'getMarketMonkeys'])->middleware('auth:sanctum');
+Route::get('/market/males', [MarketController::class,'getMarketMales'])->middleware('auth:sanctum');
+Route::get('/market/females', [MarketController::class,'getMarketFemales'])->middleware('auth:sanctum');
+Route::get('/market/pets', [MarketController::class, 'filterMarketPets'])->middleware('auth:sanctum');
+Route::get('/market/{pet}', [MarketController::class,'getMarketPet'])->middleware('auth:sanctum');
 
 
