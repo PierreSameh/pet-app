@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Clinic;
+use App\Models\User;
+use App\Models\BookVisit;
 use App\HandleTrait;
 use Illuminate\Validation\Rule;
+use App\SendMailTrait;
 
 
 class ClinicController extends Controller
 {
-    use HandleTrait;
+    use HandleTrait, SendMailTrait;
 
     public function addClinic(Request $request){
         try {
@@ -192,5 +195,79 @@ class ClinicController extends Controller
                 [],
                 []
                 );
+    }
+
+    //// BOOK VISITS
+
+    public function book(Request $request, $clinicID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'time' => 'required|date_format:Y-m-d H:i:s|unique:book_visits,time'
+            ],[
+                'time.unique'=> 'Clinic is Busy With other clients, Can you choose a different Time?'
+            ]
+        
+        );
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    '',
+                    [$validator->errors()],
+                    [],
+                    []
+                    );
+            }
+            
+            $user = $request->user();
+            $clinic = Clinic::where('id', $clinicID)->first();
+            $clinicAdmin = User::where('id', $clinic->user_id)->first();
+            $pets = $user->pets;
+            $book = new BookVisit();
+            $book->user_id = $user->id;
+            $book->clinic_id= $clinicID;
+            $book->time= $request->time;
+            $book->save();
+
+            if($book) {
+                $msg_content = "<h1>";
+                $msg_content = " New Booked Visit by: " . $user->first_name . ' ' . $user->last_name;
+                $msg_content .= "</h1>";
+                $msg_content .= "<br>";
+                $msg_content .= "<h3>";
+                $msg_content .= "Client Details: ";
+                $msg_content .= "</h3>";
+
+                $msg_content .= "<h4>";
+                $msg_content .= "Phone: ";
+                $msg_content .= $user->phone;
+                $msg_content .= "</h4>";
+
+
+                $msg_content .= "<h4>";
+                $msg_content .= "Address: ";
+                $msg_content .= $user->address;
+                $msg_content .= "</h4>";
+
+
+                $this->sendEmail($clinicAdmin->email, "New Visit Booked", $msg_content);
+
+            }
+
+            return $this->handleResponse(
+                true,
+                'Booked Your Visit!',
+                [],
+                [$book, $pets, $user],
+                []
+                );
+        } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Error Booking Your Visit",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
     }
 }

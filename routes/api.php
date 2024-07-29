@@ -117,6 +117,6 @@ Route::post('/clinic/{clinic}/edit-clinic', [ClinicController::class, 'editClini
 Route::get('/clinic/{clinic}', [ClinicController::class,'getClinic'])->middleware('auth:sanctum');
 Route::get('/clinic', [ClinicController::class,'allClinic'])->middleware('auth:sanctum');
 Route::post('/clinic/{clinic}/delete-clinic', [ClinicController::class,'deleteClinic'])->middleware('auth:sanctum');
-
+Route::post('/clinic/{clinic}/book-visit', [ClinicController::class,'book'])->middleware('auth:sanctum');
 
 
