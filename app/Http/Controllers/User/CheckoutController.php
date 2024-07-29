@@ -171,12 +171,17 @@ class CheckoutController extends Controller
         
         if (isset($order)) {
         $user = User::where('id', $order->user_id)->first();
-        $orderItems = OrderItem::where('order_id', $order->id)->get();
+        $orderItems = OrderItem::where('order_id', $orderID)->get();
+        $products = [];
+        foreach ($orderItems as $item) {
+        $product = Product::where('id', $item->product_id)->get();
+        $products [] = $product;
+        }
         return $this->handleResponse(
          true,
          "Order Details",
          [],
-         [$orderItems, $user],
+         [$order, $user, $products],
          []
             );
         }
