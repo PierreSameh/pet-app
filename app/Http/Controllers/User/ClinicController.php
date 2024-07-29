@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Clinic;
 use App\Models\User;
+use App\Models\Pet;
 use App\Models\BookVisit;
 use App\HandleTrait;
 use Illuminate\Validation\Rule;
@@ -217,7 +218,7 @@ class ClinicController extends Controller
                     []
                     );
             }
-            
+
             $user = $request->user();
             $clinic = Clinic::where('id', $clinicID)->first();
             $clinicAdmin = User::where('id', $clinic->user_id)->first();
@@ -269,5 +270,82 @@ class ClinicController extends Controller
                 []
             );
         }
+    }
+
+    public function getBook($bookID) {
+        $book = BookVisit::where('id', $bookID)->first();
+        
+        if (isset($book)) {
+        $user = User::where('id', $book->user_id)->first();
+        $pet = Pet::where('user_id', $user->id)->get();
+        return $this->handleResponse(
+         true,
+         "Visit Details",
+         [],
+         [$book, $user, $pet],
+         []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Booked Visit Not Found",
+            [],
+            [],
+            []
+            );
+    }
+
+    public function allBooks(){
+        $books = BookVisit::get();
+        if (count($books) > 0) {
+        return $this->handleResponse(
+            true,
+            "",
+            [],
+            [$books],
+            []
+        );
+    }
+    return $this->handleResponse(
+        false,
+        "Empty",
+        [],
+        [],
+        []
+    );
+    }
+
+    public function cancelBook($bookID) {
+        $book = BookVisit::where("id", $bookID)->first();
+        $clinic = Clinic::where('id', $book->clinic_id)->first();
+        $clinicAdmin = User::where('id', $clinic->user_id)->first();
+        if (isset($book)) {
+            $msg_content = "<h1>";
+            $msg_content = "Booked Visit Canceled";
+            $msg_content .= "</h1>";
+            $msg_content .= "<br>";
+            $msg_content .= "<h3>";
+            $msg_content .= "This Book Visist Has Been Canceled: ". $book;
+            $msg_content .= "</h3>";
+
+            $this->sendEmail($clinicAdmin->email, "Book Canceled", $msg_content);
+            $book->delete();
+            
+
+            return $this->handleResponse(
+                true,
+                "$book->time . 'Deleted Successfully'",
+                [],
+                [],
+                []
+                );
+            }
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Booked Visit",
+                [],
+                [],
+                []
+                );
     }
 }
