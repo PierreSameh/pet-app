@@ -68,6 +68,9 @@ class User extends Authenticatable
         return $this->hasMany(MarketPet::class);
     }
 
+    public function clinic() {
+        return $this->hasMany(Clinic::class);
+    }
 
 
     /**
