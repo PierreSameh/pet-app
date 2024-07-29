@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Clinic;
 use App\HandleTrait;
+use Illuminate\Validation\Rule;
+
 
 class ClinicController extends Controller
 {
@@ -15,7 +17,7 @@ class ClinicController extends Controller
     public function addClinic(Request $request){
         try {
             $validator = Validator::make($request->all(), [
-                "clinic_name"=> 'required|string|max:255',
+                "clinic_name"=> 'required|string|max:255|unique:clinics,clinic_name',
                 "doctor"=> 'required|string|max:255',
                 "specialization"=> 'required|string|max:255',
                 "address"=> 'required|string|max:255',
@@ -44,7 +46,7 @@ class ClinicController extends Controller
             $clinic->working_times = $request->working_times;
 
             if ($request->picture) {
-                $imagePath = $request->file('picture')->store('/storage/store', 'public');
+                $imagePath = $request->file('picture')->store('/storage/clinics', 'public');
                 $clinic->picture = $imagePath;
             }
 
@@ -66,4 +68,67 @@ class ClinicController extends Controller
                 );
             }
     }
+
+    public function editClinic(Request $request, $clinicID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                "clinc_name"=> ['string','max:255',Rule::unique('clinics', 'clinic_name')->ignore($clinicID)],
+                "doctor"=> 'required|string|max:255',
+                "specialization"=> 'required|string|max:255',
+                "address"=> 'required|string|max:255',
+                "medical_fees"=> 'required|string|max:255',
+                "working_days"=> 'required|string|max:255',
+                "working_times"=> 'required|string|max:255',
+                "picture"=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Editting Your Store Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $clinic = Clinic::find($clinicID);
+            if (!$clinic) {
+                return $this->handleResponse(
+                    false,
+                    "Store Not Found",
+                    [],
+                    [],
+                    []
+                );
+            }
+            $clinic->clinic_name = $request->clinic_name;
+            $clinic->doctor = $request->doctor;
+            $clinic->specialization = $request->specialization;
+            $clinic->address = $request->address;
+            $clinic->medical_fees = $request->medical_fees;
+            $clinic->working_days = $request->working_days;
+            $clinic->working_times = $request->working_times;
+            if ($request->image) {
+                $imagePath = $request->file('picture')->store('/storage/clinics', 'public');
+                $clinic->image = $imagePath;
+            }
+            $clinic->save();
+
+            return $this->handleResponse(
+                true,
+                "Clinic Updated Successfully",
+                [],
+                [$clinic],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Clinic",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    } 
 }

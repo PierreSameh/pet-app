@@ -113,5 +113,7 @@ Route::post('/market/{pet}/add-image', [MarketController::class,'addMarketImage'
 Route::post('/market/{image}/delete-image', [MarketController::class,'deleteMarketImage'])->middleware('auth:sanctum');
 // ClinicController
 Route::post('/clinic/add-clinic', [ClinicController::class, 'addClinic'])->middleware('auth:sanctum');
+Route::post('/clinic/{clinic}/edit-clinic', [ClinicController::class, 'editClinic'])->middleware('auth:sanctum');
+
 
 
