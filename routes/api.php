@@ -129,6 +129,8 @@ Route::post('/book/{book}/cancel-book', [ClinicController::class,'cancelBook'])-
 // Chat Section
 Route::post('/chats', [ChatController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/chats', [ChatController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/chats/accept/{id}', [ChatController::class, 'acceptRequest'])->middleware('auth:sanctum');
+    Route::post('/chats/reject/{id}', [ChatController::class, 'rejectRequest'])->middleware('auth:sanctum');
 Route::post('/messages', [MessageController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/messages/{chat}', [MessageController::class, 'index'])->middleware('auth:sanctum');
 
