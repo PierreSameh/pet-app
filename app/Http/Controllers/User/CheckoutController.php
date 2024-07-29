@@ -217,22 +217,22 @@ class CheckoutController extends Controller
     public function cancelOrder(Request $request,$orderID) {
         $order = Order::where("id", $orderID)->first();
         $user = $request->user();
-        if (isset($book)) {
+        if (isset($order)) {
             $msg_content = "<h1>";
-            $msg_content = "Booked Visit Canceled";
+            $msg_content = "Order Canceled";
             $msg_content .= "</h1>";
             $msg_content .= "<br>";
             $msg_content .= "<h3>";
-            $msg_content .= "This Book Visist Has Been Canceled: ". $book;
+            $msg_content .= "This Book Visist Has Been Canceled: ". $order->id;
             $msg_content .= "</h3>";
 
             $this->sendEmail($user->email, "Book Canceled", $msg_content);
-            $book->delete();
+            $order->delete();
             
 
             return $this->handleResponse(
                 true,
-                "$order . 'Canceled Successfully'",
+                "Order Canceled Successfully",
                 [],
                 [],
                 []
