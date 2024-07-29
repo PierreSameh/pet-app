@@ -109,7 +109,7 @@ class CheckoutController extends Controller
 
             if ($order) {
                 $msg_content = "<h1>";
-                $msg_content = " New Order by" . $user->first_name . ' ' . $user->last_name;
+                $msg_content = " New Order by: " . $user->first_name . ' ' . $user->last_name;
                 $msg_content .= "</h1>";
                 $msg_content .= "<br>";
                 $msg_content .= "<h3>";
