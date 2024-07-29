@@ -11,6 +11,8 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\MarketController;
 use App\Http\Controllers\User\ClinicController;
+use App\Http\Controllers\User\ChatController;
+use App\Http\Controllers\User\MessageController;
 
 
 
@@ -124,5 +126,10 @@ Route::post('/clinic/{clinic}/book-visit', [ClinicController::class,'book'])->mi
 Route::get('/book/{book}', [ClinicController::class,'getBook'])->middleware('auth:sanctum');
 Route::get('/book', [ClinicController::class,'allBooks'])->middleware('auth:sanctum');
 Route::post('/book/{book}/cancel-book', [ClinicController::class,'cancelBook'])->middleware('auth:sanctum');
+// Chat Section
+Route::post('/chats', [ChatController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/chats', [ChatController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/messages', [MessageController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/messages/{chat}', [MessageController::class, 'index'])->middleware('auth:sanctum');
 
 
