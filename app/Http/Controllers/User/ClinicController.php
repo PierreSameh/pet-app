@@ -131,4 +131,66 @@ class ClinicController extends Controller
             );
         }
     } 
+
+    public function getClinic($clinicID) {
+        $clinic = Clinic::where('id', $clinicID)->first();
+        
+        if (isset($clinic)) {
+        return $this->handleResponse(
+         true,
+         "Clinic Details",
+         [],
+         [$clinic],
+         []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "clinic Not Found",
+            [],
+            [],
+            []
+            );
+    }
+
+    public function allClinic(){
+        $clinics = Clinic::get();
+        if (count($clinics) > 0) {
+        return $this->handleResponse(
+            true,
+            "",
+            [],
+            [$clinics],
+            []
+        );
+    }
+    return $this->handleResponse(
+        false,
+        "Empty",
+        [],
+        [],
+        []
+    );
+    }
+
+    public function deleteClinic($clinicID) {
+        $clinic = Clinic::where("id", $clinicID)->first();
+        if (isset($clinic)) {
+            $clinic->delete();
+            return $this->handleResponse(
+                true,
+                "$clinic->name . 'Deleted Successfully'",
+                [],
+                [],
+                []
+                );
+            }
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Clinic",
+                [],
+                [],
+                []
+                );
+    }
 }
