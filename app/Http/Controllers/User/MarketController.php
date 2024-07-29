@@ -78,6 +78,89 @@ class MarketController extends Controller
         );
         }
     }
+    public function editMarketPet(Request $request, $petID) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'=> 'required|string|max:255',
+                'age'=> 'required|integer',
+                'type'=> 'required|string',
+                'gender'=> 'required|string',
+                'breed'=> 'nullable|string',
+                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'for_adoption'=> 'numeric|max:1',
+                'price'=> 'nullable|numeric',
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Error Getting Your Pet Informations",
+                    [$validator->errors()],
+                    [],
+                    []
+                );
+            }
+            $imagePath = $request->file('picture')->store('/storage/marketpets', 'public');
+    
+            $pet = MarketPet::where('id', $petID)->first();
+
+                $pet->name = $request->name;
+                $pet->age = $request->age;
+                $pet->type = $request->type;
+                $pet->gender = $request->gender;
+                $pet->breed = $request->breed;
+                $pet->picture = $imagePath;
+                $pet->for_adoption = $request->for_adoption;
+                $pet->price = $request->price;
+                $pet->save();
+ 
+
+    
+            return $this->handleResponse(
+                true,
+                "Info Updated Successfully",
+                [],
+                [
+                    $pet,
+                ],
+                []
+            );
+    
+         } catch (\Exception $e) {
+            return $this->handleResponse(
+                false,
+                "Coudln't Edit Your Pet's Info",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    }
+    
+    public function deleteMarketPet($petID) {
+    
+        $pet = MarketPet::where('id', $petID);
+        if ($pet->count() > 0) {
+        $pet->delete();
+
+        return $this->handleResponse(
+            true,
+            "Pet Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Pet",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
     public function getMarketDogs() {
         $dogs = MarketPet::where('type', 'dog')->get();
             if (count($dogs) > 0) {
