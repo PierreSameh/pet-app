@@ -106,5 +106,7 @@ Route::get('/market/males', [MarketController::class,'getMarketMales'])->middlew
 Route::get('/market/females', [MarketController::class,'getMarketFemales'])->middleware('auth:sanctum');
 Route::get('/market/pets', [MarketController::class, 'filterMarketPets'])->middleware('auth:sanctum');
 Route::get('/market/{pet}', [MarketController::class,'getMarketPet'])->middleware('auth:sanctum');
+Route::post('/market/{pet}/add-image', [MarketController::class,'addMarketImage'])->middleware('auth:sanctum');
+Route::post('/market/{image}/delete-image', [MarketController::class,'deleteMarketImage'])->middleware('auth:sanctum');
 
 

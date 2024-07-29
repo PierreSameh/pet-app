@@ -288,7 +288,7 @@ class MarketController extends Controller
     public function getMarketPet($petID) {
         $pet = MarketPet::where('id', $petID)->first();
         if (isset($pet)) {
-        $petImages = [MarketPetGallery::where("pet_id", $petID)->get()];
+        $petImages = [MarketPetGallery::where("marketpet_id", $petID)->get()];
         $owner = User::where("id", $pet['user_id'])->first();
         return $this->handleResponse(
          true,
@@ -306,6 +306,78 @@ class MarketController extends Controller
             []
             );
     } 
+
+    // Gallery Methods
+    public function addMarketImage(Request $request, $petID) {
+        $validator = Validator::make($request->all(), [
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "Error Uploading Your Photo",
+                [$validator->errors()],
+                [],
+                []
+            );
+        }
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/marketpets', 'public');
+    
+                $petImage = MarketPetGallery::create([
+                    'marketpet_id' => $petID,
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedImages[] = $petImage;
+            } 
+            $petImages = [MarketPetGallery::where("marketpet_id", $petID)->get()];
+            return $this->handleResponse(
+                true,
+                "Image Added Successfully",
+                [],
+                [$petImages],
+                []
+            );            
+         }
+          else {
+            return $this->handleResponse(
+                false,
+                "Upload Images Correctly",
+                ["No Images Uploaded"],
+                [],
+                []
+            );
+         }
+    }
+
+    public function deleteMarketImage($imageID) {
+    
+        $image = MarketPetGallery::where('id', $imageID);
+        if ($image ->count() > 0) {
+        $image->delete();
+
+        return $this->handleResponse(
+            true,
+            "Image Deleted Successfully",
+            [],
+            [],
+            []
+        );
+        } else {
+            return $this->handleResponse(
+                false,
+                "Couldn't Delete Your Image",
+                [],
+                [],
+                []
+            );
+        }
+
+    }
 }
 
 
