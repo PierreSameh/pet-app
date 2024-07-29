@@ -5,27 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Clinic extends Model
+class BookVisit extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         "user_id",
-        "clinic_name",
-        "doctor",
-        "specialization",
-        "address",
-        "medical_fees",
-        "working_days",
-        "working_times",
-        "picture",
+        "clinic_id",
+        "time",
     ];
 
     public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function bookvisit() {
-        return $this->hasMany(BookVisit::class);
+    public function clinics() {
+        return $this->belongsTo(Clinic::class);
     }
 }
