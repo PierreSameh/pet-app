@@ -21,6 +21,7 @@ use App\SendMailTrait;
 
 class AuthController extends Controller
 {
+    ///// Look At app/SendMailEXAMPLE.php before using SendMailTrait
     use HandleTrait, SendMailTrait;
 
     // Sign Up Section

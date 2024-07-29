@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
+    ///// Look At app/SendMailEXAMPLE.php before using SendMailTrait
     use HandleTrait, SendMailTrait;
     
     public function placeOrder(Request $request) {

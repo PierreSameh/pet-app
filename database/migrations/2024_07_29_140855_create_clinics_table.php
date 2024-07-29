@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('clinic_name');
             $table->string('doctor');
+            $table->string('specialization');
             $table->string('address');
             $table->string('medical_fees');
             $table->string('working_days');
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clinics');
+        Schema::dropIfExists('pet_clinics');
     }
 };

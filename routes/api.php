@@ -10,6 +10,7 @@ use App\Http\Controllers\User\StoreController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\MarketController;
+use App\Http\Controllers\User\ClinicController;
 
 
 
@@ -110,5 +111,7 @@ Route::get('/market/pets', [MarketController::class, 'filterMarketPets'])->middl
 Route::get('/market/{pet}', [MarketController::class,'getMarketPet'])->middleware('auth:sanctum');
 Route::post('/market/{pet}/add-image', [MarketController::class,'addMarketImage'])->middleware('auth:sanctum');
 Route::post('/market/{image}/delete-image', [MarketController::class,'deleteMarketImage'])->middleware('auth:sanctum');
+// ClinicController
+Route::post('/clinic/add-clinic', [ClinicController::class, 'addClinic'])->middleware('auth:sanctum');
 
 
