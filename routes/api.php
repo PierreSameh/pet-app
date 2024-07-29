@@ -8,6 +8,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\LostController;
 use App\Http\Controllers\User\StoreController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\CheckoutController;
 
 
 
@@ -90,5 +91,7 @@ Route::post('/cart/add-to-cart', [CartController::class,'addCart'])->middleware(
 Route::get('/cart', [CartController::class,'getCart'])->middleware('auth:sanctum');
 Route::post('/cart/{cart}/edit-cart', [CartController::class,'editCart'])->middleware('auth:sanctum');
 Route::post('/cart/{cart}/remove-from-cart', [CartController::class,'deleteCartItem'])->middleware('auth:sanctum');
+// CheckoutController
+Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->middleware('auth:sanctum');
 
 

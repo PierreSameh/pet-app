@@ -28,7 +28,7 @@ class Product extends Model
     }
 
     public function cartitems() {
-        return $this->belongsTo(Cartitem::class);
+        return $this->hasMany(Cartitem::class);
     }
 
     public function productImages() {

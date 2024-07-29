@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('subtotal');
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->string('payment_method');
             $table->integer('payment_id');
             $table->timestamps();
