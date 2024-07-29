@@ -166,6 +166,81 @@ class CheckoutController extends Controller
         }
     }
 
+    public function getOrder($orderID) {
+        $order = Order::where('id', $orderID)->first();
+        
+        if (isset($order)) {
+        $user = User::where('id', $order->user_id)->first();
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+        return $this->handleResponse(
+         true,
+         "Order Details",
+         [],
+         [$orderItems, $user],
+         []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Order Not Found",
+            [],
+            [],
+            []
+            );
+    }
+
+    public function allOrders(){
+        $orders = Order::get();
+        if (count($orders) > 0) {
+        return $this->handleResponse(
+            true,
+            "",
+            [],
+            [$orders],
+            []
+        );
+    }
+    return $this->handleResponse(
+        false,
+        "Empty",
+        [],
+        [],
+        []
+    );
+    }
+
+    public function cancelOrder(Request $request,$orderID) {
+        $order = Order::where("id", $orderID)->first();
+        $user = $request->user();
+        if (isset($book)) {
+            $msg_content = "<h1>";
+            $msg_content = "Booked Visit Canceled";
+            $msg_content .= "</h1>";
+            $msg_content .= "<br>";
+            $msg_content .= "<h3>";
+            $msg_content .= "This Book Visist Has Been Canceled: ". $book;
+            $msg_content .= "</h3>";
+
+            $this->sendEmail($user->email, "Book Canceled", $msg_content);
+            $book->delete();
+            
+
+            return $this->handleResponse(
+                true,
+                "$order . 'Canceled Successfully'",
+                [],
+                [],
+                []
+                );
+            }
+            return $this->handleResponse(
+                false,
+                "Couldn't Cancel Your Order",
+                [],
+                [],
+                []
+                );
+    }
         
     
 }

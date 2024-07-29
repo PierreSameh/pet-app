@@ -95,6 +95,9 @@ Route::post('/cart/{cart}/edit-cart', [CartController::class,'editCart'])->middl
 Route::post('/cart/{cart}/remove-from-cart', [CartController::class,'deleteCartItem'])->middleware('auth:sanctum');
 // CheckoutController
 Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->middleware('auth:sanctum');
+Route::get('/order/{order}', [CheckoutController::class,'getOrder'])->middleware('auth:sanctum');
+Route::get('/order', [CheckoutController::class,'allOrders'])->middleware('auth:sanctum');
+Route::post('/order/{order}/cancel-order', [CheckoutController::class,'cancelOrder'])->middleware('auth:sanctum');
 // MarketController
 Route::post('/market/add-pet', [MarketController::class,'addMarketPet'])->middleware('auth:sanctum');
 Route::post('/market/{pet}/update', [MarketController::class,'editMarketPet'])->middleware('auth:sanctum');
