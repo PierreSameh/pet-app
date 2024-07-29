@@ -33,10 +33,9 @@ class CheckoutController extends Controller
         try {
             $user = $request->user();
             $cart = $user->cart()->latest()->first();
-            $cartItems = CartItem::where("cart_id", $cart->id)->get();
-
+            
             // check if cart empty
-            if (!$cart || $cart->count() === 0) {
+            if (!isset($cart) || $cart->count() === 0) {
                 return $this->handleResponse(
                     false,
                     "Your Cart is Empty. Add Products First",
@@ -46,6 +45,8 @@ class CheckoutController extends Controller
 
                 );
             }
+            $cartItems = CartItem::where("cart_id", $cart->id)->get();
+
                 $validator = Validator::make($request->all(), [
                     "status"=> "numeric|digits:1",
                     "payment_method"=> "required|string|max:255",
@@ -134,6 +135,8 @@ class CheckoutController extends Controller
 
 
                 $this->sendEmail("pierresameh0@gmail.com", "New Order", $msg_content);
+
+                $cart->delete();
                 
             }
 
