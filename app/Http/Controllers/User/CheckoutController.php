@@ -109,7 +109,7 @@ class CheckoutController extends Controller
 
             if ($order) {
                 $msg_content = "<h1>";
-                $msg_content = " New Order by" . $user->name;
+                $msg_content = " New Order by" . $user->first_name . ' ' . $user->last_name;
                 $msg_content .= "</h1>";
                 $msg_content .= "<br>";
                 $msg_content .= "<h3>";
@@ -134,7 +134,7 @@ class CheckoutController extends Controller
                 $msg_content .= "</h4>";
 
 
-                $this->sendEmail("pierresameh0@gmail.com", "New Order", $msg_content);
+                $this->sendEmail($user->email, "New Order", $msg_content);
 
                 $cart->delete();
                 
