@@ -50,6 +50,7 @@ class ChatController extends Controller
         $notification = new Notification();
         $notification->sender_id = $chatRequest->sender_id;
         $notification->receiver_id = $chatRequest->receiver_id;
+        $notification->title = "New Message Request!";
         $notification->content = "Message Request From " . $senderName;
         $notification->is_opened = 0;
         $notification->save();
