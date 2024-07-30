@@ -77,6 +77,7 @@ class CheckoutController extends Controller
             $order = new Order();
             $order->user_id = $user->id;
             $order->subtotal = $subtotal;
+            $order->status = 1;
             // If using bank card
             if ($request->payment_method == "card") {
             $payment = BankCard::where("id", $request->payment_id)->first();
@@ -245,6 +246,54 @@ class CheckoutController extends Controller
                 [],
                 []
                 );
+    }
+
+    public function setTrackOrder(Request $request,$orderID) {
+            $validator = Validator::make($request->all(), [
+                "status"=> "numeric|digits:1",
+            ]);
+            if ($validator->fails()) {
+                return $this->handleResponse(
+                    false,
+                    "Enter Your Payment Method",
+                    [$validator->errors()],
+                    [],
+                    []
+                    );
+                }
+            $order = Order::where("id", $orderID)->first();
+
+            if ($request->status == 2) {
+                $order->status = $request->status;
+                $order->save();
+                return $this->handleResponse(
+                    true,
+                    "Order Shipped",
+                    [],
+                    [$order],
+                    ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
+                    );
+            } 
+            if ($request->status == 3) {
+                $order->status = $request->status;
+                $order->save();
+                return $this->handleResponse(
+                    true,
+                    "Order Delivered",
+                    [],
+                    [$order],
+                    ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
+                    );
+                }
+            
+            return $this->handleResponse(
+                false,
+                "Error Editing Track Order",
+                [],
+                [],
+                ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
+            );
+        
     }
         
     
