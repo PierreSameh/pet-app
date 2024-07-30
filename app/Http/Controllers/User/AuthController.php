@@ -467,6 +467,26 @@ class AuthController extends Controller
         );
     }
 
+    public function logout(Request $request) {
+        $user = $request->user();
+
+        if ($user) {
+            if ($user->tokens())
+                $user->tokens()->delete();
+        }
+
+        return $this->handleResponse(
+            true,
+            "Loged Out",
+            [],
+            [
+            ],
+            [
+                "On logout" => "كل التوكينز بتتمسح انت كمان امسحها من الكاش عندك"
+            ]
+        );
+    }
+
     public function getUser(Request $request) {
        $user = $request->user();
         $bankCards = $request->user()->bankcard;
