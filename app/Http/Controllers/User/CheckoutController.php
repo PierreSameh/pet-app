@@ -120,6 +120,11 @@ class CheckoutController extends Controller
                 $msg_content .= "</h3>";
 
                 $msg_content .= "<h4>";
+                $msg_content .= "id: ";
+                $msg_content .= $order->id;
+                $msg_content .= "</h4>";
+
+                $msg_content .= "<h4>";
                 $msg_content .= "Phone: ";
                 $msg_content .= $user->phone;
                 $msg_content .= "</h4>";
