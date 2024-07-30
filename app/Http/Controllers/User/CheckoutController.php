@@ -13,6 +13,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderNotify;
 use App\Models\BankCard;
 use App\Models\Wallet;
 use Illuminate\Support\Facades\Validator;
@@ -143,6 +144,13 @@ class CheckoutController extends Controller
             }
 
             DB::commit();
+
+            $notification = new OrderNotify();
+            $notification->user_id = $order->user_id;
+            $notification->title = "Order Placed!";
+            $notification->content = "Your Order id: " . $order->id;
+            $notification->is_opened = 0;
+            $notification->save();
 
             return $this->handleResponse(
                 true,
