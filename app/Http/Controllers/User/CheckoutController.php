@@ -279,6 +279,12 @@ class CheckoutController extends Controller
             if ($request->status == 2) {
                 $order->status = $request->status;
                 $order->save();
+                $notification = new OrderNotify();
+                $notification->user_id = $order->user_id;
+                $notification->title = "Order Shipped!";
+                $notification->content = "Your Order id: " . $order->id;
+                $notification->is_opened = 0;
+                $notification->save();
                 return $this->handleResponse(
                     true,
                     "Order Shipped",
@@ -290,6 +296,12 @@ class CheckoutController extends Controller
             if ($request->status == 3) {
                 $order->status = $request->status;
                 $order->save();
+                $notification = new OrderNotify();
+                $notification->user_id = $order->user_id;
+                $notification->title = "Order Delivered!";
+                $notification->content = "Your Order id: " . $order->id;
+                $notification->is_opened = 0;
+                $notification->save();
                 return $this->handleResponse(
                     true,
                     "Order Delivered",

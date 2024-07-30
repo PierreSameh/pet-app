@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\ChatRequest;
 use App\Models\Notification;
+use App\Models\OrderNotify;
 use App\HandleTrait;
 
 class ChatController extends Controller
@@ -111,7 +112,8 @@ class ChatController extends Controller
     public function getNotifications(Request $request) {
         $user = $request->user();
         $notifications = Notification::where('receiver_id', $user->id)->get();
-        if (count($notifications) == 0) {
+        $orderNotifies = OrderNotify::where('user_id', $user->id)->get();
+        if (count($notifications) == 0 && count($orderNotifies) == 0) {
             return $this->handleResponse(
                 false,
                 'You Have No Notifications',
@@ -124,7 +126,7 @@ class ChatController extends Controller
             true,
             '',
             [],
-            [$notifications],
+            [$notifications, $orderNotifies],
             [],
         );
     }
