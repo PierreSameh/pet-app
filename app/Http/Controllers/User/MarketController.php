@@ -33,7 +33,7 @@ class MarketController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Getting Your Pet Informations",
-                [$petValidator->errors()],
+                [$petValidator->errors()->first()],
                 [],
                 []
             );
@@ -63,8 +63,8 @@ class MarketController extends Controller
             "You are Pet Added Successfully",
             [],
             [
-                $user,
-                $pet,
+               "user" => $user,
+                "pet" => $pet,
             ],
             []
         );
@@ -95,7 +95,7 @@ class MarketController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Pet Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -121,7 +121,7 @@ class MarketController extends Controller
                 "Info Updated Successfully",
                 [],
                 [
-                    $pet,
+                    "pet" => $pet,
                 ],
                 []
             );
@@ -168,7 +168,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$dogs],
+                [
+                   "dogs" => $dogs
+                ],
                 []
             );
         }
@@ -187,7 +189,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$cats],
+                [
+                   "cats" => $cats
+                ],
                 []
             ); 
             }
@@ -208,7 +212,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$birds],
+                [
+                   "birds" => $birds
+                ],
                 []
             );
         }
@@ -227,7 +233,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$turtles],
+                [
+                 "turtles" => $turtles
+                ],
                 []
             );
         }
@@ -246,7 +254,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$fishes],
+                [
+                "fishes" => $fishes
+                ],
                 []
             );
         }
@@ -265,7 +275,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$monkeys],
+                [
+                 "monkeys" => $monkeys
+                ],
                 []
             );
         }
@@ -286,7 +298,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$males],
+                [
+                 "males" => $males
+                ],
                 []
             );
         }
@@ -305,7 +319,9 @@ class MarketController extends Controller
                 true,
                 "",
                 [],
-                [$females],
+                [
+                    "females" => $females
+                ],
                 []
             );
         }
@@ -353,7 +369,9 @@ class MarketController extends Controller
             true,
             '',
             [],
-            [$pets],
+            [
+                "pets" => $pets
+            ],
             []
         );
         }
@@ -377,7 +395,10 @@ class MarketController extends Controller
          true,
          "Pet Data",
          [],
-         [$pet, $owner, $petImages],
+         [
+            "pet" => $pet,
+            "owner" => $owner,
+            "petImages" => $petImages],
          []
          );
         }
@@ -400,7 +421,7 @@ class MarketController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Uploading Your Photo",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -422,7 +443,9 @@ class MarketController extends Controller
                 true,
                 "Image Added Successfully",
                 [],
-                [$petImages],
+                [
+                    "petImages" => $petImages
+                ],
                 []
             );            
          }

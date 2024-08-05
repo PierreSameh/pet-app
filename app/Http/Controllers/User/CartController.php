@@ -63,7 +63,9 @@ class CartController extends Controller
                 true,
                 "Product Adding to Cart Done Successfully",
                 [],
-                [$cartItem],
+                [
+                  "cartItem" => $cartItem
+                ],
                 [
                     "Increase Quantity When product in Cart"
                 ]
@@ -98,7 +100,8 @@ class CartController extends Controller
                 true,
                 "Product Adding to Cart Done Successfully",
                 [],
-                [$cartItem],
+                [
+                   "cartItem" => $cartItem],
                 [
                     "Increase Quantity When product in Cart"
                 ]
@@ -141,7 +144,10 @@ class CartController extends Controller
                 true,
                 'Your Products In Cart',
                 [],
-                [$cartItems, "Total Price: $totalPrice", $products],
+                [
+                    "cartItems" => $cartItems,
+                     "Total Price: $totalPrice",
+                     "products" => $products],
                 []
                 );
             }
@@ -184,7 +190,9 @@ class CartController extends Controller
                     true,
                     'Quantity Updated',
                     [],
-                    [$cartItem],
+                    [
+                       "cartItem" => $cartItem
+                    ],
                     []
                     );
                 } else {
@@ -220,7 +228,7 @@ class CartController extends Controller
                 false,
                 '',
                 [],
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 []
                 );
             }

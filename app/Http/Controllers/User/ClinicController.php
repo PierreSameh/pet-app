@@ -34,7 +34,7 @@ class ClinicController extends Controller
                 return $this->handleResponse(
                     false,
                     "",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                     );
@@ -59,7 +59,9 @@ class ClinicController extends Controller
                 true,
                 "Clinic Added Successfully",
                 [],
-                [$clinic],
+                [
+                    "clinic" => $clinic
+                ],
                 []
             );
             } catch (\Exception $e) {
@@ -89,7 +91,7 @@ class ClinicController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Editting Your Store Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -121,7 +123,9 @@ class ClinicController extends Controller
                 true,
                 "Clinic Updated Successfully",
                 [],
-                [$clinic],
+                [
+                   "clinic" => $clinic
+                ],
                 []
             );
     
@@ -144,7 +148,9 @@ class ClinicController extends Controller
          true,
          "Clinic Details",
          [],
-         [$clinic],
+         [
+           "clinic" => $clinic
+         ],
          []
             );
         }
@@ -164,7 +170,9 @@ class ClinicController extends Controller
             true,
             "",
             [],
-            [$clinics],
+            [
+               "clinics" => $clinics
+            ],
             []
         );
     }
@@ -213,7 +221,7 @@ class ClinicController extends Controller
                 return $this->handleResponse(
                     false,
                     '',
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                     );
@@ -258,7 +266,10 @@ class ClinicController extends Controller
                 true,
                 'Booked Your Visit!',
                 [],
-                [$book, $pets, $user],
+                [
+                    "book" => $book,
+                    "pets" => $pets,
+                    "user" => $user],
                 []
                 );
         } catch (\Exception $e) {
@@ -282,7 +293,10 @@ class ClinicController extends Controller
          true,
          "Visit Details",
          [],
-         [$book, $user, $pet],
+         [
+            "book" => $book,
+            "user" => $user,
+            "pet" => $pet],
          []
             );
         }
@@ -302,7 +316,9 @@ class ClinicController extends Controller
             true,
             "",
             [],
-            [$books],
+            [
+                "books" => $books
+            ],
             []
         );
     }

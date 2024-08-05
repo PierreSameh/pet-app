@@ -29,7 +29,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$dogs],
+                [
+                    "dogs" => $dogs
+                ],
                 []
             );
         }
@@ -48,7 +50,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$cats],
+                [
+                    "cats" => $cats
+                ],
                 []
             ); 
             }
@@ -69,7 +73,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$birds],
+                [
+                    "birds" => $birds
+                ],
                 []
             );
         }
@@ -88,7 +94,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$turtles],
+                [
+                    "turtles" => $turtles
+                ],
                 []
             );
         }
@@ -107,7 +115,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$fishes],
+                [
+                    "fishes" => $fishes
+                ],
                 []
             );
         }
@@ -126,7 +136,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$monkeys],
+                [
+                    "monkeys" => $monkeys
+                ],
                 []
             );
         }
@@ -147,7 +159,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$males],
+                [
+                    "males" => $males
+                ],
                 []
             );
         }
@@ -166,7 +180,9 @@ class HomeController extends Controller
                 true,
                 "",
                 [],
-                [$females],
+                [
+                    "females" => $females
+                ],
                 []
             );
         }
@@ -210,7 +226,9 @@ class HomeController extends Controller
             true,
             '',
             [],
-            [$pets],
+            [
+             "pets" => $pets
+            ],
             []
         );
         }
@@ -234,7 +252,10 @@ class HomeController extends Controller
          true,
          "Pet Data",
          [],
-         [$pet, $owner, $petImages],
+         [
+            "pet" => $pet,
+            "owner" => $owner,
+            "petImages" => $petImages],
          []
          );
         }

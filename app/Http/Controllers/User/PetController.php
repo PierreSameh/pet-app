@@ -30,7 +30,9 @@ class PetController extends Controller
          true,
          "Pet Data",
          [],
-         [$pets, $petImages],
+         [
+            "pets" => $pets,
+            "petImages" => $petImages],
          []
      );
     } 
@@ -51,7 +53,7 @@ class PetController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Getting Your Pet Informations",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -73,7 +75,7 @@ class PetController extends Controller
             "Pet Added Successfully",
             [],
             [
-                $request->user()->pets,
+               "pets" => $request->user()->pets,
             ],
             []
         );
@@ -104,7 +106,7 @@ class PetController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Pet Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -128,7 +130,7 @@ class PetController extends Controller
                 "Info Updated Successfully",
                 [],
                 [
-                    $pet,
+                  "pet" => $pet,
                 ],
                 []
             );
@@ -181,7 +183,7 @@ class PetController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Uploading Your Photo",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -203,7 +205,9 @@ class PetController extends Controller
                 true,
                 "Image Added Successfully",
                 [],
-                [$petImages],
+                [
+                    "petImages" => $petImages
+                ],
                 []
             );            
          }

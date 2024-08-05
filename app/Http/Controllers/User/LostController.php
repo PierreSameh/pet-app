@@ -37,7 +37,7 @@ class LostController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Getting Your Lost Pet Informations",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -85,7 +85,9 @@ class LostController extends Controller
                 true,
                 "",
                 [],
-                [$lostPets],
+                [
+                    "lostPets" => $lostPets
+                ],
                 []
             );
         }
@@ -130,7 +132,9 @@ class LostController extends Controller
             true,
             '',
             [],
-            [$lostPets],
+            [
+                "lostPets" => $lostPets
+            ],
             []
         );
         }
@@ -155,7 +159,10 @@ class LostController extends Controller
          true,
          "Pet Data",
          [],
-         [$lostPet, $owner, $petImages],
+         [
+            "lostPet" => $lostPet,
+            "owner" => $owner,
+            "petImages" => $petImages],
          []
             );
         }
@@ -185,7 +192,7 @@ class LostController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Lost Pet Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -218,7 +225,7 @@ class LostController extends Controller
                 "Info Updated Successfully",
                 [],
                 [
-                    $lostPet,
+                   "lostPet" => $lostPet,
                 ],
                 []
             );
@@ -244,7 +251,7 @@ class LostController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Lost Pet Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     ['Use 0 or 1 in this boolean']
                 );
@@ -268,7 +275,7 @@ class LostController extends Controller
                 "Info Updated Successfully",
                 [],
                 [
-                    $lostPet,
+                  "lostPet" => $lostPet,
                 ],
                 []
             );
@@ -323,7 +330,7 @@ class LostController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Uploading Your Photo",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -345,7 +352,9 @@ class LostController extends Controller
                 true,
                 "Image Added Successfully",
                 [],
-                [$lostPetImages],
+                [
+                    "lostPetImage" => $lostPetImages
+                ],
                 []
             );            
          }
@@ -414,7 +423,7 @@ class LostController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Getting Your Found Pet Informations",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -436,7 +445,7 @@ class LostController extends Controller
             "Found Pet Added Successfully",
             [],
             [
-                $request->user()->foundpet,
+              "foundpet" =>  $request->user()->foundpet,
             ],
             []
         );
@@ -460,7 +469,9 @@ class LostController extends Controller
                 true,
                 "",
                 [],
-                [$foundPets],
+                [
+                    "foundPets" => $foundPets
+                ],
                 []
             );
         }
@@ -500,7 +511,9 @@ class LostController extends Controller
                 true,
                 '',
                 [],
-                [$foundPets],
+                [
+                    "foundPets" => $foundPets
+                ],
                 []
             );
             }
@@ -524,7 +537,10 @@ class LostController extends Controller
          true,
          "Pet Data",
          [],
-         [$foundPet, $owner, $petImages],
+         [
+            "foundPet" => $foundPet,
+            "owner" => $owner,
+            "petImages" => $petImages],
          []
             );
         }
@@ -552,7 +568,7 @@ class LostController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Found Pet Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -584,7 +600,7 @@ class LostController extends Controller
                 "Info Updated Successfully",
                 [],
                 [
-                    $foundPet,
+                  "foundPet" => $foundPet,
                 ],
                 []
             );
@@ -639,7 +655,7 @@ class LostController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Uploading Your Photo",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -661,7 +677,9 @@ class LostController extends Controller
                 true,
                 "Image Added Successfully",
                 [],
-                [$foundPetImages],
+                [
+                    "foundPetImages" => $foundPetImages
+                ],
                 []
             );            
          }

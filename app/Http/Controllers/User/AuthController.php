@@ -102,9 +102,9 @@ class AuthController extends Controller
             "You are Signed Up",
             [],
             [
-                $user,
-                $pet,
-                $token
+               "user" => $user,
+                "pet" => $pet,
+                "token" => $token
             ],
             []
         );
@@ -461,7 +461,7 @@ class AuthController extends Controller
             "You are Loged In",
             [],
             [
-                $token,
+               "token" => $token,
             ],
             []
         );
@@ -496,7 +496,10 @@ class AuthController extends Controller
         true,
         "User Data",
         [],
-        [$user, $bankCards, $wallets],
+        [
+            "user" => $user,
+            "bankCards" => $bankCards,
+            "wallets" => $wallets],
         []
     );
         // return response()->json(compact('user'));
@@ -539,7 +542,7 @@ class AuthController extends Controller
             "Info Updated Successfully",
             [],
             [
-                $user,
+               "user" => $user,
             ],
             []
         );
@@ -589,7 +592,9 @@ class AuthController extends Controller
             true,
             'Bank Card Saved!',
             [],
-            [$bankCards],
+            [
+                "bankCards" => $bankCards
+            ],
             []
             );
         } catch (\Exception $e) {

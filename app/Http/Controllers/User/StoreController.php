@@ -32,7 +32,7 @@ class StoreController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Lost Pet Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -52,7 +52,9 @@ class StoreController extends Controller
                 true,
                 "Store Added Successfully",
                 [],
-                [$store],
+                [
+                    "store" => $store
+                ],
                 []
             );
             } catch (\Exception $e) {
@@ -76,7 +78,7 @@ class StoreController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Editting Your Store Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -102,7 +104,9 @@ class StoreController extends Controller
                 true,
                 "Store Updated Successfully",
                 [],
-                [$store],
+                [
+                    "store" => $store
+                ],
                 []
             );
     
@@ -125,7 +129,9 @@ class StoreController extends Controller
          true,
          "Pet Data",
          [],
-         [$store],
+         [
+            "store" => $store
+         ],
          []
             );
         }
@@ -145,7 +151,9 @@ class StoreController extends Controller
             true,
             "",
             [],
-            [$stores],
+            [
+                "stores" => $stores
+            ],
             []
         );
     }
@@ -191,7 +199,7 @@ class StoreController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Getting Your Category Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -210,7 +218,9 @@ class StoreController extends Controller
                 true,
                 "Category Added Successfully",
                 [],
-                [$category],
+                [
+                    "category" => $category
+                ],
                 []
             );
             } catch (\Exception $e) {
@@ -235,7 +245,7 @@ class StoreController extends Controller
                 return $this->handleResponse(
                     false,
                     "Error Editting Your Category Informations",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -262,10 +272,11 @@ class StoreController extends Controller
                 true,
                 "Category Updated Successfully",
                 [],
-                [$category],
+                [
+                    "category" => $category,
+                ],
                 []
             );
-    
          } catch (\Exception $e) {
             return $this->handleResponse(
                 false,
@@ -274,6 +285,7 @@ class StoreController extends Controller
                 [],
                 []
             );
+        
         }
     }
 
@@ -317,7 +329,7 @@ class StoreController extends Controller
                 return $this->handleResponse(
                     false,
                     "",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -336,7 +348,9 @@ class StoreController extends Controller
                 true,
                 "Product Added Successfully",
                 [],
-                [$product],
+                [
+                    "product" => $product
+                ],
                 []
             );
             } catch (\Exception $e) {
@@ -364,7 +378,7 @@ class StoreController extends Controller
                 return $this->handleResponse(
                     false,
                     "",
-                    [$validator->errors()],
+                    [$validator->errors()->first()],
                     [],
                     []
                 );
@@ -391,7 +405,9 @@ class StoreController extends Controller
                 true,
                 "Product Updated Successfully",
                 [],
-                [$product],
+                [
+                    "product" => $product
+                ],
                 []
             );
     
@@ -414,7 +430,9 @@ class StoreController extends Controller
          true,
          "$category->name",
          [],
-         [$products],
+         [
+            "products" => $products
+         ],
          []
      );
     }
@@ -435,7 +453,10 @@ class StoreController extends Controller
          true,
          "$product->name",
          [],
-         [$product, $productImages],
+         [
+            "product" => $product,
+            "productImages" => $productImages
+         ],
          []
      );
     }
@@ -480,7 +501,7 @@ class StoreController extends Controller
             return $this->handleResponse(
                 false,
                 "Error Uploading Your Photos",
-                [$validator->errors()],
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -504,7 +525,9 @@ class StoreController extends Controller
                 true,
                 "Image Added Successfully",
                 [],
-                [$productImages],
+                [
+                    "productImages" => $productImages
+                ],
                 []
             );            
          }  else {

@@ -162,7 +162,9 @@ class CheckoutController extends Controller
                 "Order Submited Successfully!",
                 [],
                 [
-                    $order, $user, $payment
+                    "order" => $order,
+                    "user" => $user,
+                    "payment" => $payment
                 ],
                 ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
             );
@@ -195,7 +197,11 @@ class CheckoutController extends Controller
          true,
          "Order Details",
          [],
-         [$order, $user, $products],
+         [
+            "order" => $order,
+            "user" => $user,
+            "products" => $products
+        ],
          []
             );
         }
@@ -215,7 +221,9 @@ class CheckoutController extends Controller
             true,
             "",
             [],
-            [$orders],
+            [
+               "orders" => $orders
+            ],
             []
         );
     }
@@ -289,7 +297,9 @@ class CheckoutController extends Controller
                     true,
                     "Order Shipped",
                     [],
-                    [$order],
+                    [
+                        "order" => $order
+                    ],
                     ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
                     );
             } 
@@ -306,7 +316,9 @@ class CheckoutController extends Controller
                     true,
                     "Order Delivered",
                     [],
-                    [$order],
+                    [
+                       "order" => $order
+                    ],
                     ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
                     );
                 }
