@@ -31,7 +31,7 @@ class StoreController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Lost Pet Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -77,7 +77,7 @@ class StoreController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Editting Your Store Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -198,7 +198,7 @@ class StoreController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Category Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -244,7 +244,7 @@ class StoreController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Editting Your Category Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -500,7 +500,7 @@ class StoreController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Uploading Your Photos",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []

@@ -36,7 +36,7 @@ class LostController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Getting Your Lost Pet Informations",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []
@@ -191,7 +191,7 @@ class LostController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Lost Pet Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -250,7 +250,7 @@ class LostController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Lost Pet Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     ['Use 0 or 1 in this boolean']
@@ -329,7 +329,7 @@ class LostController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Uploading Your Photo",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []
@@ -422,7 +422,7 @@ class LostController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Getting Your Found Pet Informations",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []
@@ -567,7 +567,7 @@ class LostController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Found Pet Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -654,7 +654,7 @@ class LostController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Uploading Your Photo",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []

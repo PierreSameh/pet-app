@@ -32,7 +32,7 @@ class MarketController extends Controller
         if ($petValidator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Getting Your Pet Informations",
+                "",
                 [$petValidator->errors()->first()],
                 [],
                 []
@@ -94,7 +94,7 @@ class MarketController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Pet Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -420,7 +420,7 @@ class MarketController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Uploading Your Photo",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []

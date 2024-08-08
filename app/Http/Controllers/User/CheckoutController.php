@@ -57,7 +57,7 @@ class CheckoutController extends Controller
                 if ($validator->fails()) {
                     return $this->handleResponse(
                         false,
-                        "Enter Your Payment Method",
+                        "",
                         [$validator->errors()->first()],
                         [],
                         []
@@ -276,8 +276,8 @@ class CheckoutController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Enter Your Payment Method",
-                    [$validator->errors()],
+                    "",
+                    [$validator->errors()->first()],
                     [],
                     []
                     );

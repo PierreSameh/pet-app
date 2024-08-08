@@ -90,7 +90,7 @@ class ClinicController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Editting Your Store Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -220,7 +220,7 @@ class ClinicController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    '',
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []

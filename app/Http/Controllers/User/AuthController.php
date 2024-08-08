@@ -46,8 +46,8 @@ class AuthController extends Controller
         if ($validator->fails()) {
                 return $this->handleResponse(
                 false,
-                "Error Signing UP",
-                [$validator->errors()],
+                "",
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -75,8 +75,8 @@ class AuthController extends Controller
         if ($petValidator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Getting Your Pet Informations",
-                [$petValidator->errors()],
+                "",
+                [$petValidator->errors()->first()],
                 [],
                 []
             );
@@ -517,8 +517,8 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
             false,
-            "Error Signing UP",
-            [$validator->errors()],
+            "",
+            [$validator->errors()->first()],
             [],
             []
             );
@@ -571,8 +571,8 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                'Enter a Valid Bank Information',
-                [$validator->errors(),],
+                '',
+                [$validator->errors()->first()],
                 [],
                 []
             );
@@ -642,7 +642,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Ented a Valid Wallet",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []

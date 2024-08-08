@@ -52,7 +52,7 @@ class PetController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Getting Your Pet Informations",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []
@@ -105,7 +105,7 @@ class PetController extends Controller
             if ($validator->fails()) {
                 return $this->handleResponse(
                     false,
-                    "Error Getting Your Pet Informations",
+                    "",
                     [$validator->errors()->first()],
                     [],
                     []
@@ -182,7 +182,7 @@ class PetController extends Controller
         if ($validator->fails()) {
             return $this->handleResponse(
                 false,
-                "Error Uploading Your Photo",
+                "",
                 [$validator->errors()->first()],
                 [],
                 []
