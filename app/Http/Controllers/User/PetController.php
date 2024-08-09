@@ -24,15 +24,14 @@ class PetController extends Controller
     //        PETS METHODS              //
     /////////////////////////////////////
     public function getPet(Request $request, $petID) {
-        $pets = $request->user()->pets;
-        $petImages = [PetGallery::where("pet_id", $petID)->get()];
+        $pets = $request->user()->pets->with('petgallery');
         return $this->handleResponse(
          true,
          "Pet Data",
          [],
          [
             "pets" => $pets,
-            "petImages" => $petImages],
+         ],
          []
      );
     } 
@@ -45,7 +44,7 @@ class PetController extends Controller
             'age'=> 'required|integer',
             'type'=> 'required|string',
             'gender'=> 'required|string',
-            'breed'=> 'nullable|string',
+            'breed'=> 'required|string',
             'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -58,24 +57,29 @@ class PetController extends Controller
                 []
             );
         }
-        $imagePath = $request->file('picture')->store('/storage/pets', 'public');
 
-        $pet = Pet::create([
-            'user_id'=> $request->user()->id,
-            'name'=> $request->name,
-            'age'=> $request->age,
-            'type'=> $request->type,
-            'gender'=> $request->gender,
-            'breed'=> $request->breed,
-            'picture'=> $imagePath,
-        ]);
+
+        $pet = new Pet();
+            $pet->user_id = $request->user()->id;
+            $pet->name = $request->name;
+            $pet->age = $request->age;
+            $pet->type = $request->type;
+            $pet->gender = $request->gender;
+            $pet->breed = $request->breed;
+
+            if ($request->picture) {
+                $imagePath = $request->file('picture')->store('/storage/pets', 'public');
+                $pet->picture = $imagePath;
+            }
+
+            $pet->save();
 
         return $this->handleResponse(
             true,
             "Pet Added Successfully",
             [],
             [
-               "pets" => $request->user()->pets,
+               "pet" => $pet,
             ],
             []
         );
@@ -83,7 +87,7 @@ class PetController extends Controller
      } catch (\Exception $e) {
         return $this->handleResponse(
             false,
-            "Coudln't Add Your Pet",
+            "",
             [$e->getMessage()],
             [],
             []
@@ -176,7 +180,7 @@ class PetController extends Controller
 
     public function addImage(Request $request, $petID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {

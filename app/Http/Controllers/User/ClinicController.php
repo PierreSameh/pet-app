@@ -164,7 +164,7 @@ class ClinicController extends Controller
     }
 
     public function allClinic(){
-        $clinics = Clinic::get();
+        $clinics = Clinic::paginate(20);
         if (count($clinics) > 0) {
         return $this->handleResponse(
             true,

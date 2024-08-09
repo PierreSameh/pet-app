@@ -145,7 +145,7 @@ class StoreController extends Controller
     }
 
     public function allStore(){
-        $stores = Store::get();
+        $stores = Store::paginate(20);
         if (count($stores) > 0) {
         return $this->handleResponse(
             true,
@@ -226,7 +226,7 @@ class StoreController extends Controller
             } catch (\Exception $e) {
                 return $this->handleResponse(
                     false,
-                    "Coudln't Add Your Category",
+                    "",
                     [$e->getMessage()],
                     [],
                     []
@@ -423,7 +423,7 @@ class StoreController extends Controller
     }
 
     public function getCategory($categoryID) {
-        $products = Product::where("category_id", $categoryID)->get();
+        $products = Product::with('productImages')->where("category_id", $categoryID)->paginate(20);
         $category = Category::where("id", $categoryID)->first();
         if (count($products) > 0) {
         return $this->handleResponse(
@@ -446,16 +446,14 @@ class StoreController extends Controller
     } 
 
     public function getProduct($productID) {
-        $product = Product::where("id", $productID)->first();
+        $product = Product::with('productImages')->where("id", $productID)->first();
         if (isset($product)) {
-            $productImages = ProductImage::where("product_id", $product->id)->get();
         return $this->handleResponse(
          true,
          "$product->name",
          [],
          [
             "product" => $product,
-            "productImages" => $productImages
          ],
          []
      );
@@ -494,7 +492,7 @@ class StoreController extends Controller
     public function addProductImages(Request $request, $productID) {
         $validator = Validator::make($request->all(), [
             'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'notes'=> 'nullable|string|max:1000'
+            'notes'=> 'required|string|max:1000'
         ]);
 
         if ($validator->fails()) {

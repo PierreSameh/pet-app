@@ -78,7 +78,7 @@ class LostController extends Controller
     }
 
     public function showLostPets() {
-        $lostPets = LostPet::all();
+        $lostPets = LostPet::with('lostPetGallery')->paginate(20);
 
         if (count($lostPets) > 0) {
             return $this->handleResponse(
@@ -125,7 +125,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $lostPets = $query->get();
+        $lostPets = $query->with('lostPetGallery')->paginate(20);
         if (count($lostPets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
@@ -150,10 +150,9 @@ class LostController extends Controller
     }
 
     public function getLostPet($lostPetID) {
-        $lostPet = LostPet::where('id', $lostPetID)->first();
+        $lostPet = LostPet::with('lostPetGallery')->where('id', $lostPetID)->first();
         
         if (isset($lostPet)) {
-        $petImages = [LostPetGallery::where("lostpet_id", $lostPetID)->get()];
         $owner = User::where("id", $lostPet['user_id'])->first();
         return $this->handleResponse(
          true,
@@ -162,7 +161,7 @@ class LostController extends Controller
          [
             "lostPet" => $lostPet,
             "owner" => $owner,
-            "petImages" => $petImages],
+         ],
          []
             );
         }
@@ -323,7 +322,7 @@ class LostController extends Controller
 
     public function addImage(Request $request, $lostPetID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {
@@ -462,7 +461,7 @@ class LostController extends Controller
     }
 
     public function showFoundPets() {
-        $foundPets = FoundPet::all();
+        $foundPets = FoundPet::with('foundPetGallery')->paginate(20);
 
         if (count($foundPets) > 0) {
             return $this->handleResponse(
@@ -503,7 +502,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $foundPets = $query->get();
+        $foundPets = $query->with('foundPetGallery')->paginate(20);
 
         if (count($foundPets) > 0) {
             // Return the filtered data as a JSON response
@@ -528,10 +527,9 @@ class LostController extends Controller
     }
 
     public function getFoundPet($foundPetID) {
-        $foundPet = FoundPet::where('id', $foundPetID)->first();
+        $foundPet = FoundPet::with('foundPetGallery')->where('id', $foundPetID)->first();
         
         if (isset($foundPet)) {
-        $petImages = [FoundPetGallery::where("foundpet_id", $foundPetID)->get()];
         $owner = User::where("id", $foundPet['user_id'])->first();
         return $this->handleResponse(
          true,
@@ -540,7 +538,7 @@ class LostController extends Controller
          [
             "foundPet" => $foundPet,
             "owner" => $owner,
-            "petImages" => $petImages],
+         ],
          []
             );
         }
@@ -648,7 +646,7 @@ class LostController extends Controller
 
     public function addImageF(Request $request, $foundPetID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {

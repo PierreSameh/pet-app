@@ -23,17 +23,17 @@ class HomeController extends Controller
     use HandleTrait;
     // Get Pet Type
     public function getDogs() {
-        $dogs = Pet::where('type', 'dog')->get();
+        $dogs = Pet::with('petgallery')->where('type', 'dog')->paginate(20);
             if (count($dogs) > 0) {
             return $this->handleResponse(
-                true,
-                "",
-                [],
-                [
-                    "dogs" => $dogs
-                ],
-                []
-            );
+            true,
+            "",
+            [],
+            [
+                "dogs" => $dogs
+            ],
+            []
+        );
         }
         return $this->handleResponse(
             false,
@@ -44,7 +44,7 @@ class HomeController extends Controller
         );
     }
     public function getCats() {
-        $cats = Pet::where('type', 'cat')->get();
+        $cats = Pet::with('petgallery')->where('type', 'cat')->paginate(20);
             if (count($cats) > 0) {
             return $this->handleResponse(
                 true,
@@ -67,7 +67,7 @@ class HomeController extends Controller
     }
 
     public function getBirds() {
-        $birds = Pet::where('type', 'bird')->get();
+        $birds = Pet::with('petgallery')->where('type', 'bird')->paginate(20);
             if (count($birds) > 0) {
             return $this->handleResponse(
                 true,
@@ -88,7 +88,7 @@ class HomeController extends Controller
         );
     }
     public function getTurtles() {
-        $turtles = Pet::where('type', 'turtle')->get();
+        $turtles = Pet::with('petgallery')->where('type', 'turtle')->paginate(20);
             if (count($turtles) > 0) {
             return $this->handleResponse(
                 true,
@@ -109,7 +109,7 @@ class HomeController extends Controller
         );
     }
     public function getFishes() {
-        $fishes = Pet::where('type', 'fish')->get();
+        $fishes = Pet::with('petgallery')->where('type', 'fish')->paginate(20);
             if (count($fishes) > 0) {
             return $this->handleResponse(
                 true,
@@ -130,7 +130,7 @@ class HomeController extends Controller
         );
     }
     public function getMonkeys() {
-        $monkeys = Pet::where('type', 'monkey')->get();
+        $monkeys = Pet::with('petgallery')->where('type', 'monkey')->paginate(20);
             if (count($monkeys) > 0) {
             return $this->handleResponse(
                 true,
@@ -153,7 +153,7 @@ class HomeController extends Controller
 
     // Get Pet Gender
     public function getMales() {
-        $males = Pet::where('gender', 'male')->get();
+        $males = Pet::with('petgallery')->where('gender', 'male')->paginate(20);
             if (count($males) > 0) {
             return $this->handleResponse(
                 true,
@@ -174,7 +174,7 @@ class HomeController extends Controller
         );
     }
     public function getFemales() {
-        $females = Pet::where('gender', 'female')->get();
+        $females = Pet::with('petgallery')->where('gender', 'female')->paginate(20);
             if (count($females) > 0) {
             return $this->handleResponse(
                 true,
@@ -219,7 +219,7 @@ class HomeController extends Controller
         }
 
         // Get the filtered results
-        $pets = $query->get();
+        $pets = $query->with('petgallery')->paginate(20);
         if (count($pets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
@@ -244,9 +244,9 @@ class HomeController extends Controller
 
     // Pet Dating Profile
     public function getPetDating($petID) {
-        $pet = Pet::where('id', $petID)->first();
+        $pet = Pet::with('petgallery')->where('id', $petID)->first();
         if (isset($pet)) {
-        $petImages = [PetGallery::where("pet_id", $petID)->get()];
+        // $petImages = [PetGallery::where("pet_id", $petID)->get()];
         $owner = User::where("id", $pet['user_id'])->first();
         return $this->handleResponse(
          true,
@@ -255,7 +255,7 @@ class HomeController extends Controller
          [
             "pet" => $pet,
             "owner" => $owner,
-            "petImages" => $petImages],
+        ],
          []
          );
         }

@@ -499,7 +499,8 @@ class AuthController extends Controller
         [
             "user" => $user,
             "bankCards" => $bankCards,
-            "wallets" => $wallets],
+            "wallets" => $wallets
+        ],
         []
     );
         // return response()->json(compact('user'));
@@ -549,7 +550,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return $this->handleResponse(
                 false,
-                "Coudln't Edit Your Info",
+                "",
                 [$e->getMessage()],
                 [],
                 []
@@ -600,7 +601,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return $this->handleResponse(
                 false,
-                "Coudln't Add Your Bank Card",
+                "",
                 [$e->getMessage()],
                 [],
                 []
@@ -666,7 +667,7 @@ class AuthController extends Controller
     } catch (\Exception $e) {
         return $this->handleResponse(
             false,
-            "Coudln't Add Your Wallet",
+            "",
             [$e->getMessage()],
             [],
             []

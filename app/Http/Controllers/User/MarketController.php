@@ -162,7 +162,7 @@ class MarketController extends Controller
 
     }
     public function getMarketDogs() {
-        $dogs = MarketPet::where('type', 'dog')->get();
+        $dogs = MarketPet::with('marketpetgallery')->where('type', 'dog')->paginate(20);
             if (count($dogs) > 0) {
             return $this->handleResponse(
                 true,
@@ -183,7 +183,7 @@ class MarketController extends Controller
         );
     }
     public function getMarketCats() {
-        $cats = MarketPet::where('type', 'cat')->get();
+        $cats = MarketPet::with('marketpetgallery')->where('type', 'cat')->paginate(20);
             if (count($cats) > 0) {
             return $this->handleResponse(
                 true,
@@ -206,7 +206,7 @@ class MarketController extends Controller
     }
 
     public function getMarketBirds() {
-        $birds = MarketPet::where('type', 'bird')->get();
+        $birds = MarketPet::with('marketpetgallery')->where('type', 'bird')->paginate(20);
             if (count($birds) > 0) {
             return $this->handleResponse(
                 true,
@@ -227,7 +227,7 @@ class MarketController extends Controller
         );
     }
     public function getMarketTurtles() {
-        $turtles = MarketPet::where('type', 'turtle')->get();
+        $turtles = MarketPet::with('marketpetgallery')->where('type', 'turtle')->paginate(20);
             if (count($turtles) > 0) {
             return $this->handleResponse(
                 true,
@@ -248,7 +248,7 @@ class MarketController extends Controller
         );
     }
     public function getMarketFishes() {
-        $fishes = MarketPet::where('type', 'fish')->get();
+        $fishes = MarketPet::with('marketpetgallery')->where('type', 'fish')->paginate(20);
             if (count($fishes) > 0) {
             return $this->handleResponse(
                 true,
@@ -269,7 +269,7 @@ class MarketController extends Controller
         );
     }
     public function getMarketMonkeys() {
-        $monkeys = MarketPet::where('type', 'monkey')->get();
+        $monkeys = MarketPet::with('marketpetgallery')->where('type', 'monkey')->paginate(20);
             if (count($monkeys) > 0) {
             return $this->handleResponse(
                 true,
@@ -292,7 +292,7 @@ class MarketController extends Controller
 
     // Get Pet Gender
     public function getMarketMales() {
-        $males = MarketPet::where('gender', 'male')->get();
+        $males = MarketPet::with('marketpetgallery')->where('gender', 'male')->paginate(20);
             if (count($males) > 0) {
             return $this->handleResponse(
                 true,
@@ -313,7 +313,7 @@ class MarketController extends Controller
         );
     }
     public function getMarketFemales() {
-        $females = MarketPet::where('gender', 'female')->get();
+        $females = MarketPet::with('marketpetgallery')->where('gender', 'female')->paginate(20);
             if (count($females) > 0) {
             return $this->handleResponse(
                 true,
@@ -362,7 +362,7 @@ class MarketController extends Controller
         }
 
         // Get the filtered results
-        $pets = $query->get();
+        $pets = $query->with('marketpetgallery')->paginate(20);
         if (count($pets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
@@ -387,9 +387,8 @@ class MarketController extends Controller
 
     // Pet Dating Profile
     public function getMarketPet($petID) {
-        $pet = MarketPet::where('id', $petID)->first();
+        $pet = MarketPet::with('marketpetgallery')->where('id', $petID)->first();
         if (isset($pet)) {
-        $petImages = [MarketPetGallery::where("marketpet_id", $petID)->get()];
         $owner = User::where("id", $pet['user_id'])->first();
         return $this->handleResponse(
          true,
@@ -398,7 +397,7 @@ class MarketController extends Controller
          [
             "pet" => $pet,
             "owner" => $owner,
-            "petImages" => $petImages],
+         ],
          []
          );
         }
