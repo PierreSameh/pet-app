@@ -28,8 +28,9 @@ Route::get('/user/user', [AuthController::class,'getUser'])->middleware('auth:sa
 Route::get('/user/ask-email-verfication-code', [AuthController::class, "askEmailCode"])->middleware('auth:sanctum');
 Route::post('/user/verify-email', [AuthController::class, "verifyEmail"])->middleware('auth:sanctum');
 Route::post('/user/change-password', [AuthController::class, "changePassword"])->middleware('auth:sanctum');
-Route::post('/user/forgot-password', [AuthController::class, "forgetPassword"]);
+Route::get('/user/forgot-password', [AuthController::class, "sendForgetPasswordEmail"]);
 Route::post('/user/forgot-password-check-code', [AuthController::class, "forgetPasswordCheckCode"]);
+Route::post('/user/forgot-password-set', [AuthController::class,'forgetPassword']);
 Route::post('/user/edit', [AuthController::class,"editProfile"])->middleware('auth:sanctum');
 Route::post('/user/add-bank-card', [AuthController::class,"addBankCard"])->middleware('auth:sanctum');
 Route::post('/user/{card}/delete-card', [AuthController::class,'deleteBankCard'])->middleware('auth:sanctum');
