@@ -127,7 +127,7 @@ class AuthController extends Controller
 
 
         if ($user) {
-            $code = rand(100000, 999999);
+            $code = rand(1000, 9999);
 
 
             $user->email_last_verfication_code = Hash::make($code);
