@@ -2,14 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Middleware\GuestAdminMiddleware;
 
-Route::get("/admin", function(){
-    return view("admin.index");
-})->name("admin.index");
+Route::prefix('admin')->group(function () {
+    Route::post("login", [AdminController::class, "login"])->middleware([GuestAdminMiddleware::class])->name("admin.login.post");
+    Route::get("login", [AdminController::class, "loginPage"])->middleware([GuestAdminMiddleware::class]);
 
-Route::get('/', function () {
-    return view('welcome');
+    Route::middleware(['auth:admin'])->group(function () {
+
+
+        Route::get("/dashboard", [AdminController::class, "index"])->name("admin.index");
+
+
+    });
 });
+
 
 Route::get('/unauthorized', function () {
     return response()->json(
@@ -21,4 +28,4 @@ Route::get('/unauthorized', function () {
         "notes" => []
     ]
     , 401);
-});
+    });

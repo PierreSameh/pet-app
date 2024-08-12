@@ -27,8 +27,8 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="{{asset('images/')}}" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{{asset('images/')}}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="index.html" style="padding:70px"><img src="{{asset('images/pawwy.svg')}}" alt="logo" style="width:390px;height:70px;" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{{asset('images/pawwy.svg')}}" alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item nav-category">
@@ -47,14 +47,13 @@
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
               </span>
-              <span class="menu-title">Basic UI Elements</span>
+              <span class="menu-title">Stores</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Add Stores</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Show Stores</a></li>
               </ul>
             </div>
           </li>
