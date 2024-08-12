@@ -12,7 +12,8 @@ Route::prefix('admin')->group(function () {
 
 
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.index");
-        Route::get("/add-store", [AdminController::class,"addStore"])->name("admin.add.store");
+        Route::get("/store/add-store", [AdminController::class,"addStore"])->name("admin.add.store");
+        Route::post("/store/store-data", [AdminController::class,"saveStore"])->name("admin.save.store");
 
 
     });

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Store;
 
 class AdminController extends Controller
 {
@@ -39,6 +40,32 @@ class AdminController extends Controller
 
     public function addStore(){
         return view("admin.store.add");
+    }
+
+    public function saveStore(Request $request){
+        try {
+        $validator = Validator::make($request->all(), [
+            'name'=> 'required|string|max:255|unique:stores,name',
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->with('Invalid', $validator->errors()->first());
+        }
+
+        $store = new Store();
+        $store->name = $request->name;
+
+        if ($request->picture) {
+            $imagePath = $request->file('picture')->store('/storage/store', 'public');
+            $store->picture = $imagePath;
+        }
+
+        $store->save();
+        return redirect()->back()->with('success', 'Store Saved');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('Invalid', $e->getMessage());
+        }
     }
 }
 

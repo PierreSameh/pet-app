@@ -35,7 +35,7 @@
             <span class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{route('admin.index')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
@@ -144,6 +144,27 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                @foreach ($errors->all() as $error)
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    <li>{{ $error }}</li>
+                @endforeach
+                </ul>
+            </div>
+            {{-- When Category Added to DB --}}
+            @elseif (session()->has('success'))
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    {{session()->get('success')}}
+                </div>
+            @elseif (session()->has('delete'))
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    {{session()->get('delete')}}
+                </div>
+            @endif
                 @yield('content')
             </div>
           </div>
