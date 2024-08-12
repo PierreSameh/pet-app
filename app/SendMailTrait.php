@@ -19,16 +19,16 @@ trait SendMailTrait
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_OFF; //Enable verbose debug output
             $mail->isSMTP(); //Send using SMTP
-            $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
+            $mail->Host = 'smtp.hostinger.com'; //Set the SMTP server to send through
             $mail->SMTPAuth = true; //Enable SMTP authentication
-            $mail->Username = 'captainpirzon@gmail.com'; //SMTP username
-            $mail->Password = 'dhpv sgid fdgu zfon'; //SMTP password
+            $mail->Username = 'pierresameh@webbing-agency.com'; //SMTP username
+            $mail->Password = 'YKdev2004@webbing'; //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
             $mail->Port = 465;
             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-            $mail->setFrom('captainpirzon@gmail.com', 'Pet-App');
+            $mail->setFrom('pierresameh@webbing-agency.com', 'Pet-App');
             $mail->addAddress($receiver_mail); //Add a recipient
             $mail->CharSet = 'UTF-8';
 
