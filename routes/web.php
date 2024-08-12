@@ -12,6 +12,7 @@ Route::prefix('admin')->group(function () {
 
 
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.index");
+        Route::get("/add-store", [AdminController::class,"addStore"])->name("admin.add.store");
 
 
     });

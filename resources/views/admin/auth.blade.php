@@ -20,10 +20,13 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}}" />
   </head>
-  <>
     <div class="container-scroller">
-      <div class="main-panel">
-        <div class="content-wrapper">
+      <div class="content-wrapper">
+        @if (session()->has('Invalid'))
+            <div class="alert alert-danger">
+                {{session()->get('Invalid')}}
+            </div>
+            @endif
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Admin Login</h4>
@@ -39,14 +42,14 @@
             </div>
             <div class="form-check form-check-flat form-check-primary">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" name="remember_token"> Remember me </label>
+                <input type="checkbox" style="opacity:1;" class="form-check-input" name="remember_token"> Remember me </label>
             </div>
             <button type="submit" class="btn btn-primary mr-2">login</button>
           </form>
         </div>
       </div>
       </div>
-      </div>
+    </div>
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->

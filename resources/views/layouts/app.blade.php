@@ -20,15 +20,15 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{asset('images/')}}" />
+    <link rel="shortcut icon" href="{{asset('images/pawwy.svg')}}" />
   </head>
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html" style="padding:70px"><img src="{{asset('images/pawwy.svg')}}" alt="logo" style="width:390px;height:70px;" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{{asset('images/pawwy.svg')}}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="{{route('admin.index')}}" style="padding:70px"><img src="{{asset('images/pawwy.svg')}}" alt="logo" style="width:390px;height:70px;" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="{{route('admin.index')}}"><img src="{{asset('images/pawwy.svg')}}" alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item nav-category">
@@ -52,7 +52,7 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Add Stores</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('admin.add.store')}}">Add Stores</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Show Stores</a></li>
               </ul>
             </div>
@@ -122,7 +122,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('images/pawwy.svg')}}"  alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
