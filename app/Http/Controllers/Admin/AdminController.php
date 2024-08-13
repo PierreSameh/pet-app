@@ -42,30 +42,17 @@ class AdminController extends Controller
         return view("admin.store.add");
     }
 
-    public function saveStore(Request $request){
-        try {
-        $validator = Validator::make($request->all(), [
-            'name'=> 'required|string|max:255|unique:stores,name',
-            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()->with('Invalid', $validator->errors()->first());
+    public function getAllStores(){
+        $stores = Store::all();
+        return view("admin.store.stores", compact("stores"));
+    }
+
+    public function editStore($storeId) {
+        $store = Store::find($storeId);
+        if ($store) {
+            return view("admin.store.edit", compact("store"));
         }
-
-        $store = new Store();
-        $store->name = $request->name;
-
-        if ($request->picture) {
-            $imagePath = $request->file('picture')->store('/storage/store', 'public');
-            $store->picture = $imagePath;
-        }
-
-        $store->save();
-        return redirect()->back()->with('success', 'Store Saved');
-
-        } catch (\Exception $e) {
-            return redirect()->back()->with('Invalid', $e->getMessage());
-        }
+        return redirect()->back()->with("red","Not Found");
     }
 }
 

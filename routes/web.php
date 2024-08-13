@@ -10,11 +10,16 @@ Route::prefix('admin')->group(function () {
     Route::get("login", [AdminController::class, "loginPage"])->middleware([GuestAdminMiddleware::class]);
 
     Route::middleware(['auth:admin'])->group(function () {
-
-        Route::post('/store/add-store', [StoreController::class,'addStore'])->name('admin.save.store');
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.index");
+
+        //Store
         Route::get("/store/add-store", [AdminController::class,"addStore"])->name("admin.add.store");
-        // Route::post("/store/store-data", [AdminController::class,"saveStore"])->name("admin.save.store");
+        Route::post('/store/add-store', [StoreController::class,'addStore'])->name('admin.save.store');
+        Route::get('/store/all', [AdminController::class,'getAllStores'])->name('admin.get.stores');
+        Route::get('/store/edit/{store}', [AdminController::class,'editStore'])->name('admin.edit.store');
+        Route::post('/store/{store}/edit-store', [StoreController::class, 'editStore'])->name('admin.excuteedit.store');
+        Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->name('admin.delete.store');
+
 
 
     });

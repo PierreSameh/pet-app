@@ -53,7 +53,7 @@
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{route('admin.add.store')}}">Add Stores</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Show Stores</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('admin.get.stores')}}">Show Stores</a></li>
               </ul>
             </div>
           </li>
@@ -159,10 +159,10 @@
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
                     {{session()->get('success')}}
                 </div>
-            @elseif (session()->has('delete'))
+            @elseif (session()->has('red'))
                 <div class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
-                    {{session()->get('delete')}}
+                    {{session()->get('red')}}
                 </div>
             @endif
                 @yield('content')

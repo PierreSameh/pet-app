@@ -54,49 +54,24 @@ class StoreController extends Controller
                 'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
             $store = Store::find($storeID);
             if (!$store) {
-                return $this->handleResponse(
-                    false,
-                    "Store Not Found",
-                    [],
-                    [],
-                    []
-                );
+                return redirect()->back()->with('red','Not Found');
             }
             $store->name = $request->name;
-            if ($request->image) {
+            if ($request->picture) {
                 $imagePath = $request->file('picture')->store('/storage/store', 'public');
-                $store->image = $imagePath;
+                $store->picture = $imagePath;
             }
             $store->save();
 
-            return $this->handleResponse(
-                true,
-                "Store Updated Successfully",
-                [],
-                [
-                    "store" => $store
-                ],
-                []
-            );
+            return redirect()->back()->with('success','Updated Successfully');
+
     
          } catch (\Exception $e) {
-            return $this->handleResponse(
-                false,
-                "Coudln't Edit Your Store",
-                [$e->getMessage()],
-                [],
-                []
-            );
+            return redirect()->back()->withErrors($e->getMessage());
         }
     }
 
@@ -149,21 +124,9 @@ class StoreController extends Controller
         $store = Store::where("id", $storeID)->first();
         if (isset($store)) {
             $store->delete();
-            return $this->handleResponse(
-                true,
-                "$store->name . 'Deleted Successfully'",
-                [],
-                [],
-                []
-                );
+            return redirect()->back()->with("success",$store->name . " Deleted Successfully");
             }
-            return $this->handleResponse(
-                false,
-                "Couldn't Delete Your Store",
-                [],
-                [],
-                []
-                );
+            return redirect()->back()->with("red","Couldn't Delete");
     }
 
     // Category
