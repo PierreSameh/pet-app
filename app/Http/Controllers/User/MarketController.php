@@ -362,7 +362,7 @@ class MarketController extends Controller
         }
 
         // Get the filtered results
-        $pets = $query->with('marketpetgallery')->paginate(20);
+        $pets = $query->with('user','marketpetgallery')->paginate(20);
         if (count($pets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(

@@ -197,7 +197,7 @@ class HomeController extends Controller
 
     public function filterPets(Request $request)
     {
-        $query = Pet::with('user', 'petgallery')->query();
+        $query = Pet::query();
 
         // Filter by age if provided
         if ($request->has('age')) {
@@ -219,7 +219,7 @@ class HomeController extends Controller
         }
 
         // Get the filtered results
-        $pets = $query->with('petgallery')->paginate(20);
+        $pets = $query->with('user','petgallery')->paginate(20);
         if (count($pets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(

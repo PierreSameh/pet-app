@@ -102,7 +102,7 @@ class LostController extends Controller
 
     public function filterLostPets(Request $request)
     {
-        $query = LostPet::with('user', 'lostPetGallery')query();
+        $query = LostPet::query();
 
         // Filter by age if provided
         if ($request->has('age')) {
@@ -125,7 +125,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $lostPets = $query->with('lostPetGallery')->paginate(20);
+        $lostPets = $query->with('user','lostPetGallery')->paginate(20);
         if (count($lostPets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
@@ -485,7 +485,7 @@ class LostController extends Controller
 
     public function filterFoundPets(Request $request)
     {
-        $query = FoundPet::with('user', 'foundPetGallery')->query();
+        $query = FoundPet::query();
 
         // Filter by type if provided
         if ($request->has('type')) {
@@ -502,7 +502,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $foundPets = $query->with('foundPetGallery')->paginate(20);
+        $foundPets = $query->with('uesr','foundPetGallery')->paginate(20);
 
         if (count($foundPets) > 0) {
             // Return the filtered data as a JSON response
