@@ -197,7 +197,7 @@ class HomeController extends Controller
 
     public function filterPets(Request $request)
     {
-        $query = Pet::query();
+        $query = Pet::with('user', 'petgallery')->query();
 
         // Filter by age if provided
         if ($request->has('age')) {
@@ -234,7 +234,7 @@ class HomeController extends Controller
         }
         
         return $this->handleResponse(
-            false,
+            true,
             'No Search Matches',
             [],
             [],

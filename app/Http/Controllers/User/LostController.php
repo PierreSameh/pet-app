@@ -102,7 +102,7 @@ class LostController extends Controller
 
     public function filterLostPets(Request $request)
     {
-        $query = LostPet::query();
+        $query = LostPet::with('user', 'lostPetGallery')query();
 
         // Filter by age if provided
         if ($request->has('age')) {
@@ -140,7 +140,7 @@ class LostController extends Controller
         }
 
         return $this->handleResponse(
-            false,
+            true,
             'No Search Matches',
             [],
             [],
@@ -485,7 +485,7 @@ class LostController extends Controller
 
     public function filterFoundPets(Request $request)
     {
-        $query = FoundPet::query();
+        $query = FoundPet::with('user', 'foundPetGallery')->query();
 
         // Filter by type if provided
         if ($request->has('type')) {
@@ -518,7 +518,7 @@ class LostController extends Controller
             }
     
             return $this->handleResponse(
-                false,
+                true,
                 'No Search Matches',
                 [],
                 [],

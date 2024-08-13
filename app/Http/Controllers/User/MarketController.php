@@ -377,7 +377,7 @@ class MarketController extends Controller
         }
         
         return $this->handleResponse(
-            false,
+            true,
             'No Search Matches',
             [],
             [],
@@ -387,7 +387,7 @@ class MarketController extends Controller
 
     // Pet Dating Profile
     public function getMarketPet($petID) {
-        $pet = MarketPet::with('marketpetgallery')->where('id', $petID)->first();
+        $pet = MarketPet::with('marketpetgallery', 'user')->where('id', $petID)->first();
         if (isset($pet)) {
         $owner = User::where("id", $pet['user_id'])->first();
         return $this->handleResponse(
