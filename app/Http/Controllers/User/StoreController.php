@@ -26,20 +26,13 @@ class StoreController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name'=> 'required|string|max:255|unique:stores,name',
-                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'picture'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
 
             $store = new Store();
-            $store->admin_id = $request->user()->id;
             $store->name = $request->name;
 
             if ($request->picture) {
@@ -48,23 +41,9 @@ class StoreController extends Controller
             }
 
             $store->save();
-            return $this->handleResponse(
-                true,
-                "Store Added Successfully",
-                [],
-                [
-                    "store" => $store
-                ],
-                []
-            );
+            return redirect()->back()->with('success', $store->name . ' Created Successfully');
             } catch (\Exception $e) {
-                return $this->handleResponse(
-                    false,
-                    "Coudln't Add Your Store",
-                    [$e->getMessage()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($e->getMessage());
             }
     }
 
