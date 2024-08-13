@@ -23,6 +23,10 @@
             </span> --}}
           </div>
         </div>
+        <div class="form-group">
+          <label for="exampleTextarea1">Description</label>
+          <textarea class="form-control" id="exampleTextarea1" rows="4" name="description" placeholder="Description"></textarea>
+        </div>
         <button type="submit" class="btn btn-primary mr-2">Submit</button>
       </form>
     </div>

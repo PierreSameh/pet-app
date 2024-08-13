@@ -26,6 +26,7 @@ class StoreController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name'=> 'required|string|max:255|unique:stores,name',
+                'description'=> 'nullable|string|max:1000',
                 'picture'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             if ($validator->fails()) {
@@ -34,6 +35,7 @@ class StoreController extends Controller
 
             $store = new Store();
             $store->name = $request->name;
+            $store->description = $request->description;
 
             if ($request->picture) {
                 $imagePath = $request->file('picture')->store('/storage/store', 'public');
@@ -51,6 +53,7 @@ class StoreController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 "name"=> ['string','max:255',Rule::unique('stores', 'name')->ignore($storeID)],
+                'description'=> 'nullable|string|max:1000',
                 'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             if ($validator->fails()) {
@@ -61,6 +64,7 @@ class StoreController extends Controller
                 return redirect()->back()->with('red','Not Found');
             }
             $store->name = $request->name;
+            $store->description = $request->description;
             if ($request->picture) {
                 $imagePath = $request->file('picture')->store('/storage/store', 'public');
                 $store->picture = $imagePath;
@@ -124,7 +128,7 @@ class StoreController extends Controller
         $store = Store::where("id", $storeID)->first();
         if (isset($store)) {
             $store->delete();
-            return redirect()->back()->with("success",$store->name . " Deleted Successfully");
+            return to_route('admin.get.stores')->with("success",$store->name . " Deleted Successfully");
             }
             return redirect()->back()->with("red","Couldn't Delete");
     }

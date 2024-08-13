@@ -12,6 +12,10 @@
           <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name">
         </div>
         <div class="form-group">
+          <label for="exampleTextarea1">Description</label>
+          <textarea class="form-control" id="exampleTextarea1" rows="4" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
           <label>Image upload</label>
           <input type="file" name="img[]" class="file-upload-default">
           <div class="input-group col-xs-12">

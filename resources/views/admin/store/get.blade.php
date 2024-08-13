@@ -17,8 +17,12 @@
         
         <!-- Action Buttons -->
         <div style="display: flex; justify-content: center; gap: 20px;">
-            <button style="padding: 15px 30px; font-size: 1.2em; border-radius: 5px; border: none; cursor: pointer; background-color: #6c757d; color: #ffffff;">Edit</button>
-            <button style="padding: 15px 30px; font-size: 1.2em; border-radius: 5px; border: none; cursor: pointer; background-color: #dc3545; color: #ffffff;">Delete</button>
+            <a href="{{route('admin.edit.store', $store->id)}}" style="padding: 15px 30px; font-size: 1.2em; border-radius: 5px; border: none; cursor: pointer; background-color: #6c757d; color: #ffffff;">Edit</a>
+            <form action="{{route('admin.delete.store', $store->id)}}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" onclick="return confirm('are you sure?')"
+                style="text-decoration: none; color: #fff; background-color: #dc3545; padding: 15px 30px; border-radius: 5px; border: none; cursor: pointer;">Delete</button>
+            </form>
         </div>
     </div>
 
