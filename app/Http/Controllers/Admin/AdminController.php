@@ -11,6 +11,8 @@ use App\Models\Admin;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Store;
+use App\Models\User;
+use App\Models\Clinic;
 
 class AdminController extends Controller
 {
@@ -37,7 +39,7 @@ class AdminController extends Controller
     public function index() {
         return view("admin/index");
     }
-
+    // Store
     public function addStore(){
         return view("admin.store.add");
     }
@@ -53,6 +55,11 @@ class AdminController extends Controller
             return view("admin.store.edit", compact("store"));
         }
         return redirect()->back()->with("red","Not Found");
+    }
+
+    //Clinic
+    public function addClinic(){
+        return view("admin.clinic.add");
     }
 }
 

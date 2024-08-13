@@ -28,19 +28,12 @@ class ClinicController extends Controller
                 "medical_fees"=> 'required|string|max:255',
                 "working_days"=> 'required|string|max:255',
                 "working_times"=> 'required|string|max:255',
-                "picture"=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                "picture"=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                    );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
             $clinic = new Clinic();
-            $clinic->user_id = $request->user()->id;
             $clinic->clinic_name = $request->clinic_name;
             $clinic->doctor = $request->doctor;
             $clinic->specialization = $request->specialization;
@@ -55,23 +48,10 @@ class ClinicController extends Controller
             }
 
             $clinic->save();
-            return $this->handleResponse(
-                true,
-                "Clinic Added Successfully",
-                [],
-                [
-                    "clinic" => $clinic
-                ],
-                []
-            );
+            return redirect()->back()->with('success', $clinic->name . ' Created Successfully');
+
             } catch (\Exception $e) {
-                return $this->handleResponse(
-                    false,
-                    "Coudln't Add Your Store",
-                    [$e->getMessage()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($e->getMessage());
             }
     }
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\GuestAdminMiddleware;
 use App\Http\Controllers\User\StoreController;
+use App\Http\Controllers\User\ClinicController;
 
 Route::prefix('admin')->group(function () {
     Route::post("login", [AdminController::class, "login"])->middleware([GuestAdminMiddleware::class])->name("admin.login.post");
@@ -19,6 +20,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/store/edit/{store}', [AdminController::class,'editStore'])->name('admin.edit.store');
         Route::post('/store/{store}/edit-store', [StoreController::class, 'editStore'])->name('admin.excuteedit.store');
         Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->name('admin.delete.store');
+
+        //Clinics
+        Route::get('/clinic/add-clinic', [AdminController::class,'addClinic'])->name('admin.add.clinic');
+        Route::post('/clinic/add-clinic', [ClinicController::class, 'addClinic'])->name('admin.save.clinic');
 
 
 

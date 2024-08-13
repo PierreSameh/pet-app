@@ -67,7 +67,7 @@
             </a>
             <div class="collapse" id="clinics">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">Add Clinics</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('admin.add.clinic')}}">Add Clinics</a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">Show Clinics</a></li>
               </ul>
             </div>
