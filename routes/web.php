@@ -24,6 +24,10 @@ Route::prefix('admin')->group(function () {
         //Clinics
         Route::get('/clinic/add-clinic', [AdminController::class,'addClinic'])->name('admin.add.clinic');
         Route::post('/clinic/add-clinic', [ClinicController::class, 'addClinic'])->name('admin.save.clinic');
+        Route::get('/clinic/all', [AdminController::class,'getAllClinics'])->name('admin.get.clinics');
+        Route::get('/clinic/edit/{clinic}', [AdminController::class,'editClinic'])->name('admin.edit.clinic');
+        Route::post('/clinic/{clinic}/edit-clinic', [ClinicController::class, 'editClinic'])->name('admin.update.clinic');
+        Route::post('/clinic/{clinic}/delete-clinic', [ClinicController::class,'deleteClinic'])->name('admin.delete.clinic');
 
 
 

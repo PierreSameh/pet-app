@@ -68,23 +68,11 @@ class ClinicController extends Controller
                 "picture"=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
             $clinic = Clinic::find($clinicID);
             if (!$clinic) {
-                return $this->handleResponse(
-                    false,
-                    "Store Not Found",
-                    [],
-                    [],
-                    []
-                );
+                return redirect()->back()->with('red','Not Found');
             }
             $clinic->clinic_name = $request->clinic_name;
             $clinic->doctor = $request->doctor;
@@ -98,25 +86,10 @@ class ClinicController extends Controller
                 $clinic->image = $imagePath;
             }
             $clinic->save();
+            return redirect()->back()->with('success','Clinic Updated Successfully');
 
-            return $this->handleResponse(
-                true,
-                "Clinic Updated Successfully",
-                [],
-                [
-                   "clinic" => $clinic
-                ],
-                []
-            );
-    
          } catch (\Exception $e) {
-            return $this->handleResponse(
-                false,
-                "Coudln't Edit Your Clinic",
-                [$e->getMessage()],
-                [],
-                []
-            );
+            return redirect()->back()->with('error', $e->getMessage());
         }
     } 
 
@@ -169,21 +142,9 @@ class ClinicController extends Controller
         $clinic = Clinic::where("id", $clinicID)->first();
         if (isset($clinic)) {
             $clinic->delete();
-            return $this->handleResponse(
-                true,
-                "$clinic->name . 'Deleted Successfully'",
-                [],
-                [],
-                []
-                );
+                return redirect()->back()->with("success","Clinic Deleted Successfully");
             }
-            return $this->handleResponse(
-                false,
-                "Couldn't Delete Your Clinic",
-                [],
-                [],
-                []
-                );
+            return redirect()->back()->with("red","Couldn't Delete Clinic");
     }
 
     //// BOOK VISITS

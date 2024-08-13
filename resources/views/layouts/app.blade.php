@@ -68,7 +68,7 @@
             <div class="collapse" id="clinics">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{route('admin.add.clinic')}}">Add Clinics</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">Show Clinics</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('admin.get.clinics')}}">Show Clinics</a></li>
               </ul>
             </div>
           </li>
@@ -117,7 +117,7 @@
                     {{session()->get('success')}}
                 </div>
             @elseif (session()->has('red'))
-                <div class="alert alert-success">
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
                     {{session()->get('red')}}
                 </div>

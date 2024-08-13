@@ -21,9 +21,7 @@ class Clinic extends Model
         "picture",
     ];
 
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
+
 
     public function bookvisit() {
         return $this->hasMany(BookVisit::class);

@@ -61,5 +61,19 @@ class AdminController extends Controller
     public function addClinic(){
         return view("admin.clinic.add");
     }
+
+
+    public function getAllClinics(){
+        $clinics = Clinic::all();
+        return view("admin.clinic.clinics", compact("clinics"));
+    }
+
+    public function editClinic($clinicId) {
+        $clinic = Clinic::find($clinicId);
+        if ($clinic) {
+            return view("admin.clinic.edit", compact("clinic"));
+        }
+        return redirect()->back()->with("red","Not Found");
+    }
 }
 
