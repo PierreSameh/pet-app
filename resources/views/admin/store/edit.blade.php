@@ -12,6 +12,10 @@
           <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" value="{{$store->name}}" name="name">
         </div>
         <div class="form-group">
+          <label for="exampleTextarea1">Description</label>
+          <textarea class="form-control" id="exampleTextarea1" rows="4" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
           <label>Image upload</label>
           <input type="file" name="img[]" class="file-upload-default">
           <div class="input-group col-xs-12">
@@ -23,10 +27,7 @@
             </span> --}}
           </div>
         </div>
-        <div class="form-group">
-          <label for="exampleTextarea1">Description</label>
-          <textarea class="form-control" id="exampleTextarea1" rows="4" name="description" placeholder="Description"></textarea>
-        </div>
+  
         <button type="submit" class="btn btn-primary mr-2">Submit</button>
       </form>
     </div>
