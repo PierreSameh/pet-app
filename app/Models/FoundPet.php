@@ -23,7 +23,7 @@ class FoundPet extends Model
         return $this->belongsTo(User::class);
      }
 
-     public functionfoundPetGallery() {
+     public function foundPetGallery() {
         return $this->hasMany(FoundPetGallery::class);
      }
 }
