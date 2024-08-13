@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('admin_id');
             $table->string('name');
             $table->string('picture');
             $table->timestamps();
+
+            $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade'); 
         });
     }
 
