@@ -15,7 +15,7 @@
         @foreach($stores as $store)
         <tr style="border-bottom: 1px solid #ddd;">
             <td style="padding: 12px 15px;">{{ $store->id }}</td>
-            <td style="padding: 12px 15px;">{{ $store->name }}</td>
+            <td style="padding: 12px 15px;"><a href="{{route('admin.get.store', $store->id)}}">{{ $store->name }}</a></td>
             <td style="padding: 12px 15px;">
                 <a href="{{route('admin.edit.store', $store->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
                 <form action="{{route('admin.delete.store', $store->id)}}" method="POST" style="display: inline;">

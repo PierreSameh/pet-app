@@ -18,6 +18,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/store/add-store', [StoreController::class,'addStore'])->name('admin.save.store');
         Route::get('/store/all', [AdminController::class,'getAllStores'])->name('admin.get.stores');
         Route::get('/store/edit/{store}', [AdminController::class,'editStore'])->name('admin.edit.store');
+        Route::get('/store/{store}', [AdminController::class,'getStore'])->name('admin.get.store');
         Route::post('/store/{store}/edit-store', [StoreController::class, 'editStore'])->name('admin.excuteedit.store');
         Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->name('admin.delete.store');
 

@@ -14,6 +14,10 @@ class Category extends Model
         "notes",
     ] ;
 
+    public function store(){
+        return $this->belongsTo(Store::class);
+    }
+
     public function products() {
         return $this->hasMany(Product::class);
     }

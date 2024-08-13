@@ -82,7 +82,7 @@ Route::get('/store/{store}', [StoreController::class,'getStore'])->middleware('a
 Route::get('/store', [StoreController::class,'allStore'])->middleware('auth:sanctum');
 Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->middleware('auth:sanctum');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Route::post('/store/add-category', [StoreController::class, 'addCategory'])->middleware('auth:sanctum');
+Route::post('/store/{store}/add-category', [StoreController::class, 'addCategory'])->middleware('auth:sanctum');
 Route::post('/store/{category}/edit-category', [StoreController::class, 'editCategory'])->middleware('auth:sanctum');
 Route::post('/store/{category}/delete-category', [StoreController::class,'deleteCategory'])->middleware('auth:sanctum');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

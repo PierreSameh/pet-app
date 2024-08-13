@@ -130,11 +130,11 @@ class StoreController extends Controller
     }
 
     // Category
-    public function addCategory(Request $request) {
+    public function addCategory(Request $request, $storeId) {
         try {
             $validator = Validator::make($request->all(), [
                 'name'=> 'required|string|max:255|unique:categories,name',
-                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'notes'=> 'nullable|string|max:1000',
             ]);
             if ($validator->fails()) {
@@ -148,6 +148,7 @@ class StoreController extends Controller
             }
 
             $category = new Category();
+            $category->store_id = $storeId;
             $category->name = $request->name;
 
             if ($request->image) {

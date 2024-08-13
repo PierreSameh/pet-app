@@ -49,6 +49,11 @@ class AdminController extends Controller
         return view("admin.store.stores", compact("stores"));
     }
 
+    public function getStore($storeId) {
+        $store = Store::find($storeId);
+        return view("admin.store.get", compact("store"));
+    }
+
     public function editStore($storeId) {
         $store = Store::find($storeId);
         if ($store) {

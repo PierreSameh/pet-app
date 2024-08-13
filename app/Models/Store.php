@@ -15,7 +15,9 @@ class Store extends Model
         "picture",
     ];
 
-
+    public function categories(){
+        return $this->hasMany(Category::class);
+    }
 
     public function products(){
         return $this->hasMany(Product::class);
