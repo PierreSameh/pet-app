@@ -12,7 +12,7 @@
     @foreach($images as $image)
     <div class="col-md-3" style="margin-bottom: 20px;">
         <div class="card">
-            <img src="{{ asset('storage/' . $image->image) }}" class="card-img-top" alt="Product Image">
+            <img src="{{ asset('storage/app/public/' . $image->image) }}" class="card-img-top" alt="Product Image">
             <div class="card-body text-center">
                 <form action="{{route('admin.delete.productimage', $image->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
                     @csrf

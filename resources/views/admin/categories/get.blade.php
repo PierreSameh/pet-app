@@ -49,7 +49,7 @@
         @foreach($categories as $category)
         <tr style="border-bottom: 1px solid #ddd;">
             <td style="padding: 12px 15px;">{{ $category->id }}</td>
-            <td style="padding: 12px 15px;"><img style="width:50px;height:50px;" src="{{ asset('storage/' . $category->image) }}" alt=""></td>
+            <td style="padding: 12px 15px;"><img style="width:50px;height:50px;" src="{{ asset('storage/app/public/' . $category->image) }}" alt=""></td>
             <td style="padding: 12px 15px;">{{ $category->name }}</td>
             <td style="padding: 12px 15px;">
                 <a href="{{route('admin.edit.category', $category->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>

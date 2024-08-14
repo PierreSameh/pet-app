@@ -27,7 +27,7 @@
         @foreach($products as $product)
         <tr style="border-bottom: 1px solid #ddd;">
             <td style="padding: 12px 15px;">{{ $product->id }}</td>
-            <td style="padding: 12px 15px;"><img style="width:50px;height:50px;" src="{{ asset('storage/' . $product->productImages->first()->image)}}" alt=""></td>
+            <td style="padding: 12px 15px;"><img style="width:50px;height:50px;" src="{{ asset('storage/app/public/' . $product->productImages->first()->image)}}" alt=""></td>
             <td style="padding: 12px 15px;">{{ $product->category->name }}</td>
             <td style="padding: 12px 15px;">{{ $product->name }}</td>
             <td style="padding: 12px 15px;">{{ $product->quantity }}</td>
