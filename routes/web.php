@@ -52,7 +52,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/clinic/edit/{clinic}', [AdminController::class,'editClinic'])->name('admin.edit.clinic');
         Route::post('/clinic/{clinic}/edit-clinic', [ClinicController::class, 'editClinic'])->name('admin.update.clinic');
         Route::post('/clinic/{clinic}/delete-clinic', [ClinicController::class,'deleteClinic'])->name('admin.delete.clinic');
+        Route::get('/clinic/books', [AdminController::class,'getAllBooks'])->name('admin.books.clinic');
+        Route::get('/clinic/book/{book}', [AdminController::class,'bookDetails'])->name('admin.books.details');
 
+        //Users
+        Route::get('/users/all', [AdminController::class,'getAllUsers'])->name('admin.users.all');
+        Route::get('/users/{user}', [AdminController::class,'userDetails'])->name('admin.user.details');
 
 
     });

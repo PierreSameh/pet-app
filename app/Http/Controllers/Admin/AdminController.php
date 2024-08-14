@@ -17,6 +17,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Order;
+use App\Models\BookVisit;
 
 
 class AdminController extends Controller
@@ -126,6 +127,27 @@ class AdminController extends Controller
             return view("admin.clinic.edit", compact("clinic"));
         }
         return redirect()->back()->with("red","Not Found");
+    }
+
+    public function getAllBooks(){
+        $books = BookVisit::with('user', 'clinic')->get();
+        return view("admin.clinic.book", compact("books"));
+    }
+
+    public function bookDetails($bookId) {
+        $book = BookVisit::with('user', 'clinic')->find($bookId);
+        return view('admin.clinic.details', compact('book'));
+    }
+
+    //Users
+    public function getAllUsers(){
+        $users = User::all();
+        return view('admin.users.users', compact('users'));
+    }
+
+    public function userDetails($userId) {
+        $user = User::find($userId);
+        return view('', compact('user'));
     }
 }
 

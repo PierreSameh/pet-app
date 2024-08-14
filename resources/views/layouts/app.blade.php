@@ -69,10 +69,11 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{route('admin.add.clinic')}}">Add Clinics</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{route('admin.get.clinics')}}">Show Clinics</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('admin.books.clinic')}}">Visits Booked</a></li>
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
+          {{-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
@@ -85,6 +86,21 @@
                 <li class="nav-item"> <a class="nav-link" href="{{route('admin.get.orders')}}">Show Orders</a></li>
               </ul>
             </div>
+          </li> --}}
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{{route('admin.get.orders')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-play"></i>
+              </span>
+              <span class="menu-title">Orders</span>
+            </a>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{{route('admin.users.all')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-play"></i>
+              </span>
+              <span class="menu-title">Users</span>
+            </a>
           </li>
         </ul>
       </nav>

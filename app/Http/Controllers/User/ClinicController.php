@@ -170,7 +170,6 @@ class ClinicController extends Controller
 
             $user = $request->user();
             $clinic = Clinic::where('id', $clinicID)->first();
-            $clinicAdmin = User::where('id', $clinic->user_id)->first();
             $pets = $user->pets;
             $book = new BookVisit();
             $book->user_id = $user->id;
@@ -199,7 +198,7 @@ class ClinicController extends Controller
                 $msg_content .= "</h4>";
 
 
-                $this->sendEmail($clinicAdmin->email, "New Visit Booked", $msg_content);
+                // $this->sendEmail($clinicAdmin->email, "New Visit Booked", $msg_content);
 
             }
 

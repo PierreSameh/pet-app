@@ -19,7 +19,7 @@ class BookVisit extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function clinics() {
+    public function clinic() {
         return $this->belongsTo(Clinic::class);
     }
 }
