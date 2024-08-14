@@ -35,7 +35,11 @@ Route::prefix('admin')->group(function () {
         //Products
         Route::get('/store/{store}/products', [AdminController::class, 'getProducts'])->name('admin.get.products');
         Route::get('/store/{store}/add-product', [AdminController::class, 'addProduct'])->name('admin.add.product');
+        Route::get('/store/product/edit/{product}', [AdminController::class,'editProduct'])->name('admin.edit.product');
+        Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->name('admin.update.product');
         Route::post('/store/add-product', [StoreController::class,'addProduct'])->name('admin.save.product');
+        Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->name('admin.delete.productimage');
+
 
         //Clinics
         Route::get('/clinic/add-clinic', [AdminController::class,'addClinic'])->name('admin.add.clinic');

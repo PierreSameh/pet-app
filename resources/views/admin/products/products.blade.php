@@ -32,7 +32,7 @@
             <td style="padding: 12px 15px;"><img style="width:50px;height:50px;" src="{{ asset('storage/' . $product->productImages->first()->image)}}" alt=""></td>
             <td style="padding: 12px 15px;"><a href="#">{{ $product->name }}</a></td>
             <td style="padding: 12px 15px;">
-                <a href="" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
+                <a href="{{route('admin.edit.product', $product->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
                 <form action="" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" onclick="return confirm('are you sure?')"

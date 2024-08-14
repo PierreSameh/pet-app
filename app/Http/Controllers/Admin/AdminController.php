@@ -90,6 +90,14 @@ class AdminController extends Controller
         return view("admin.products.add", compact("categories","storeId"));
     }
 
+    public function editProduct($productId) {
+        $product = Product::find($productId);
+        $categories = Category::all();
+        $images = ProductImage::where("product_id", $productId)->get();
+        $store = $product->store_id;
+        return view("admin.products.edit", compact("product", "categories", "store", "images"));
+    }
+
     //Clinic
     public function addClinic(){
         return view("admin.clinic.add");
