@@ -560,9 +560,9 @@ class AuthController extends Controller
     public function editProfile(Request $request) {
         try {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
             'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -577,10 +577,15 @@ class AuthController extends Controller
         }
         $user = $request->user();
 
-
+        if ($request->first_name) {
         $user->first_name = $request->first_name;
+        }
+        if ($request->last_name) {
         $user->last_name = $request->last_name;
+        }
+        if ($request->address) {
         $user->address = $request->address;
+        }
 
         if ($request->picture) {
             $imagePath = $request->file('picture')->store('/storage/profile', 'public');
