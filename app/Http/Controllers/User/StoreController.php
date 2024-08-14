@@ -338,7 +338,7 @@ class StoreController extends Controller
         );
     } 
 
-    public function getAllProducts() {
+    public function getAllProducts(){
         $products = Product::with("store", "category", "productImages")->get();
         if (count($products) > 0) {
             return $this->handleResponse(
