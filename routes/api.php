@@ -90,7 +90,7 @@ Route::post('/store/add-product', [StoreController::class,'addProduct'])->middle
 Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->middleware('auth:sanctum');
 Route::get('/store/category/{category}', [StoreController::class,'getCategory'])->middleware('auth:sanctum');
 Route::get('/store/product/{product}', [StoreController::class,'getProduct'])->middleware('auth:sanctum');
-Route::get('/store/all-products', [StoreController::class,'getAllProducts'])->middleware('auth:sanctum');
+Route::get('/products/all-products', [StoreController::class,'getAllProducts'])->middleware('auth:sanctum');
 Route::post('/store/{product}/delete-product', [StoreController::class,'deleteProduct'])->middleware('auth:sanctum');
 Route::post('/store/{product}/add-product-image', [StoreController::class,'addProductImages'])->middleware('auth:sanctum');
 Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->middleware('auth:sanctum');
