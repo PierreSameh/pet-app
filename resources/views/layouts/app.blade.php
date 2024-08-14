@@ -72,6 +72,20 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" data-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders">
+              <span class="menu-icon">
+                <i class="mdi mdi-laptop"></i>
+              </span>
+              <span class="menu-title">Orders</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="orders">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{route('admin.get.orders')}}">Show Orders</a></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
       <!-- partial -->

@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\GuestAdminMiddleware;
 use App\Http\Controllers\User\StoreController;
 use App\Http\Controllers\User\ClinicController;
-
+use App\Models\Admin;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,6 +40,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/store/add-product', [StoreController::class,'addProduct'])->name('admin.save.product');
         Route::post('/store/{product}/delete-product', [StoreController::class,'deleteProduct'])->name('admin.delete.product');
         Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->name('admin.delete.productimage');
+        //Orders
+        Route::get('/orders', [AdminController::class,'getOrders'])->name('admin.get.orders');
 
 
         //Clinics

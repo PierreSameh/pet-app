@@ -16,6 +16,7 @@ use App\Models\Clinic;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Order;
 
 
 class AdminController extends Controller
@@ -64,6 +65,11 @@ class AdminController extends Controller
             return view("admin.store.edit", compact("store"));
         }
         return redirect()->back()->with("red","Not Found");
+    }
+    
+    public function getOrders() {
+        $orders = Order::with('user')->get();
+        return view("admin.orders.orders", compact("orders"));
     }
     //Categories
     public function categories($storeId) {
