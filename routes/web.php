@@ -13,7 +13,7 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Route::post("login", [AdminController::class, "login"])->middleware([GuestAdminMiddleware::class])->name("admin.login.post");
-    Route::get("login", [AdminController::class, "loginPage"])->middleware([GuestAdminMiddleware::class]);
+    Route::get("login", [AdminController::class, "loginPage"])->middleware([GuestAdminMiddleware::class])->name("admin.login");
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.index");
@@ -56,13 +56,5 @@ Route::prefix('admin')->group(function () {
 
 
 Route::get('/unauthorized', function () {
-    return response()->json(
-    [
-        "status" => false,
-        "message" => "unauthenticated",
-        "errors" => ["Your are not authenticated"],
-        "data" => [],
-        "notes" => []
-    ]
-    , 401);
+    return to_route('admin.login');
     });

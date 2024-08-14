@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- @php
-    dd($products);
-@endphp --}}
+
 <div style="margin-bottom: 20px;">
     <a href="{{ route('admin.get.store', $storeId) }}" class="btn btn-secondary">
         ← Back to Store

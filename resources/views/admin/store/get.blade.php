@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div style="margin: 0; padding: 0; background-color: #121212; color: #ffffff; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100%; box-sizing: border-box;">
+<a href="{{ route('admin.get.stores') }}" class="btn btn-secondary">
+    ← Back to Stores
+</a>
+<div style="margin: 0; margin-top:20px; padding: 0; background-color: #121212; color: #ffffff; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100%; box-sizing: border-box;">
 
     <div style="width: 80%; max-width: 1200px; display: flex; flex-direction: column; gap: 30px;">
         <!-- Store Image -->
@@ -27,7 +29,7 @@
         </div>
     </div>
       <!-- Right Side Navigation -->
-      <div style="width: 200px; background-color: #1f1f1f; padding: 20px; display: flex; flex-direction: column; gap: 15px;position: absolute;right: 0px;top: 100px;">
+      <div style="width: 200px; background-color: #1f1f1f; padding: 20px; display: flex; flex-direction: column; gap: 15px;position: absolute;right: 0px;top: 150px;">
         <h3 style="color: #ffffff; font-size: 1.5em; text-align: center; margin-bottom: 20px;">Navigate</h3>
         <a href="{{route('admin.get.categories', $store->id)}}" style="color: #ffffff; text-decoration: none; font-size: 1.2em; padding: 10px; background-color: #333333; border-radius: 5px; text-align: center;">Categories</a>
         <a href="{{route('admin.get.products', $store->id)}}" style="color: #ffffff; text-decoration: none; font-size: 1.2em; padding: 10px; background-color: #333333; border-radius: 5px; text-align: center;">Products</a>
