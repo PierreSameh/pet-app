@@ -9,7 +9,7 @@
     <div style="width: 80%; max-width: 1200px; display: flex; flex-direction: column; gap: 30px;">
         <!-- Store Image -->
         <div style="width: 100%; height: 400px; background-color: #2c2c2c; border-radius: 10px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-            <img src="{{asset('storage/'. $store->picture)}}" alt="Store Image" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="{{asset('storage/app/public/'. $store->picture)}}" alt="Store Image" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         
         <!-- Store Details -->

@@ -33,7 +33,7 @@
     </tbody>
 </table>
 @else
-<h1>There is no Products Yet</h1>
+<h1>There is no Orders Yet</h1>
 @endif
     
 @endsection
