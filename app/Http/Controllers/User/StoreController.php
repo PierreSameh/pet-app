@@ -148,6 +148,7 @@ class StoreController extends Controller
             $category = new Category();
             $category->store_id = $storeId;
             $category->name = $request->name;
+            $category->notes = $request->notes;
 
             if ($request->image) {
                 $imagePath = $request->file('image')->store('/storage/category', 'public');
@@ -169,23 +170,11 @@ class StoreController extends Controller
                 'notes'=> 'nullable|string|max:1000',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
             $category = Category::find($categoryID);
             if (!$category) {
-                return $this->handleResponse(
-                    false,
-                    "Category Not Found",
-                    [],
-                    [],
-                    []
-                );
+                return redirect()->back()->with('red','Not Found');
             }
             $category->name = $request->name;
             if ($request->image) {
@@ -195,24 +184,9 @@ class StoreController extends Controller
             $category->notes = $request->notes;
             $category->save();
 
-            return $this->handleResponse(
-                true,
-                "Category Updated Successfully",
-                [],
-                [
-                    "category" => $category,
-                ],
-                []
-            );
+            return redirect()->back()->with('success','Category Saved Successfully');
          } catch (\Exception $e) {
-            return $this->handleResponse(
-                false,
-                "Coudln't Edit Your Category",
-                [$e->getMessage()],
-                [],
-                []
-            );
-        
+            return redirect()->back()->withErrors($e->getMessage());
         }
     }
 
@@ -221,22 +195,9 @@ class StoreController extends Controller
         $category = Category::where('id', $categoryID);
         if ($category->count() > 0) {
         $category->delete();
-
-        return $this->handleResponse(
-            true,
-            "Category Deleted Successfully",
-            [],
-            [],
-            []
-        );
+            return redirect()->back()->with('success','Category Deleted Successfully');
         } else {
-            return $this->handleResponse(
-                false,
-                "Couldn't Delete Your Category",
-                [],
-                [],
-                []
-            );
+            return redirect()->back()->with('red',"Couldn't delete Category");
         }
 
     }
@@ -251,17 +212,12 @@ class StoreController extends Controller
                 "type"=> ["required","string","max:255"],
                 "price"=> ["required","string","max:100"],
                 "quantity"=> ["required","numeric","max:1000"],
+                'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
-            $store = Store::where("admin_id", $request->user()->id)->first();
+            $store = Store::where("id", $request->store_id)->first();
             $product = Product::create([
                 "store_id"=> $store->id,
                 "category_id"=> $request->category_id,
@@ -271,23 +227,22 @@ class StoreController extends Controller
                 "price"=> $request->price,
                 "quantity"=> $request->quantity
             ]);
-            return $this->handleResponse(
-                true,
-                "Product Added Successfully",
-                [],
-                [
-                    "product" => $product
-                ],
-                []
-            );
+            $uploadedImages = [];
+             if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/products', 'public');
+    
+                $productImage = ProductImage::create([
+                    'product_id' => $product->id,
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedImages[] = $productImage;
+            }
+            } 
+            return redirect()->back()->with("success","Product Added Successfully");
             } catch (\Exception $e) {
-                return $this->handleResponse(
-                    false,
-                    "Coudln't Add Your Product",
-                    [$e->getMessage()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($e->getMessage());
             }
     }
 
@@ -418,7 +373,7 @@ class StoreController extends Controller
     // Product Images
     public function addProductImages(Request $request, $productID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'notes'=> 'required|string|max:1000'
         ]);
 

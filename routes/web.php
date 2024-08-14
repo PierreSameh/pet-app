@@ -29,6 +29,13 @@ Route::prefix('admin')->group(function () {
         //Categories
         Route::get('/store/{store}/categories', [AdminController::class,'categories'])->name('admin.get.categories');
         Route::post('/store/{store}/add-category', [StoreController::class, 'addCategory'])->name('admin.save.category');
+        Route::get('/store/category/edit/{category}', [AdminController::class,'editCategory'])->name('admin.edit.category');
+        Route::post('/store/category/{category}/edit-category', [StoreController::class, 'editCategory'])->name('admin.update.category');
+        Route::post('/store/category/{category}/delete-category', [StoreController::class,'deleteCategory'])->name('admin.delete.category');
+        //Products
+        Route::get('/store/{store}/products', [AdminController::class, 'getProducts'])->name('admin.get.products');
+        Route::get('/store/{store}/add-product', [AdminController::class, 'addProduct'])->name('admin.add.product');
+        Route::post('/store/add-product', [StoreController::class,'addProduct'])->name('admin.save.product');
 
         //Clinics
         Route::get('/clinic/add-clinic', [AdminController::class,'addClinic'])->name('admin.add.clinic');

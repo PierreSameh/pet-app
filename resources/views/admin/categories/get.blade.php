@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<div style="margin-bottom: 20px;">
+    <a href="{{ route('admin.get.store', $storeId) }}" class="btn btn-secondary">
+        ← Back to Store
+    </a>
+</div>
 <div class="card" style="margin-bottom: 20px;">
     <div class="card-body">
       <h4 class="card-title">Add New Category</h4>
@@ -29,12 +34,14 @@
 
 
 @if (count($categories) > 0)
+  <h1>Categories</h1>
     <!-- ShowStores.blade.php -->
 <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
     <thead>
         <tr style="background-color: #333; color: #fff;">
-            <th style="padding: 12px 15px; text-align: left;">Store ID</th>
-            <th style="padding: 12px 15px; text-align: left;">Store Name</th>
+            <th style="padding: 12px 15px; text-align: left;">Category ID</th>
+            <th style="padding: 12px 15px; text-align: left;">Image</th>
+            <th style="padding: 12px 15px; text-align: left;">Category Name</th>
             <th style="padding: 12px 15px; text-align: left;">Actions</th>
         </tr>
     </thead>
@@ -42,10 +49,11 @@
         @foreach($categories as $category)
         <tr style="border-bottom: 1px solid #ddd;">
             <td style="padding: 12px 15px;">{{ $category->id }}</td>
-            <td style="padding: 12px 15px;"><a href="#">{{ $category->name }}</a></td>
+            <td style="padding: 12px 15px;"><img style="width:50px;height:50px;" src="{{ asset('storage/' . $category->image) }}" alt=""></td>
+            <td style="padding: 12px 15px;">{{ $category->name }}</td>
             <td style="padding: 12px 15px;">
-                <a href="" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
-                <form action="" method="POST" style="display: inline;">
+                <a href="{{route('admin.edit.category', $category->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
+                <form action="{{route('admin.delete.category', $category->id)}}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" onclick="return confirm('are you sure?')"
                     style="text-decoration: none; color: #fff; background-color: #dc3545; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Delete</button>

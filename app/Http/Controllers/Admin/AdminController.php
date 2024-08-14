@@ -14,6 +14,7 @@ use App\Models\Store;
 use App\Models\User;
 use App\Models\Clinic;
 use App\Models\Category;
+use App\Models\Product;
 
 class AdminController extends Controller
 {
@@ -66,6 +67,25 @@ class AdminController extends Controller
     public function categories($storeId) {
         $categories = Category::where("store_id", $storeId)->get();
         return view("admin.categories.get", compact("categories", "storeId"));
+    }
+
+    public function editCategory($categoryId) {
+        $category = Category::find($categoryId);
+        $store = $category->store_id;
+        if ($category) {
+        return view('admin.categories.edit', compact('category', 'store'));
+        }
+        return redirect()->back()->with("red","Not Found");
+    }
+    //Products
+    public function getProducts($storeId) {
+        $products = Product::where("store_id", $storeId)->get();
+        return view("admin.products.products", compact("products", "storeId"));
+    }
+
+    public function addProduct($storeId){
+        $categories = Category::where("store_id", $storeId)->get();
+        return view("admin.products.add", compact("categories","storeId"));
     }
 
     //Clinic

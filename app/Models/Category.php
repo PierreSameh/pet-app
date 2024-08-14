@@ -12,6 +12,7 @@ class Category extends Model
         "name",
         "image",
         "notes",
+        "store_id",
     ] ;
 
     public function store(){
