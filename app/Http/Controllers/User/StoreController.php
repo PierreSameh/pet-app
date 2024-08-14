@@ -142,13 +142,7 @@ class StoreController extends Controller
                 'notes'=> 'nullable|string|max:1000',
             ]);
             if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($validator)->withInput();
             }
 
             $category = new Category();
@@ -161,23 +155,9 @@ class StoreController extends Controller
             }
 
             $category->save();
-            return $this->handleResponse(
-                true,
-                "Category Added Successfully",
-                [],
-                [
-                    "category" => $category
-                ],
-                []
-            );
+                return redirect()->back()->with('success','Category Added Successfully');
             } catch (\Exception $e) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$e->getMessage()],
-                    [],
-                    []
-                );
+                return redirect()->back()->withErrors($e->getMessage());
             }
     }
 

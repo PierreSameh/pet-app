@@ -6,6 +6,11 @@ use App\Http\Middleware\GuestAdminMiddleware;
 use App\Http\Controllers\User\StoreController;
 use App\Http\Controllers\User\ClinicController;
 
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::prefix('admin')->group(function () {
     Route::post("login", [AdminController::class, "login"])->middleware([GuestAdminMiddleware::class])->name("admin.login.post");
     Route::get("login", [AdminController::class, "loginPage"])->middleware([GuestAdminMiddleware::class]);
@@ -21,6 +26,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/store/{store}', [AdminController::class,'getStore'])->name('admin.get.store');
         Route::post('/store/{store}/edit-store', [StoreController::class, 'editStore'])->name('admin.excuteedit.store');
         Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->name('admin.delete.store');
+        //Categories
+        Route::get('/store/{store}/categories', [AdminController::class,'categories'])->name('admin.get.categories');
+        Route::post('/store/{store}/add-category', [StoreController::class, 'addCategory'])->name('admin.save.category');
 
         //Clinics
         Route::get('/clinic/add-clinic', [AdminController::class,'addClinic'])->name('admin.add.clinic');

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\Clinic;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -60,6 +61,11 @@ class AdminController extends Controller
             return view("admin.store.edit", compact("store"));
         }
         return redirect()->back()->with("red","Not Found");
+    }
+    //Categories
+    public function categories($storeId) {
+        $categories = Category::where("store_id", $storeId)->get();
+        return view("admin.categories.get", compact("categories", "storeId"));
     }
 
     //Clinic

@@ -29,7 +29,7 @@
       <!-- Right Side Navigation -->
       <div style="width: 200px; background-color: #1f1f1f; padding: 20px; display: flex; flex-direction: column; gap: 15px;position: absolute;right: 0px;top: 100px;">
         <h3 style="color: #ffffff; font-size: 1.5em; text-align: center; margin-bottom: 20px;">Navigate</h3>
-        <a href="#categories" style="color: #ffffff; text-decoration: none; font-size: 1.2em; padding: 10px; background-color: #333333; border-radius: 5px; text-align: center;">Categories</a>
+        <a href="{{route('admin.get.categories', $store->id)}}" style="color: #ffffff; text-decoration: none; font-size: 1.2em; padding: 10px; background-color: #333333; border-radius: 5px; text-align: center;">Categories</a>
         <a href="#products" style="color: #ffffff; text-decoration: none; font-size: 1.2em; padding: 10px; background-color: #333333; border-radius: 5px; text-align: center;">Products</a>
         <a href="#orders" style="color: #ffffff; text-decoration: none; font-size: 1.2em; padding: 10px; background-color: #333333; border-radius: 5px; text-align: center;">Orders</a>
     </div>
