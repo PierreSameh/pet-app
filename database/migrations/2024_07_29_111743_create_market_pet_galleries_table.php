@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('market_pet_galleries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('marketpet_id');
+            $table->unsignedBigInteger('market_pet_id');
             $table->string('image');
             $table->timestamps();
         });
