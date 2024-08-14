@@ -71,6 +71,11 @@ class AdminController extends Controller
         $orders = Order::with('user')->get();
         return view("admin.orders.orders", compact("orders"));
     }
+
+    public function orderDetails($orderId){
+        $order = Order::with('user', 'orderItem')->find($orderId);
+        return view('admin.orders.details', compact('order'));
+    }
     //Categories
     public function categories($storeId) {
         $categories = Category::where("store_id", $storeId)->get();

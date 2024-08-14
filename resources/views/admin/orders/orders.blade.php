@@ -21,7 +21,7 @@
             <td style="padding: 12px 15px;">{{ $order->subtotal }}</td>
             <td style="padding: 12px 15px;">{{ $order->payment_method }}</td>
             <td style="padding: 12px 15px;">
-                <a href="" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
+                <a href="{{route('admin.get.order', $order->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Order Details</a>
                 <form action="" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" onclick="return confirm('are you sure?')"

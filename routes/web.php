@@ -42,6 +42,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->name('admin.delete.productimage');
         //Orders
         Route::get('/orders', [AdminController::class,'getOrders'])->name('admin.get.orders');
+        Route::get('/orders/{order}', [AdminController::class,'orderDetails'])->name('admin.get.order');
 
 
         //Clinics

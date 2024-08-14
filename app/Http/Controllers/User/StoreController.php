@@ -338,6 +338,29 @@ class StoreController extends Controller
         );
     } 
 
+    public function getAllProducts() {
+        $products = Product::with("store", "category", "productImages")->get();
+        if (count($products) > 0) {
+            return $this->handleResponse(
+                true,
+                "",
+                [],
+                [
+                    "products"=> $products
+                ],
+                []
+                );
+        }
+        return $this->handleResponse(
+            true,
+            "Empty",
+            [],
+            [],
+            []
+        );
+    }
+
+
     public function deleteProduct($productID) {
         $product = Product::where("id", $productID)->first();
         if (isset($product)) {
