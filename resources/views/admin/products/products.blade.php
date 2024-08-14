@@ -31,7 +31,7 @@
             <td style="padding: 12px 15px;"><a href="#">{{ $product->name }}</a></td>
             <td style="padding: 12px 15px;">
                 <a href="{{route('admin.edit.product', $product->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">Edit</a>
-                <form action="" method="POST" style="display: inline;">
+                <form action="{{route('admin.delete.product', $product->id)}}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" onclick="return confirm('are you sure?')"
                     style="text-decoration: none; color: #fff; background-color: #dc3545; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Delete</button>

@@ -38,6 +38,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/store/product/edit/{product}', [AdminController::class,'editProduct'])->name('admin.edit.product');
         Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->name('admin.update.product');
         Route::post('/store/add-product', [StoreController::class,'addProduct'])->name('admin.save.product');
+        Route::post('/store/{product}/delete-product', [StoreController::class,'deleteProduct'])->name('admin.delete.product');
         Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->name('admin.delete.productimage');
 
 
