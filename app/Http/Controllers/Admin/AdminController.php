@@ -15,6 +15,8 @@ use App\Models\User;
 use App\Models\Clinic;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
+
 
 class AdminController extends Controller
 {
@@ -79,7 +81,7 @@ class AdminController extends Controller
     }
     //Products
     public function getProducts($storeId) {
-        $products = Product::where("store_id", $storeId)->get();
+        $products = Product::with('productImages', 'category')->where("store_id", $storeId)->get();
         return view("admin.products.products", compact("products", "storeId"));
     }
 
