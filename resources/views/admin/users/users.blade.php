@@ -21,7 +21,7 @@
             <td style="padding: 12px 15px;">{{ $user->email }}</td>
             <td style="padding: 12px 15px;">{{ $user->created_at }}</td>
             <td style="padding: 12px 15px;">
-                <a href="" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">User Details</a>
+                <a href="{{route('admin.user.details', $user->id)}}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 5px 10px; border-radius: 5px;">User Details</a>
                 {{-- <form action="" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" onclick="return confirm('are you sure?')"

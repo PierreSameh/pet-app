@@ -147,7 +147,7 @@ class AdminController extends Controller
 
     public function userDetails($userId) {
         $user = User::find($userId);
-        return view('', compact('user'));
+        return view('admin.users.details', compact('user'));
     }
 }
 
