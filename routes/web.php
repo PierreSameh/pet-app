@@ -60,5 +60,14 @@ Route::prefix('admin')->group(function () {
 
 
 Route::get('/unauthorized', function () {
-    return to_route('admin.login');
+    // return to_route('admin.login');
+    return response()->json(
+        [
+            "status" => false,
+            "message" => "unauthenticated",
+            "errors" => ["Your are not authenticated"],
+            "data" => [],
+            "notes" => []
+        ]
+        , 401);
     });
