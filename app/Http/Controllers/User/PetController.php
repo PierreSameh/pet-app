@@ -24,7 +24,9 @@ class PetController extends Controller
     //        PETS METHODS              //
     /////////////////////////////////////
     public function getPet(Request $request, $petID) {
-        $pets = $request->user()->pets->with('petgallery');
+        $user = $request->user();
+        $pets = Pet::where('user_id', $user->id)->where('id', $petID)->with('petgallery')->get();
+        if ($pets) {
         return $this->handleResponse(
          true,
          "Pet Data",
@@ -34,6 +36,14 @@ class PetController extends Controller
          ],
          []
      );
+    }
+    return $this->handleResponse(
+        false,
+        "",
+        [],
+        [],
+        []
+        );
     } 
 
     public function addPet(Request $request) {
