@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('market_pet_id');
             $table->string('image');
             $table->timestamps();
+
+            $table->foreign('market_pet_id')->references('id')->on('market_pets')->onDelete('cascade');
         });
     }
 

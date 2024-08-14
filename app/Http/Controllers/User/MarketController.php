@@ -429,15 +429,19 @@ class MarketController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imagePath = $image->store('/storage/marketpets', 'public');
-    
-                $petImage = MarketPetGallery::create([
-                    'marketpet_id' => $petID,
-                    'image' => $imagePath,
-                ]);
 
-                $uploadedImages[] = $petImage;
+                $create = new MarketPetGallery();
+                $create->market_pet_id = $petID;
+                $create->image = $imagePath;
+                $create->save();
+                // $petImage = MarketPetGallery::create([
+                //     'market_pet_id' => $petID,
+                //     'image' => $imagePath,
+                // ]);
+
+                $uploadedImages[] = $create;
             } 
-            $petImages = [MarketPetGallery::where("marketpet_id", $petID)->get()];
+            $petImages = [MarketPetGallery::where("market_pet_id", $petID)->get()];
             return $this->handleResponse(
                 true,
                 "Image Added Successfully",

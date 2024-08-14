@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('lost_pet_galleries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lostpet_id');
+            $table->unsignedBigInteger('lost_pet_id');
             $table->string('image');
             $table->timestamps();
 
-            $table->foreign('lostpet_id')->references('id')->on('lost_pets')->onDelete('cascade');
+            $table->foreign('lost_pet_id')->references('id')->on('lost_pets')->onDelete('cascade');
         });
     }
 

@@ -338,15 +338,18 @@ class LostController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imagePath = $image->store('/storage/lostpets', 'public');
-    
-                $petImage = LostPetGallery::create([
-                    'lostpet_id' => $lostPetID,
-                    'image' => $imagePath,
-                ]);
+                $create = new LostPetGallery();
+                $create->lost_pet_id = $lostPetID;
+                $create->image = $imagePath;
+                $create->save();
+                // $petImage = LostPetGallery::create([
+                //     'lost_pet_id' => $lostPetID,
+                //     'image' => $imagePath,
+                // ]);
 
-                $uploadedImages[] = $petImage;
+                $uploadedImages[] = $create;
             } 
-            $lostPetImages = [LostPetGallery::where("lostpet_id", $lostPetID)->get()];
+            $lostPetImages = [LostPetGallery::where("lost_pet_id", $lostPetID)->get()];
             return $this->handleResponse(
                 true,
                 "Image Added Successfully",
@@ -502,7 +505,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $foundPets = $query->with('uesr','foundPetGallery')->paginate(20);
+        $foundPets = $query->with('user','foundPetGallery')->paginate(20);
 
         if (count($foundPets) > 0) {
             // Return the filtered data as a JSON response
@@ -663,14 +666,14 @@ class LostController extends Controller
             foreach ($request->file('images') as $image) {
                 $imagePath = $image->store('/storage/foundpets', 'public');
     
-                $petImage = FoundPetGallery::create([
-                    'foundpet_id' => $foundPetID,
-                    'image' => $imagePath,
-                ]);
+                $create = new FoundPetGallery();
+                $create->found_pet_id = $foundPetID;
+                $create->image = $imagePath;
+                $create->save();
 
-                $uploadedImages[] = $petImage;
+                $uploadedImages[] = $create;
             } 
-            $foundPetImages = [FoundPetGallery::where("foundpet_id", $foundPetID)->get()];
+            $foundPetImages = [FoundPetGallery::where("found_pet_id", $foundPetID)->get()];
             return $this->handleResponse(
                 true,
                 "Image Added Successfully",
