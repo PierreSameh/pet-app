@@ -136,7 +136,7 @@ class CartController extends Controller
             $totalPrice = 0;
             $products = [];
             foreach ( $cartItems as $cartItem ) {
-                $product = Product::where('id', $cartItem->product_id)->first();
+                $product = Product::where('id', $cartItem->product_id)->with('productImages')->first();
                 if ($product->offer == 0) {
                 $totalPrice += $product->price * $cartItem->quantity;
                 } else {
