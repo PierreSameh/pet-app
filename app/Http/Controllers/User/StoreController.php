@@ -105,7 +105,9 @@ class StoreController extends Controller
     }
 
     public function allStore(){
-        $stores = Store::paginate(20);
+        $stores = Store::with(['categories' => function($query) {
+            $query->with(['products']);
+        }])->paginate(20);
         if (count($stores) > 0) {
         return $this->handleResponse(
             true,
