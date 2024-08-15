@@ -29,7 +29,10 @@
         <thead>
             <tr style="background-color: #333; color: white;">
                 <th style="padding: 10px; text-align: left;">Product ID</th>
-                <th style="padding: 10px; text-align: left;">Price</th>
+                <th style="padding: 10px; text-align: left;">Product Name</th>
+                <th style="padding: 10px; text-align: left;">Product Price</th>
+                <th style="padding: 10px; text-align: left;">Sale Price</th>
+                <th style="padding: 10px; text-align: left;">Order Price</th>
                 <th style="padding: 10px; text-align: left;">Quantity</th>
             </tr>
         </thead>
@@ -37,6 +40,9 @@
             @foreach($order->orderItem as $item)
                 <tr style="border-bottom: 1px solid #555;">
                     <td style="padding: 10px;">{{ $item->product_id }}</td>
+                    <td style="padding: 10px;">{{ $item->product->name }}</td>
+                    <td style="padding: 10px;">{{ $item->product->price }}</td>
+                    <td style="padding: 10px;">{{ $item->product->offer == 1 ? $item->product->sale_amount : '' }}</td>
                     <td style="padding: 10px;">{{ $item->order_price }}</td>
                     <td style="padding: 10px;">{{ $item->order_quantity }}</td>
                 </tr>

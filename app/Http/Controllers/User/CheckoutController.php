@@ -98,11 +98,16 @@ class CheckoutController extends Controller
             $order->save();
 
             foreach ($cartItems as $item) {
+                if ($item->product->offer == 0){
+                $finalPrice = $item->product->price;
+                } else {
+                    $finalPrice = $item->product->sale_amount;
+                }
 
                     OrderItem::create([
                         "order_id" => $order->id,
                         "product_id" => $item->product_id,
-                        "order_price" => $item->product->price,
+                        "order_price" => $finalPrice,
                         "order_quantity" => $item->quantity,
                     ]);
                 

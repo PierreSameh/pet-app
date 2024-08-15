@@ -74,7 +74,9 @@ class AdminController extends Controller
     }
 
     public function orderDetails($orderId){
-        $order = Order::with('user', 'orderItem')->find($orderId);
+        $order = Order::where('id', $orderId)->with(['orderItem' => function ($query){
+            $query->with('product');
+        }], 'user')->first();
         return view('admin.orders.details', compact('order'));
     }
     //Categories
