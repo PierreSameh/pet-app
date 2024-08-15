@@ -349,7 +349,13 @@ class StoreController extends Controller
     } 
 
     public function getAllProducts(){
-        $products = Product::with('productImages')->get();
+        $products = Product::with('productImages')->get()
+        ->map(function($product) {
+            // Extract only the first image
+            $product->firstImage = $product->productImages->first();
+            unset( $product->productImages);
+            return $product;
+        });
         if (count($products) > 0) {
             return $this->handleResponse(
                 true,
@@ -371,7 +377,13 @@ class StoreController extends Controller
     }
 
     public function getAllOffers(){
-        $offers = Product::where('offer', 1)->with('productImages')->get();
+        $offers = Product::where('offer', 1)->with('productImages')->get()
+        ->map(function($offer) {
+            // Extract only the first image
+            $offer->firstImage = $offer->productImages->first();
+            unset( $offer->productImages);
+            return $offer;
+        });
         if (count($offers) > 0) {
             return $this->handleResponse(
                 true,
@@ -473,7 +485,13 @@ class StoreController extends Controller
     }
 
     public function getProductByType(Request $request){
-        $products = Product::where("type", $request->type)->with('productImages')->get();
+        $products = Product::where("type", $request->type)->with('productImages')->get()
+        ->map(function($product) {
+            // Extract only the first image
+            $product->firstImage = $product->productImages->first();
+            unset( $product->productImages);
+            return $product;
+        });
         if (count($products) > 0) {
         return $this->handleResponse(
             true,
