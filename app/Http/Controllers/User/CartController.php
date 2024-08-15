@@ -52,9 +52,7 @@ class CartController extends Controller
 
             // Check if product Added to cart
             $cartItem = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $request->product_id)->with(['productImages' => function ($query) {
-                $query->limit(1);
-            }])->first();
+            ->where('product_id', $request->product_id)->first();
 
             if (isset($cartItem)) {
             if(($cartItem->quantity + $quantity) < $product->quantity ) {
