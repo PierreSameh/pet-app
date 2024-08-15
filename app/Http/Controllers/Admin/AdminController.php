@@ -146,7 +146,9 @@ class AdminController extends Controller
     }
 
     public function userDetails($userId) {
-        $user = User::find($userId);
+        $user = User::with(['pets' => function($query) {
+            $query->with(['petgallery']);
+        }])->first();
         return view('admin.users.details', compact('user'));
     }
 }
