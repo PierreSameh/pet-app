@@ -118,16 +118,7 @@ class StoreController extends Controller
                 });
             }]);
         }])->paginate(20);
-        // $stores = Store::with(['categories' => function($query) {
-        //     $query->with(['products' => function($q){
-        //         $q->with(['productImages'])->get()->map(function($product) {
-        //             // Extract only the first image
-        //             $product->firstImage = $product->productImages->first();
-        //             unset( $product->productImages);
-        //             return $product;
-        //     });
-        //     }]);
-        // }])->paginate(20);
+
         if (count($stores) > 0) {
         return $this->handleResponse(
             true,

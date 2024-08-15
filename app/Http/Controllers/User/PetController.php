@@ -54,7 +54,7 @@ class PetController extends Controller
             'age'=> 'required|integer',
             'type'=> 'required|string',
             'gender'=> 'required|string',
-            'breed'=> 'required|string',
+            'breed'=> 'nullable|string',
             'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -75,7 +75,9 @@ class PetController extends Controller
             $pet->age = $request->age;
             $pet->type = $request->type;
             $pet->gender = $request->gender;
+            if($request->breed) {
             $pet->breed = $request->breed;
+            }
 
             if ($request->picture) {
                 $imagePath = $request->file('picture')->store('/storage/pets', 'public');
