@@ -108,10 +108,10 @@ class PetController extends Controller
     public function editPet(Request $request, $petID) {
         try {
             $validator = Validator::make($request->all(), [
-                'name'=> 'required|string|max:255',
-                'age'=> 'required|integer',
-                'type'=> 'required|string',
-                'gender'=> 'required|string',
+                'name'=> 'nullable|string|max:255',
+                'age'=> 'nullable|integer',
+                'type'=> 'nullable|string',
+                'gender'=> 'nullable|string',
                 'breed'=> 'nullable|string',
                 'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
@@ -125,16 +125,27 @@ class PetController extends Controller
                     []
                 );
             }
-            $imagePath = $request->file('picture')->store('/storage/pets', 'public');
     
             $pet = Pet::find( $petID );
-
+                if ($request->name){
                 $pet->name = $request->name;
+                }
+                if ($request->age) {
                 $pet->age = $request->age;
+                }
+                if ($request->type) {
                 $pet->type = $request->type;
+                }
+                if ($request->gender) {
                 $pet->gender = $request->gender;
+                }
+                if ($request->breed) {
                 $pet->breed = $request->breed;
+                }
+                if ($request->picture) {
+                $imagePath = $request->file('picture')->store('/storage/pets', 'public');
                 $pet->picture = $imagePath;
+                }
                 $pet->save();
  
 
