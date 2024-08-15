@@ -253,9 +253,10 @@ class StoreController extends Controller
                 "name"=> ["required","string","max:255"],
                 "description"=> ["nullable","string","max:1000"],
                 "type"=> ["required","string","max:255"],
-                "price"=> ["required","string","max:100"],
+                "price"=> ["required","numeric"],
                 "quantity"=> ["required","numeric","max:1000"],
                 'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'sale_amount'=> ['nullable','numeric'],
 
             ]);
             if ($validator->fails()) {
@@ -283,6 +284,13 @@ class StoreController extends Controller
             
                $uploadedImages[] = $productImage;
             }
+           }
+           if ($request->sale_amount) {
+            $product->offer = 1;
+            $product->sale_amount = $request->sale_amount;
+           } else {
+            $product->offer = 0;
+            $product->sale_amount = 0;
            }
             $product->save();
 
@@ -318,6 +326,7 @@ class StoreController extends Controller
 
     public function getProduct($productID) {
         $product = Product::with('productImages')->where("id", $productID)->first();
+        $store = Store::where("id", $product->store_id)->first();
         if (isset($product)) {
         return $this->handleResponse(
          true,
@@ -325,6 +334,7 @@ class StoreController extends Controller
          [],
          [
             "product" => $product,
+            "store" => $store
          ],
          []
      );
@@ -360,6 +370,29 @@ class StoreController extends Controller
         );
     }
 
+    public function getAllOffers(){
+        $offers = Product::where('offer', 1)->with('productImages')->get();
+        if (count($offers) > 0) {
+            return $this->handleResponse(
+                true,
+                '',
+                [],
+                [
+                    'offers' => $offers
+                ],
+                []
+                );
+        }
+        return $this->handleResponse(
+            true,
+            'There No Offers At The Moment',
+            [],
+            [],
+            []
+            );
+
+    }
+
 
     public function deleteProduct($productID) {
         $product = Product::where("id", $productID)->first();
@@ -370,7 +403,7 @@ class StoreController extends Controller
         return redirect()->back()->with("red", "Not Found");
     }
 
-    // Product Images
+    // Product Images (not used)
     public function addProductImages(Request $request, $productID) {
         $validator = Validator::make($request->all(), [
             'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -437,6 +470,29 @@ class StoreController extends Controller
             return redirect()->back()->with("success","Deleted Successfully");
         }
         return redirect()->back()->with("red","Couldn't Delete Image");
+    }
+
+    public function getProductByType(Request $request){
+        $products = Product::where("type", $request->type)->with('productImages')->get();
+        if (count($products) > 0) {
+        return $this->handleResponse(
+            true,
+            '',
+            [],
+            [
+             "products" => $products
+            ],
+            []
+        );
+        }
+        
+        return $this->handleResponse(
+            true,
+            'No Search Matches',
+            [],
+            [],
+            []
+        );
     }
 
 }

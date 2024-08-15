@@ -139,7 +139,11 @@ class CartController extends Controller
             $products = [];
             foreach ( $cartItems as $cartItem ) {
                 $product = Product::where('id', $cartItem->product_id)->first();
+                if ($product->offer == 0) {
                 $totalPrice += $product->price * $cartItem->quantity;
+                } else {
+                    $totalPrice += $product->sale_amount * $cartItem->quantity;
+                }
                 $products[] = $product;
             }
             return $this->handleResponse(
@@ -147,9 +151,10 @@ class CartController extends Controller
                 'Your Products In Cart',
                 [],
                 [
-                    "cartItems" => $cartItems,
-                     "Total Price: $totalPrice",
-                     "products" => $products],
+                    "cart_items" => $cartItems,
+                     "total_price" => $totalPrice,
+                     "products" => $products
+                ],
                 []
                 );
             }

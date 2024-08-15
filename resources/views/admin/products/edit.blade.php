@@ -64,6 +64,10 @@
                 <input type="number" step="0.01" class="form-control" id="price" value="{{$product->price}}" name="price" placeholder="Price" required>
             </div>
             <div class="form-group">
+                <label for="price">Sale Price</label>
+                <input type="number" step="0.01" class="form-control" id="price" value="{{$product->sale_amount}}" name="sale_amount" placeholder="Put The Sale Price">
+            </div>
+            <div class="form-group">
                 <label for="quantity">Quantity</label>
                 <input type="number" class="form-control" id="quantity" value="{{$product->quantity}}" name="quantity" placeholder="Quantity" required>
             </div>

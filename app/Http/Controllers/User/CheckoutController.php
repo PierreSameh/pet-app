@@ -71,7 +71,11 @@ class CheckoutController extends Controller
             if ($cart->count() > 0) {
                 foreach ( $cartItems as $item ) {
                     $product = Product::where('id', $item->product_id)->first();
+                    if ($product->offer == 0){
                     $subtotal += $product->price * $item->quantity;
+                    } else {
+                        $subtotal += $product->sale_amount * $item->quantity;
+                    }
                 }
             }
             

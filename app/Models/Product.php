@@ -17,6 +17,8 @@ class Product extends Model
         "type",
         "price",
         "quantity",
+        "offer",
+        "sale_amount",
     ];
 
     public function store() {
