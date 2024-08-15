@@ -257,7 +257,20 @@ class CartController extends Controller
                 );
     }
 
-    public function deleteCart(Request $request, $cartID) {
+    public function deleteCart(Request $request) {
+        $validator = Validator::make($request->all(), [
+        "cart_id" => ["required"],
+        ]);
+        if ($validator->fails()) {
+            return $this->handleResponse(
+                false,
+                "",
+                [$validator->errors()->first()],
+                [],
+                []
+                );
+        }
+        $cartID = $request->cart_id;
         $cartItems = CartItem::where("cart_id", $cartID)->get();
         if (count($cartItems) > 0) {
             foreach( $cartItems as $cartItem ) {
