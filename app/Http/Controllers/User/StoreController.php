@@ -80,12 +80,14 @@ class StoreController extends Controller
     }
 
     public function getStore($storeID) {
-        $store = Store::where('id', $storeID)->first();
-        
+        // $store = Store::with('categories', 'products')->where('id', $storeID)->first();
+        $store = Store::with(['categories' => function($query) {
+            $query->with(['products']);
+        }])->where('id', $storeID)->first();
         if (isset($store)) {
         return $this->handleResponse(
          true,
-         "Pet Data",
+         "",
          [],
          [
             "store" => $store
