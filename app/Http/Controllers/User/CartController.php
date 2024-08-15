@@ -256,6 +256,29 @@ class CartController extends Controller
                 []
                 );
     }
+
+    public function deleteCart(Request $request, $cartID) {
+        $cartItems = CartItem::where("cart_id", $cartID)->get();
+        if (count($cartItems) > 0) {
+            foreach( $cartItems as $cartItem ) {
+                $cartItem->delete();
+            }
+            return $this->handleResponse(
+                true,
+                "Cart Items Removed Successfully",
+                [],
+                [],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Couldn't Delete Your Cart Items",
+            [],
+            [],
+            []
+            );
+    }
 }
         
         
