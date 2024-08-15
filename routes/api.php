@@ -39,6 +39,7 @@ Route::post('/user/{wallet}/delete-wallet', [AuthController::class,'deleteWallet
 
 // PetContoller
 Route::get('/user/{pet}', [PetController::class,'getPet'])->middleware('auth:sanctum');
+Route::get('/user/all/pets', [PetController::class,'getUserPets'])->middleware('auth:sanctum');
 Route::post('/user/add-pet', [PetController::class,'addPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/update', [PetController::class,'editPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/delete', [PetController::class,'deletePet'])->middleware('auth:sanctum');
