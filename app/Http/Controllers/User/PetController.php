@@ -251,12 +251,13 @@ class PetController extends Controller
                 $uploadedImages[] = $petImage;
             } 
             $petImages = [PetGallery::where("pet_id", $petID)->get()];
+            $pet = Pet::where("id", $petID)->with('petgallery')->first();
             return $this->handleResponse(
                 true,
                 "Image Added Successfully",
                 [],
                 [
-                    "petImages" => $petImages
+                $pet
                 ],
                 []
             );            
