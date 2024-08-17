@@ -165,7 +165,7 @@ class CartController extends Controller
                 );
     }
 
-    public function editCart(Request $request, $cartID) {
+    public function editCart(Request $request) {
         $validator = Validator::make($request->all(), [
             "product_id" => ["required"],
             "quantity" => ["numeric"],
@@ -182,8 +182,9 @@ class CartController extends Controller
                 ]
             );
         }
-        $cart = Cart::where("id", $cartID)->first();
+        $cart = Cart::where('user_id', $request->user()->id)->first();
         $product = Product::where("id", $request->product_id)->first();
+        if ($cart && $product){
         if (isset($request->quantity)) {
             $cartItem =  CartItem::where("cart_id", $cart->id)->where('product_id', $request->product_id)->first();
             if (isset($cartItem) && $cartItem->quantity > 0 ) {
@@ -202,7 +203,7 @@ class CartController extends Controller
                     );
                 } else {
                     return $this->handleResponse(
-                        false,
+                        true,
                         'Product Stock is Running Low!',
                         [],
                         ["Available Stock:$product->quantity"],
@@ -210,19 +211,19 @@ class CartController extends Controller
                         );
             
                 }
-
             }
-            
+          } 
         }
         return $this->handleResponse(
             false,
-            'No Update Request Sent',
+            "Cart Or Product Not Found",
             [],
             [],
             []
-            );
+        );
 
     }
+
 
     public function deleteCartItem(Request $request, $cartID) {
         $validator = Validator::make($request->all(), [
