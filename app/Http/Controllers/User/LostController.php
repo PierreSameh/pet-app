@@ -44,6 +44,15 @@ class LostController extends Controller
                 [],
                 []
             );
+        } 
+        if (!$request->hasFile('images')) {
+            return $this->handleResponse(
+                false,
+                'Pet Gallery Is Required',
+                [],
+                [],
+                []
+            );
         }
 
         $pet = LostPet::create([
@@ -68,15 +77,7 @@ class LostController extends Controller
                 $create->save();
                 $uploadedImages[] = $create;
             }
-        } else {
-            return $this->handleResponse(
-                false,
-                'Pet Gallery Is Required',
-                [],
-                [],
-                []
-            );
-        }
+        } 
         $petDetails = LostPet::where('id', $pet->id)->with('lostPetGallery', 'user')->first(); 
         return $this->handleResponse(
             true,
@@ -443,6 +444,15 @@ class LostController extends Controller
                 []
             );
         }
+        if (!$request->hasFile('images')) {
+            return $this->handleResponse(
+                false,
+                'Pet Gallery Is Required',
+                [],
+                [],
+                []
+            );
+        }
         $user = $request->user();
         $pet = FoundPet::create([
             'user_id'=> $request->user()->id,
@@ -467,14 +477,6 @@ class LostController extends Controller
 
                 $uploadedImages[] = $create;
             }
-        } else {
-            return $this->handleResponse(
-                false,
-                'Pet Gallery Is Required',
-                [],
-                [],
-                []
-            );
         }
             $petDetails = FoundPet::where('id', $pet->id)->with('foundPetGallery', 'founder')->first();
 
