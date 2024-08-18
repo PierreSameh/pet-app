@@ -31,6 +31,8 @@ class LostController extends Controller
             'lastseen_location'=> 'required|string|max:255',
             'lastseen_time'=> 'required|string|max:255',
             'lastseen_info'=> 'required|string|max:1000',
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+
         ]);
 
         if ($validator->fails()) {
@@ -55,16 +57,28 @@ class LostController extends Controller
             'lastseen_info'=> $request->lastseen_info,
 
         ]);
-
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/lostpets', 'public');
+                $create = new LostPetGallery();
+                $create->lost_pet_id = $pet->id;
+                $create->image = $imagePath;
+                $create->save();
+                $uploadedImages[] = $create;
+            }
+        }
+        $petDetails = LostPet::where('id', $pet->id)->with('lostPetGallery')->first(); 
         return $this->handleResponse(
             true,
             "Lost Pet Added Successfully",
             [],
             [
-                $request->user()->lostpet,
+                "pet"=> $petDetails,
             ],
             []
         );
+    
 
      } catch (\Exception $e) {
         return $this->handleResponse(
@@ -405,6 +419,8 @@ class LostController extends Controller
             'found_location'=> 'required|string|max:255',
             'found_time'=> 'required|string|max:255',
             'found_info'=> 'required|string|max:1000',
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+
         ]);
 
         if ($validator->fails()) {
@@ -427,13 +443,27 @@ class LostController extends Controller
             'found_info'=> $request->found_info,
 
         ]);
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('/storage/foundpets', 'public');
+    
+                $create = new FoundPetGallery();
+                $create->found_pet_id = $pet->id;
+                $create->image = $imagePath;
+                $create->save();
+
+                $uploadedImages[] = $create;
+            }
+        }
+            $petDetails = FoundPet::where('id', $pet->id)->with('foundPetGallery')->first();
 
         return $this->handleResponse(
             true,
             "Found Pet Added Successfully",
             [],
             [
-              "foundpet" =>  $request->user()->foundpet,
+              "pet" => $petDetails,
             ],
             []
         );
