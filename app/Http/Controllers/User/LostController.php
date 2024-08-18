@@ -101,7 +101,7 @@ class LostController extends Controller
     }
 
     public function showLostPets() {
-        $lostPets = LostPet::with('lostPetGallery')->paginate(20);
+        $lostPets = LostPet::with('lostPetGallery', 'founder')->paginate(20);
 
         if (count($lostPets) > 0) {
             return $this->handleResponse(
@@ -148,7 +148,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $lostPets = $query->with('user','lostPetGallery')->paginate(20);
+        $lostPets = $query->with('user','lostPetGallery', 'founder')->paginate(20);
         if (count($lostPets) > 0) {
         // Return the filtered data as a JSON response
         return $this->handleResponse(
@@ -173,7 +173,7 @@ class LostController extends Controller
     }
 
     public function getLostPet($lostPetID) {
-        $lostPet = LostPet::with('lostPetGallery')->where('id', $lostPetID)->first();
+        $lostPet = LostPet::with('lostPetGallery', 'founder')->where('id', $lostPetID)->first();
         
         if (isset($lostPet)) {
         $owner = User::where("id", $lostPet['user_id'])->first();
@@ -500,7 +500,7 @@ class LostController extends Controller
     }
 
     public function showFoundPets() {
-        $foundPets = FoundPet::with('foundPetGallery')->paginate(20);
+        $foundPets = FoundPet::with('foundPetGallery', 'founder')->paginate(20);
 
         if (count($foundPets) > 0) {
             return $this->handleResponse(
@@ -541,7 +541,7 @@ class LostController extends Controller
         }
 
         // Get the filtered results
-        $foundPets = $query->with('user','foundPetGallery')->paginate(20);
+        $foundPets = $query->with('user','foundPetGallery', 'founder')->paginate(20);
 
         if (count($foundPets) > 0) {
             // Return the filtered data as a JSON response
@@ -566,7 +566,7 @@ class LostController extends Controller
     }
 
     public function getFoundPet($foundPetID) {
-        $foundPet = FoundPet::with('foundPetGallery')->where('id', $foundPetID)->first();
+        $foundPet = FoundPet::with('foundPetGallery', 'founder')->where('id', $foundPetID)->first();
         
         if (isset($foundPet)) {
         $owner = User::where("id", $foundPet['user_id'])->first();
@@ -767,7 +767,7 @@ class LostController extends Controller
 
     public function getMyLostPets(Request $request) {
         $user = $request->user();
-        $lostPets = LostPet::where("user_id", $user->id)->with('lostPetGallery')->get();
+        $lostPets = LostPet::where("user_id", $user->id)->with('lostPetGallery', 'founder')->get();
         if (count($lostPets) > 0) {
             return $this->handleResponse(
                 true,
@@ -790,7 +790,7 @@ class LostController extends Controller
 
     public function getMyFoundPets(Request $request) {
         $user = $request->user();
-        $foundPets = FoundPet::where("user_id", $user->id)->with('foundPetGallery')->get();
+        $foundPets = FoundPet::where("user_id", $user->id)->with('foundPetGallery', 'founder')->get();
         if (count($foundPets) > 0) {
             return $this->handleResponse(
                 true,
