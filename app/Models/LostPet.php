@@ -26,6 +26,10 @@ class LostPet extends Model
         return $this->belongsTo(User::class);
      }
 
+     public function founder(){
+      return $this->belongsTo(User::class);
+     }
+
      public function lostPetGallery() {
         return $this->hasMany(LostPetGallery::class);
      }

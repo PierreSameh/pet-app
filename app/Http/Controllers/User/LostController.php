@@ -22,6 +22,7 @@ class LostController extends Controller
     public function addLostPet(Request $request) {
 
         try {
+        $user = $request->user();
         $validator = Validator::make($request->all(), [
             'name'=> 'required|string|max:255',
             'age'=> 'required|integer',
@@ -31,7 +32,7 @@ class LostController extends Controller
             'lastseen_location'=> 'required|string|max:255',
             'lastseen_time'=> 'required|string|max:255',
             'lastseen_info'=> 'required|string|max:1000',
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
 
         ]);
 
@@ -67,8 +68,16 @@ class LostController extends Controller
                 $create->save();
                 $uploadedImages[] = $create;
             }
+        } else {
+            return $this->handleResponse(
+                false,
+                'Pet Gallery Is Required',
+                [],
+                [],
+                []
+            );
         }
-        $petDetails = LostPet::where('id', $pet->id)->with('lostPetGallery')->first(); 
+        $petDetails = LostPet::where('id', $pet->id)->with('lostPetGallery', 'user')->first(); 
         return $this->handleResponse(
             true,
             "Lost Pet Added Successfully",
@@ -256,7 +265,8 @@ class LostController extends Controller
 
     public function isFound(Request $request, $lostPetID) {
         try {
-            $lostPet = LostPet::find( $lostPetID );
+            $user = $request->user();
+            $lostPet = LostPet::with('founder')->find( $lostPetID );
             if (!$lostPet) {
                 return $this->handleResponse(
                     false,
@@ -267,6 +277,7 @@ class LostController extends Controller
                 );
             }
             $lostPet->found = 1;
+            $lostPet->founder_id = $user->id;
             $lostPet->save();
 
             return $this->handleResponse(
@@ -419,7 +430,7 @@ class LostController extends Controller
             'found_location'=> 'required|string|max:255',
             'found_time'=> 'required|string|max:255',
             'found_info'=> 'required|string|max:1000',
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
 
         ]);
 
@@ -432,9 +443,10 @@ class LostController extends Controller
                 []
             );
         }
-
+        $user = $request->user();
         $pet = FoundPet::create([
             'user_id'=> $request->user()->id,
+            'founder_id'=> $user->id,
             'type'=> $request->type,
             'gender'=> $request->gender,
             'breed'=> $request->breed,
@@ -455,8 +467,16 @@ class LostController extends Controller
 
                 $uploadedImages[] = $create;
             }
+        } else {
+            return $this->handleResponse(
+                false,
+                'Pet Gallery Is Required',
+                [],
+                [],
+                []
+            );
         }
-            $petDetails = FoundPet::where('id', $pet->id)->with('foundPetGallery')->first();
+            $petDetails = FoundPet::where('id', $pet->id)->with('foundPetGallery', 'founder')->first();
 
         return $this->handleResponse(
             true,

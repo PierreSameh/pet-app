@@ -11,6 +11,7 @@ class FoundPet extends Model
 
     protected $fillable = [
         "user_id",
+        "founder_id",
         "type",
         "gender",
         "breed",
@@ -23,6 +24,10 @@ class FoundPet extends Model
         return $this->belongsTo(User::class);
      }
 
+     public function founder(){
+      return $this->belongsTo(User::class);
+     }
+     
      public function foundPetGallery() {
         return $this->hasMany(FoundPetGallery::class);
      }

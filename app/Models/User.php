@@ -57,6 +57,14 @@ class User extends Authenticatable
         return $this->hasMany(FoundPet::class);
     }
 
+    public function founds(){
+        return $this->hasMany(FoundPet::class);
+    }
+
+    public function lostfounds() {
+        return $this->hasMany(LostPet::class);
+    }
+
     public function cart() {
         return $this->hasMany(Cart::class);
     }
