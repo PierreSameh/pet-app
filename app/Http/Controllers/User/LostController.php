@@ -242,20 +242,6 @@ class LostController extends Controller
 
     public function isFound(Request $request, $lostPetID) {
         try {
-            $validator = Validator::make($request->all(), [
-                "found" => 'boolean'
-            ]);
-
-            if ($validator->fails()) {
-                return $this->handleResponse(
-                    false,
-                    "",
-                    [$validator->errors()->first()],
-                    [],
-                    ['Use 0 or 1 in this boolean']
-                );
-            }
-
             $lostPet = LostPet::find( $lostPetID );
             if (!$lostPet) {
                 return $this->handleResponse(
@@ -266,7 +252,7 @@ class LostController extends Controller
                     []
                 );
             }
-            $lostPet->found = $request->found;
+            $lostPet->found = 1;
             $lostPet->save();
 
             return $this->handleResponse(
@@ -729,6 +715,51 @@ class LostController extends Controller
 
     }
 
+    public function getMyLostPets(Request $request) {
+        $user = $request->user();
+        $lostPets = LostPet::where("user_id", $user->id)->with('lostPetGallery')->get();
+        if (count($lostPets) > 0) {
+            return $this->handleResponse(
+                true,
+                '',
+                [],
+                [
+                    'lostpets'=> $lostPets
+                ],
+                []
+            );
+        }
+        return $this->handleResponse(
+            true,
+            'Lost pets list is empty',
+            [],
+            [],
+            []
+        );
+    }
+
+    public function getMyFoundPets(Request $request) {
+        $user = $request->user();
+        $foundPets = FoundPet::where("user_id", $user->id)->with('foundPetGallery')->get();
+        if (count($foundPets) > 0) {
+            return $this->handleResponse(
+                true,
+                '',
+                [],
+                [
+                    'foundpets'=> $foundPets
+                ],
+                []
+            );
+        }
+        return $this->handleResponse(
+            true,
+            'Found pets list is empty',
+            [],
+            [],
+            []
+        );
+    }
 
 }
 
