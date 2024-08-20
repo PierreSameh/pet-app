@@ -112,6 +112,7 @@ Route::get('/order/{order}', [CheckoutController::class,'getOrder'])->middleware
 Route::get('/order', [CheckoutController::class,'allOrders'])->middleware('auth:sanctum');
 Route::post('/order/{order}/cancel-order', [CheckoutController::class,'cancelOrder'])->middleware('auth:sanctum');
 Route::post('/track/{order}/set', [CheckoutController::class, 'setTrackOrder'])->middleware('auth:sanctum');
+Route::get('/order/payment/number', [CheckoutController::class, 'getPayment'])->middleware('auth:sanctum');
 // MarketController
 Route::post('/market/add-pet', [MarketController::class,'addMarketPet'])->middleware('auth:sanctum');
 Route::post('/market/{pet}/update', [MarketController::class,'editMarketPet'])->middleware('auth:sanctum');

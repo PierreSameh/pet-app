@@ -18,6 +18,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Order;
 use App\Models\BookVisit;
+use App\Models\Payment;
 
 
 class AdminController extends Controller
@@ -43,7 +44,8 @@ class AdminController extends Controller
     }
 
     public function index() {
-        return view("admin/index");
+        $payment = Payment::first();
+        return view("admin/index", compact('payment'));
     }
     // Store
     public function addStore(){
@@ -152,6 +154,30 @@ class AdminController extends Controller
             $query->with(['petgallery']);
         }])->find($userId);
         return view('admin.users.details', compact('user'));
+    }
+
+    public function addPayment(Request $request){
+        $validator = Validator::make($request->all(), [
+            "name" => ["required", "string", "max:255"],
+            "number" => ["required", "numeric", "digits:11"]
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $exists = Payment::first();
+        if($exists){
+            $exists->name = $request->name;
+            $exists->number = $request->number;
+            $exists->save();
+            return redirect()->back()->with("success", "Payment Number Updated");
+        } else {
+            $exists = Payment::create([
+                "name" => $request->name,
+                "number" => $request->number
+            ]);
+            return redirect()->back()->with("success", "Payment Number Added Successfully");
+        }
     }
 }
 

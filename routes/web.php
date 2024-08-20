@@ -17,6 +17,7 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.index");
+        Route::post("/payment/update", [AdminController::class, "addPayment"])->name('admin.add.payment');
 
         //Store
         Route::get("/store/add-store", [AdminController::class,"addStore"])->name("admin.add.store");

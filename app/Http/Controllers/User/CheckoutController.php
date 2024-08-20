@@ -9,6 +9,7 @@ use App\HandleTrait;
 use App\Models\Store;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Payment;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
@@ -344,6 +345,27 @@ class CheckoutController extends Controller
             );
         
     }
-        
+    
+    public function getPayment(){
+        $payment = Payment::first();
+        if ($payment){
+            return $this->handleResponse(
+                true,
+                "",
+                [],
+                [
+                    "payment" => $payment
+                ],
+                []
+            );
+        }
+        return $this->handleResponse(
+            true,
+            "No Payment Number set yet",
+            [],
+            [],
+            []
+        );
+    }
     
 }
