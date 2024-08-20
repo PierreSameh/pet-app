@@ -51,8 +51,8 @@ class CheckoutController extends Controller
 
                 $validator = Validator::make($request->all(), [
                     "status"=> "numeric|digits:1",
-                    "payment_method"=> "required|string|max:255",
-                    "payment_id"=> "required|numeric",
+                    "phone"=> "required|numeric|digits:11",
+                    "receipt"=> "required|image",
                 ]);
                 if ($validator->fails()) {
                     return $this->handleResponse(
@@ -78,23 +78,27 @@ class CheckoutController extends Controller
                     }
                 }
             }
-            
+            $imagePath = $request->receipt->store('/storage/receipts', 'public');
+
             $order = new Order();
             $order->user_id = $user->id;
             $order->subtotal = $subtotal;
             $order->status = 1;
-            // If using bank card
-            if ($request->payment_method == "card") {
-            $payment = BankCard::where("id", $request->payment_id)->first();
-            $order->payment_method = "card";
-            $order->payment_id = $payment->id;
-            }
+            $order->phone = $request->phone;
+            $order->receipt = $imagePath;
+            // // If using bank card
+            // if ($request->payment_method == "card") {
+            // $payment = BankCard::where("id", $request->payment_id)->first();
+            // $order->payment_method = "card";
+            // $order->payment_id = $payment->id;
+            // }
 
-            if ($request->payment_method == "wallet") {
-                $payment = Wallet::where("id", $request->payment_id)->first();
-                $order->payment_method = "wallet";
-                $order->payment_id = $payment->id;
-            }
+            // if ($request->payment_method == "wallet") {
+            //     $payment = Wallet::where("id", $request->payment_id)->first();
+            //     $order->payment_method = "wallet";
+            //     $order->payment_id = $payment->id;
+            // }
+
             $order->save();
 
             foreach ($cartItems as $item) {
@@ -173,7 +177,6 @@ class CheckoutController extends Controller
                 [
                     "order" => $order,
                     "user" => $user,
-                    "payment" => $payment
                 ],
                 ["Order Status Meaning: 1 -> ordered, 2 -> shipped, 3 -> delivered"]
             );

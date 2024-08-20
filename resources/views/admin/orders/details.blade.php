@@ -19,8 +19,8 @@
 
     <p><strong>Subtotal:</strong> {{ $order->subtotal }}</p>
     <p><strong>Status:</strong> {{ $order->status }}</p>
-    <p><strong>Payment Method:</strong> {{ $order->payment_method }}</p>
-    <p><strong>Payment ID:</strong> {{ $order->payment_id }}</p>
+    <p><strong>Payment Number:</strong> {{ $order->phone }}</p>
+    <p><strong>Receipt:</strong><br><img src="{{ asset('storage/' . $order->receipt) }}" style="height: 400px;" /></p>
 </div>
 
 <div style="color: white; padding: 20px;">
