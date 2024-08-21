@@ -19,6 +19,7 @@ use App\Models\ProductImage;
 use App\Models\Order;
 use App\Models\BookVisit;
 use App\Models\Payment;
+use App\Models\Support;
 
 
 class AdminController extends Controller
@@ -178,6 +179,22 @@ class AdminController extends Controller
             ]);
             return redirect()->back()->with("success", "Payment Number Added Successfully");
         }
+    }
+
+    public function supportIndex(){
+        $messages = Support::with('user')->get();
+        return view("admin.support.all", compact('messages'));
+    }
+
+    public function supportDetails($messageId){
+        $message = Support::where('id', $messageId)->first();
+        return view('admin.support.details', compact('message'));
+    }
+
+    public function deleteMessage($messageId){
+        $message = Support::where('id', $messageId)->first();
+        $message->delete();
+        return redirect()->back()->with("success", "Message Deleted Successfully");
     }
 }
 

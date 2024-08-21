@@ -60,6 +60,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/users/all', [AdminController::class,'getAllUsers'])->name('admin.users.all');
         Route::get('/users/{user}', [AdminController::class,'userDetails'])->name('admin.user.details');
 
+        //Support
+        Route::get('/support/messages', [AdminController::class, 'supportIndex'])->name('admin.support.messages');
+        Route::get('/support/messages/{message}', [AdminController::class, 'supportDetails'])->name('admin.support.details');
+        Route::post('/support/messages/{message}/delete', [AdminController::class, 'deleteMessage'])->name('admin.support.delete');
+
 
     });
 });

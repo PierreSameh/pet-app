@@ -102,6 +102,14 @@
               <span class="menu-title">Users</span>
             </a>
           </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ route('admin.support.messages') }}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-play"></i>
+              </span>
+              <span class="menu-title">Support Messages</span>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- partial -->
