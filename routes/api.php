@@ -13,6 +13,7 @@ use App\Http\Controllers\User\MarketController;
 use App\Http\Controllers\User\ClinicController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\MessageController;
+use App\Http\Controllers\User\SupportController;
 use App\Http\Controllers\User\BreedController;
 
 
@@ -154,4 +155,7 @@ Route::post('/breed/{breed}/edit-breed', [BreedController::class, 'editBreed'])-
 Route::get('/breed/{breed}/get-breed', [BreedController::class, 'getBreed'])->middleware('auth:sanctum');
 Route::get('/breed/get-all-breed', [BreedController::class, 'getAllBreeds'])->middleware('auth:sanctum');
 Route::post('/breed/{breed}/delete-breed', [BreedController::class, 'deleteBreed'])->middleware('auth:sanctum');
+
+//Support
+Route::post('/support', [SupportController::class, 'message'])->middleware('auth:sanctum');
 
