@@ -153,7 +153,7 @@ Route::get('/notifications', [ChatController::class,'getNotifications'])->middle
 Route::post('/breed/add-breed', [BreedController::class, 'addBreed'])->middleware('auth:sanctum');
 Route::post('/breed/{breed}/edit-breed', [BreedController::class, 'editBreed'])->middleware('auth:sanctum');
 Route::get('/breed/{breed}/get-breed', [BreedController::class, 'getBreed'])->middleware('auth:sanctum');
-Route::get('/breed/get-all-breed', [BreedController::class, 'getAllBreeds'])->middleware('auth:sanctum');
+Route::get('/breed/get-all-breed', [BreedController::class, 'getAllBreeds']);
 Route::post('/breed/{breed}/delete-breed', [BreedController::class, 'deleteBreed'])->middleware('auth:sanctum');
 
 //Support

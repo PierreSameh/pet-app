@@ -10,6 +10,7 @@ use App\Models\Pet;
 use App\Models\PetGallery;
 use App\Models\BankCard;
 use App\Models\Wallet;
+use App\Models\Breed;
 use App\HandleTrait;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
@@ -246,8 +247,8 @@ class HomeController extends Controller
     public function getPetDating($petID) {
         $pet = Pet::with('petgallery')->where('id', $petID)->first();
         if (isset($pet)) {
-        // $petImages = [PetGallery::where("pet_id", $petID)->get()];
         $owner = User::where("id", $pet['user_id'])->first();
+        $breed = Breed::where('name', $pet->breed)->first();
         return $this->handleResponse(
          true,
          "Pet Data",
@@ -255,6 +256,7 @@ class HomeController extends Controller
          [
             "pet" => $pet,
             "owner" => $owner,
+            "breed" => $breed
         ],
          []
          );
