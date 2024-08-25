@@ -23,13 +23,7 @@ class BreedController extends Controller
             "physical_charactaristcs"=> ["required","string","max:1000"],
         ]);
         if ($validator->fails()) {
-            return $this->handleResponse(
-                false,
-                "",
-                [$validator->errors()->first()],
-                [],
-                []
-            );  
+            return redirect()->back()->withErrors($validator)->withInput(); 
         }
         $breed = new Breed();
         $breed->type = $request->type;
@@ -40,25 +34,10 @@ class BreedController extends Controller
         $breed->physical_charactaristcs = $request->physical_charactaristcs;
         $breed->save();
         if (isset($breed)) {
-        return $this->handleResponse(
-            true,
-            "Breed Added Successfully",
-            [],
-            [
-                "breed" => $breed
-            ],
-            []
-        );
+        return redirect()->back()->with("success","Breed Added Successfully");
         } else {
-            return $this->handleResponse(
-                false,
-                "Couldn't Add Your Breed",
-                [],
-                [],
-                []
-            );
+            return redirect()->back()->with("error","Couldn't Add You Breed");
         }
-
     }
 
     public function editBreed(Request $request, $breedID) {
@@ -71,23 +50,11 @@ class BreedController extends Controller
             "physical_charactaristcs"=> ["required","string","max:1000"],
         ]);
         if ($validator->fails()) {
-            return $this->handleResponse(
-                false,
-                "",
-                [$validator->errors()->first()],
-                [],
-                []
-            );  
+            return redirect()->back()->withErrors($validator)->withInput(); 
         }
         $breed = Breed::find($breedID);
         if (!$breed) {
-            return $this->handleResponse(
-                false,
-                "Breed Not Found",
-                [],
-                [],
-                []
-            );
+            return redirect()->back()->with("error","Breed Not Found");
         }
 
         $breed->type = $request->type;
@@ -98,15 +65,7 @@ class BreedController extends Controller
         $breed->physical_charactaristcs = $request->physical_charactaristcs;
         $breed->save();
 
-        return $this->handleResponse(
-            true,
-            "Breed Updated Successfully",
-            [],
-            [
-                "breed"=> $breed,
-            ],
-            []
-        );
+        return redirect()->back()->with("success","Breed Updated Successfully");
     }
 
     public function getBreed(Request $request, $breedID) {
@@ -153,20 +112,8 @@ class BreedController extends Controller
         $breed = Breed::find($breedID);
         if (isset($breed)) {
             $breed->delete();
-            return $this->handleResponse(
-                true,
-                "Breed Deleted",
-                [],
-                [],
-                []
-            );
+            return redirect()->back()->with("success","Breed Deleted Successfully");
         }
-        return $this->handleResponse(
-            false,
-            "Breed Not Found",
-            [],
-            [],
-            []
-        );
+        return redirect()->back()->with("error", "Couldn't Delete Breed");
     }
 }

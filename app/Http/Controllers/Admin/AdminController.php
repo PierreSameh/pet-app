@@ -20,6 +20,7 @@ use App\Models\Order;
 use App\Models\BookVisit;
 use App\Models\Payment;
 use App\Models\Support;
+use App\Models\Breed;
 
 
 class AdminController extends Controller
@@ -195,6 +196,26 @@ class AdminController extends Controller
         $message = Support::where('id', $messageId)->first();
         $message->delete();
         return redirect()->back()->with("success", "Message Deleted Successfully");
+    }
+
+    //Breed
+    public function addBreed(){
+        return view("admin.breed.add");
+    }
+
+    public function allBreeds(){
+        $breeds = Breed::all();
+        return view('admin.breed.all', compact('breeds'));
+    }
+  
+    public function getBreed($breedId) {
+        $breed = Breed::find($breedId);
+        return view("admin.breed.details", compact("breed"));
+    }
+
+    public function editBreed($breedId){
+        $breed = Breed::find($breedId);
+        return view('admin.breed.edit', compact('breed'));
     }
 }
 

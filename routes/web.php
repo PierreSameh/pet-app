@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\GuestAdminMiddleware;
 use App\Http\Controllers\User\StoreController;
 use App\Http\Controllers\User\ClinicController;
+use App\Http\Controllers\User\BreedController;
 use App\Models\Admin;
 
 Route::get('/', function () {
@@ -65,6 +66,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/support/messages/{message}', [AdminController::class, 'supportDetails'])->name('admin.support.details');
         Route::post('/support/messages/{message}/delete', [AdminController::class, 'deleteMessage'])->name('admin.support.delete');
 
+        //Breed
+        Route::get('/breed/add-breed', [AdminController::class,'addBreed'])->name('admin.breed.add');
+        Route::post('/breed/store-breed', [BreedController::class,'addBreed'])->name('admin.breed.store');
+        Route::get('/breed/all-breed', [AdminController::class,'allBreeds'])->name('admin.breed.all');
+        Route::get('/breed/{breed}', [AdminController::class, 'getBreed'])->name('admin.breed.get');
+        Route::get('/breed/edit-breed/{breed}', [AdminController::class,'editBreed'])->name('admin.breed.edit');
+        Route::post('/breed/update-breed/{breed}', [BreedController::class,'editBreed'])->name('admin.breed.update');
+        Route::post('/breed/delete-breed/{breed}', [BreedController::class, 'deleteBreed'])->name('admin.breed.delete');
+ 
 
     });
 });
