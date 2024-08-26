@@ -16,7 +16,7 @@ class BreedController extends Controller
     public function addBreed(Request $request) {
         $validator = Validator::make($request->all(), [
             "type"=> ["required","string","max:255"],
-            "name"=> ["required","string","max:255"],
+            "name"=> ["required","string","max:255", "unique:breeds,name"],
             "life_expectancy"=> ["required","string","max:1000"],
             "weight"=> ["required","string","max:1000"],
             "height"=> ["required","string","max:1000"],
