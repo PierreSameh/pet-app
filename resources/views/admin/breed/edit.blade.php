@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-body">
       <h4 class="card-title">Update Breed</h4>
-      <form class="forms-sample" method="POST" action="{{route('admin.breed.store')}}" enctype="multipart/form-data">
+      <form class="forms-sample" method="POST" action="{{route('admin.breed.update', $breed->id)}}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
           <label for="exampleInputName1">Breed Name</label>

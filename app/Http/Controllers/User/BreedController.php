@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\HandleTrait;
 use App\Models\Breed;
+use Illuminate\Validation\Rule;
 
 
 class BreedController extends Controller
@@ -42,8 +43,7 @@ class BreedController extends Controller
 
     public function editBreed(Request $request, $breedID) {
         $validator = Validator::make($request->all(), [
-            "type"=> ["required","string","max:255"],
-            "name"=> ["required","string","max:255"],
+            "name"=> ["required","string","max:255", Rule::unique('breeds', 'name')->ignore($breedID)],
             "life_expectancy"=> ["required","string","max:1000"],
             "weight"=> ["required","string","max:1000"],
             "height"=> ["required","string","max:1000"],
@@ -57,7 +57,6 @@ class BreedController extends Controller
             return redirect()->back()->with("error","Breed Not Found");
         }
 
-        $breed->type = $request->type;
         $breed->name = $request->name;
         $breed->life_expectancy = $request->life_expectancy;
         $breed->weight = $request->weight;
