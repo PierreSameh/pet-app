@@ -99,7 +99,7 @@ class BreedController extends Controller
             );
         }
         return $this->handleResponse(
-            false,
+            true,
             "Breed List is Empty",
             [],
             [],
