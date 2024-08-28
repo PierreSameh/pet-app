@@ -256,7 +256,7 @@ class HomeController extends Controller
          [
             "pet" => $pet,
             "owner" => $owner,
-            "breed" => $breed
+            "about_breed" => $breed
         ],
          []
          );
