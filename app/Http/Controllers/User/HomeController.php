@@ -196,53 +196,111 @@ class HomeController extends Controller
         );
     }
 
+    // public function filterPets(Request $request)
+    // {
+    //     $query = Pet::query();
+
+    //     // Filter by age if provided
+    //     if ($request->has('age')) {
+    //         $query->where('age', $request->input('age'));
+    //     }
+
+    //     // Filter by type if provided
+    //     if ($request->has('type')) {
+    //         $query->where('type', $request->input('type'));
+    //     }
+
+    //     // Filter by gender if provided
+    //     if ($request->has('gender')) {
+    //         $query->where('gender', $request->input('gender'));
+    //     }
+
+    //     if ($request->has('breed')) {
+    //         $query->where('breed', $request->input('breed'));
+    //     }
+
+    //     // Get the filtered results
+    //     $pets = $query->with('user','petgallery')->paginate(20);
+    //     if (count($pets) > 0) {
+    //     // Return the filtered data as a JSON response
+    //     return $this->handleResponse(
+    //         true,
+    //         '',
+    //         [],
+    //         [
+    //          "pets" => $pets
+    //         ],
+    //         []
+    //     );
+    //     }
+        
+    //     return $this->handleResponse(
+    //         true,
+    //         'No Search Matches',
+    //         [],
+    //         [],
+    //         []
+    //     );
+    // }
+
     public function filterPets(Request $request)
-    {
-        $query = Pet::query();
+{
+    $query = Pet::query();
 
-        // Filter by age if provided
-        if ($request->has('age')) {
-            $query->where('age', $request->input('age'));
-        }
+    // Filter by age if provided
+    if ($request->has('age')) {
+        $query->where('age', $request->input('age'));
+    }
 
-        // Filter by type if provided
-        if ($request->has('type')) {
-            $query->where('type', $request->input('type'));
-        }
+    // Filter by type if provided
+    if ($request->has('type')) {
+        $query->where('type', $request->input('type'));
+    }
 
-        // Filter by gender if provided
-        if ($request->has('gender')) {
-            $query->where('gender', $request->input('gender'));
-        }
+    // Filter by gender if provided
+    if ($request->has('gender')) {
+        $query->where('gender', $request->input('gender'));
+    }
 
-        if ($request->has('breed')) {
-            $query->where('breed', $request->input('breed'));
-        }
+    if ($request->has('breed')) {
+        $query->where('breed', $request->input('breed'));
+    }
 
-        // Get the filtered results
-        $pets = $query->with('user','petgallery')->paginate(20);
-        if (count($pets) > 0) {
+    // Get the filtered results
+    $pets = $query->with(['user', 'petgallery'])->paginate(20);
+
+    if ($pets->isNotEmpty()) {
+        // Transform the pets data to include breed information
+        $petsData = $pets->map(function ($pet) {
+            $petData = $pet->toArray();
+            if ($pet->breed) {
+                // If no breed is found, you might want to search for it
+                $breed = Breed::where('name', $pet->breed)->first();
+                $petData['breed_info'] = $breed ? $breed->toArray() : null;
+            }
+            return $petData;
+        });
+
         // Return the filtered data as a JSON response
         return $this->handleResponse(
             true,
             '',
             [],
             [
-             "pets" => $pets
+                "pets" => $petsData
             ],
             []
         );
-        }
-        
-        return $this->handleResponse(
-            true,
-            'No Search Matches',
-            [],
-            [],
-            []
-        );
     }
-
+    
+    return $this->handleResponse(
+        true,
+        'No Search Matches',
+        [],
+        [],
+        []
+    );
+}
     // Pet Dating Profile
     public function getPetDating($petID) {
         $pet = Pet::with('petgallery')->where('id', $petID)->first();
