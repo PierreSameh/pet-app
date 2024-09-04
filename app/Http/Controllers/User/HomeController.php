@@ -267,7 +267,7 @@ class HomeController extends Controller
     }
 
     // Get the filtered results
-    $pets = $query->with(['user', 'petgallery'])->paginate(20);
+    $pets = $query->with(['user', 'petgallery'])->get();
 
     if ($pets->isNotEmpty()) {
         // Transform the pets data to include breed information
