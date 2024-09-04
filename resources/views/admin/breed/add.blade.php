@@ -25,19 +25,19 @@
         </div>
         <div class="form-group">
           <label for="exampleInputName1">Life Expectancy</label>
-          <input type="text" class="form-control" id="exampleInputName1" placeholder="Life Expectancy" name="life_expectancy">
+          <textarea class="form-control" id="exampleInputName1" placeholder="Life Expectancy" name="life_expectancy"></textarea>
         </div>
         <div class="form-group">
           <label for="exampleInputName1">Weight</label>
-          <input type="text" class="form-control" id="exampleInputName1" placeholder="Weight" name="weight">
+          <textarea class="form-control" id="exampleInputName1" placeholder="Weight" name="weight"></textarea>
         </div>
         <div class="form-group">
           <label for="exampleInputName1">Height</label>
-          <input type="text" class="form-control" id="exampleInputName1" placeholder="Height" name="height">
+          <textarea class="form-control" id="exampleInputName1" placeholder="Height" name="height"></textarea>
         </div>
         <div class="form-group">
           <label for="exampleInputName1">Physical Charactaristcs</label>
-          <input type="text" class="form-control" id="exampleInputName1" placeholder="Physical Charactaristcs" name="physical_charactaristcs">
+          <textarea class="form-control" id="exampleInputName1" placeholder="Physical Charactaristcs" name="physical_charactaristcs"></textarea>
         </div>
         <button type="submit" class="btn btn-primary mr-2">Submit</button>
       </form>
