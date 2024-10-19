@@ -189,4 +189,46 @@ class AddressController extends Controller
                     []
                 );
     }
+
+    public function setDefault(Request $request){
+        $validator = Validator::make($request->all(), [
+            "address_id"=> "required|exists:addresses,id"
+        ]);
+        if($validator->fails()){
+            return $this->handleResponse(
+                false,
+                "",
+                [$validator->errors()->first()],
+                [],
+                []
+            );
+        }
+        $user = $request->user();
+        $default = Address::where('user_id', $user->id)->where('default', 1)->first();
+        $address = Address::find($request->address_id);
+        if($address){
+        if($default){
+            $default->update(["default"=> 0]);
+            $address->update(["default"=> 1]);
+        } else {
+            $address->update(["default"=> 1]);
+        }
+        return $this->handleResponse(
+            true,
+            "Default address set",
+            [],
+            [
+                "address"=> $address
+            ],
+            []
+        );
+        } 
+        return $this->handleResponse(
+            false,
+            "Address not found",
+            [],
+            [],
+            []
+        );
+    }
 }

@@ -45,6 +45,7 @@ Route::post('/address/edit', [AddressController::class, 'update'])->middleware('
 Route::post('/address/delete', [AddressController::class, 'delete'])->middleware('auth:sanctum');
 Route::get('/address/all', [AddressController::class, 'getAll'])->middleware('auth:sanctum');
 Route::get('/address/get-address', [AddressController::class, 'get'])->middleware('auth:sanctum');
+Route::post('/address/set-default', [AddressController::class, 'setDefault'])->middleware('auth:sanctum');
 
 
 // PetContoller

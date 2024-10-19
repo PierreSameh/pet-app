@@ -73,7 +73,8 @@ class AuthController extends Controller
 
         $address = Address::create([
             "user_id" => $user->id,
-            "address" => $request->address
+            "address" => $request->address,
+            "default" => 1
         ]);
 
         
