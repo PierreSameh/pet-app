@@ -22,7 +22,6 @@ class User extends Authenticatable
         'last_name',
         'email',
         'phone',
-        'address',
         'password',
         'picture',
         'joined_with'
@@ -40,6 +39,10 @@ class User extends Authenticatable
 
     public function pets() {
         return $this->hasMany(Pet::class);
+    }
+
+    public function addresses(){
+        return $this->hasMany(Address::class);
     }
 
 

@@ -18,6 +18,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\SendMailTrait;
+use App\Models\Address;
 
 class AuthController extends Controller
 {
@@ -66,9 +67,13 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'phone'=> $request->phone,
-            'address'=> $request->address,
             'joined_with'=> $request->joined_with,
             "password" => (int) $request->joined_with === 1 ? Hash::make($request->password) : ((int) $request->joined_with === 2 ? Hash::make("Google") : Hash::make("Facebook")),
+        ]);
+
+        $address = Address::create([
+            "user_id" => $user->id,
+            "address" => $request->address
         ]);
 
         

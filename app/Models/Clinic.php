@@ -19,6 +19,7 @@ class Clinic extends Model
         "working_days",
         "working_times",
         "picture",
+        "rate"
     ];
 
 
