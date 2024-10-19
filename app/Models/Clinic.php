@@ -27,4 +27,8 @@ class Clinic extends Model
     public function bookvisit() {
         return $this->hasMany(BookVisit::class);
     }
+
+    public function rates(){
+        return $this->hasMany(ClinicRate::class);
+    }
 }

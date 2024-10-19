@@ -42,7 +42,7 @@ class AddressController extends Controller
         if ($address){
             return $this->handleResponse(
                 true,
-                __('strings.address_saved'),
+                "Address added successfully",
                 [],
                 [
                     "address" => $address
@@ -52,7 +52,7 @@ class AddressController extends Controller
         }
         return $this->handleResponse(
             false,
-            __('strings.save_failed'),
+            "Couldn't add your address, please try again",
             [],
             [],
             []
@@ -75,7 +75,7 @@ class AddressController extends Controller
             }
             return $this->handleResponse(
                 true,
-                __('strings.no_result'),
+                "No results",
                 [],
                 [],
                 []
@@ -106,7 +106,7 @@ class AddressController extends Controller
 
             return $this->handleResponse(
                 true,
-                __('strings.address_saved'),
+                "Address updated successfully",
                 [],
                 [
                     "address" => $address
@@ -150,7 +150,7 @@ class AddressController extends Controller
                 }
             return $this->handleResponse(
                 false,
-                __('strings.not_found'),
+                "Not found",
                 [],
                 [],
                 []
@@ -175,7 +175,7 @@ class AddressController extends Controller
                 $address->delete();
                 return $this->handleResponse(
                     true,
-                    __('strigns.deleted'),
+                    "Deleted successfully",
                     [],
                     [],
                     []
@@ -183,7 +183,7 @@ class AddressController extends Controller
                 }
                 return $this->handleResponse(
                     false,
-                    __('strings.not_found'),
+                    "Couldn't delete, please try again",
                     [],
                     [],
                     []

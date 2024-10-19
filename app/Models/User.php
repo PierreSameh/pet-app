@@ -87,6 +87,11 @@ class User extends Authenticatable
     }
 
 
+    public function rates(){
+        return $this->hasMany(ClinicRate::class);
+    }
+
+
     /**
      * Get the attributes that should be cast.
      *

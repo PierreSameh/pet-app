@@ -12,6 +12,7 @@ use App\Models\BookVisit;
 use App\HandleTrait;
 use Illuminate\Validation\Rule;
 use App\SendMailTrait;
+use App\Models\ClinicRate;
 
 
 class ClinicController extends Controller
@@ -130,7 +131,7 @@ class ClinicController extends Controller
         );
     }
     return $this->handleResponse(
-        false,
+        true,
         "Empty",
         [],
         [],
@@ -303,5 +304,51 @@ class ClinicController extends Controller
                 [],
                 []
                 );
+    }
+
+    public function rate(Request $request){
+        $validator = Validator::make($request->all(), [
+            "clinic_id"=> "required",
+            "rate"=> "required|numeric|in:1,2,3,4,5"
+        ]);
+        if($validator->fails()){
+            return $this->handleResponse(
+                false,
+                "",
+                [$validator->errors()->first()],
+                [],
+                []
+            );
+        }
+        $user = $request->user();
+        $clinic = Clinic::find($request->clinic_id);
+
+        $rate = ClinicRate::create([
+            "user_id"=> $user->id,
+            "clinic_id"=> $clinic->id,
+            "rate"=> $request->rate
+        ]);
+        if($rate){
+            $allRates = ClinicRate::where('clinic_id', $clinic->id)->get();
+            $clinic->rate = $allRates->avg('rate');
+            $clinic->save();
+
+            return $this->handleResponse(
+                true,
+                "Rate submited",
+                [],
+                [
+                    "your_rate"=> $rate
+                ],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "Couldn't submit your rate",
+            [],
+            [],
+            []
+        );
     }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\MessageController;
 use App\Http\Controllers\User\SupportController;
 use App\Http\Controllers\User\BreedController;
+use App\Http\Controllers\User\AddressController;
 
 
 
@@ -37,6 +38,14 @@ Route::post('/user/add-bank-card', [AuthController::class,"addBankCard"])->middl
 Route::post('/user/{card}/delete-card', [AuthController::class,'deleteBankCard'])->middleware('auth:sanctum');
 Route::post('/user/add-wallet', [AuthController::class,'addWallet'])->middleware('auth:sanctum');
 Route::post('/user/{wallet}/delete-wallet', [AuthController::class,'deleteWallet'])->middleware('auth:sanctum');
+
+//AddressController
+Route::post('/address/add-new', [AddressController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/address/edit', [AddressController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/address/delete', [AddressController::class, 'delete'])->middleware('auth:sanctum');
+Route::get('/address/all', [AddressController::class, 'getAll'])->middleware('auth:sanctum');
+Route::get('/address/get-address', [AddressController::class, 'get'])->middleware('auth:sanctum');
+
 
 // PetContoller
 Route::get('/user/{pet}', [PetController::class,'getPet'])->middleware('auth:sanctum');
@@ -133,13 +142,14 @@ Route::post('/market/{image}/delete-image', [MarketController::class,'deleteMark
 // ClinicController
 Route::post('/clinic/add-clinic', [ClinicController::class, 'addClinic'])->middleware('auth:sanctum');
 Route::post('/clinic/{clinic}/edit-clinic', [ClinicController::class, 'editClinic'])->middleware('auth:sanctum');
-Route::get('/clinic/{clinic}', [ClinicController::class,'getClinic'])->middleware('auth:sanctum');
-Route::get('/clinic', [ClinicController::class,'allClinic'])->middleware('auth:sanctum');
+Route::get('/clinic/{clinic}', [ClinicController::class,'getClinic']);
+Route::get('/clinic', [ClinicController::class,'allClinic']);
 Route::post('/clinic/{clinic}/delete-clinic', [ClinicController::class,'deleteClinic'])->middleware('auth:sanctum');
 Route::post('/clinic/{clinic}/book-visit', [ClinicController::class,'book'])->middleware('auth:sanctum');
 Route::get('/book/{book}', [ClinicController::class,'getBook']);
 Route::get('/book', [ClinicController::class,'allBooks']);
 Route::post('/book/{book}/cancel-book', [ClinicController::class,'cancelBook'])->middleware('auth:sanctum');
+Route::post('/clinic/rate', [ClinicController::class, 'rate'])->middleware('auth:sanctum');
 // Chat Section
 Route::post('/chats', [ChatController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/chats', [ChatController::class, 'index'])->middleware('auth:sanctum');
