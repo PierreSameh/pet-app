@@ -28,7 +28,7 @@ class ClinicController extends Controller
                 "medical_fees"=> 'required|string|max:255',
                 "working_days"=> 'required|string|max:255',
                 "working_times"=> 'required|string|max:255',
-                "picture"=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                "picture"=> 'required|image|mimes:jpeg,png,jpg,gif',
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -65,7 +65,7 @@ class ClinicController extends Controller
                 "medical_fees"=> 'required|string|max:255',
                 "working_days"=> 'required|string|max:255',
                 "working_times"=> 'required|string|max:255',
-                "picture"=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                "picture"=> 'nullable|image|mimes:jpeg,png,jpg,gif',
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();

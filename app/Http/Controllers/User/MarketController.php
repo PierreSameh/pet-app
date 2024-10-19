@@ -24,7 +24,7 @@ class MarketController extends Controller
             'type'=> 'required|string',
             'gender'=> 'required|string',
             'breed'=> 'nullable|string',
-            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif',
             'for_adoption'=> 'numeric|max:1',
             'price'=> 'nullable|numeric',
         ]);
@@ -86,7 +86,7 @@ class MarketController extends Controller
                 'type'=> 'required|string',
                 'gender'=> 'required|string',
                 'breed'=> 'nullable|string',
-                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'for_adoption'=> 'numeric|max:1',
                 'price'=> 'nullable|numeric',
             ]);
@@ -413,7 +413,7 @@ class MarketController extends Controller
     // Gallery Methods
     public function addMarketImage(Request $request, $petID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif'
         ]);
 
         if ($validator->fails()) {

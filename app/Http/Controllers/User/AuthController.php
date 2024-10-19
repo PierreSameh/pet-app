@@ -36,7 +36,8 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|numeric|digits:11|unique:users,phone',
             'address' => 'required|string|max:255',
-            'password' => 'required|string|min:8|
+            'joined_with'=>"required|in:1,2,3,4",
+            'password' => 'required_if:joined_with,1|string|min:8|
             regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W])[A-Za-z\d\W]+$/u
             |confirmed',
         ], [
@@ -49,7 +50,14 @@ class AuthController extends Controller
                 "",
                 [$validator->errors()->first()],
                 [],
-                []
+                [
+                    "joined_with" => [
+                        "1" => "تعني تسجيل يدوي",
+                        "2" => "تعني تسجيل عن طريق جوجل ولا يشترط ارسال كلمة مرور",
+                        "3" => "تعني تسجيل عن طريق فيس بوك ولا يشترط ارسال كلمة مرور",
+                        "4" => "تعني تسجيل الدخول عن طريق أبل ولا يشترط ارسال كلمة مرور"
+                    ]
+                ]
             );
         }
 
@@ -59,7 +67,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'phone'=> $request->phone,
             'address'=> $request->address,
-            'password' => Hash::make($request->password),
+            'joined_with'=> $request->joined_with,
+            "password" => (int) $request->joined_with === 1 ? Hash::make($request->password) : ((int) $request->joined_with === 2 ? Hash::make("Google") : Hash::make("Facebook")),
         ]);
 
         
@@ -563,7 +572,7 @@ class AuthController extends Controller
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
-            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif'
         ]);
 
         if ($validator->fails()) {

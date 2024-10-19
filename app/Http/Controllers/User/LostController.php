@@ -32,7 +32,7 @@ class LostController extends Controller
             'lastseen_location'=> 'required|string|max:255',
             'lastseen_time'=> 'required|string|max:255',
             'lastseen_info'=> 'required|string|max:1000',
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif'
 
         ]);
 
@@ -334,7 +334,7 @@ class LostController extends Controller
 
     public function addImage(Request $request, $lostPetID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif'
         ]);
 
         if ($validator->fails()) {
@@ -431,7 +431,7 @@ class LostController extends Controller
             'found_location'=> 'required|string|max:255',
             'found_time'=> 'required|string|max:255',
             'found_info'=> 'required|string|max:1000',
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif'
 
         ]);
 
@@ -687,7 +687,7 @@ class LostController extends Controller
 
     public function addImageF(Request $request, $foundPetID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif'
         ]);
 
         if ($validator->fails()) {

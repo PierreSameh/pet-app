@@ -25,6 +25,7 @@ class User extends Authenticatable
         'address',
         'password',
         'picture',
+        'joined_with'
     ];
 
     /**

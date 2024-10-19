@@ -27,7 +27,7 @@ class StoreController extends Controller
             $validator = Validator::make($request->all(), [
                 'name'=> 'required|string|max:255|unique:stores,name',
                 'description'=> 'nullable|string|max:1000',
-                'picture'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'picture'=> 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -54,7 +54,7 @@ class StoreController extends Controller
             $validator = Validator::make($request->all(), [
                 "name"=> ['string','max:255',Rule::unique('stores', 'name')->ignore($storeID)],
                 'description'=> 'nullable|string|max:1000',
-                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif',
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -153,7 +153,7 @@ class StoreController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name'=> 'required|string|max:255|unique:categories,name',
-                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
                 'notes'=> 'nullable|string|max:1000',
             ]);
             if ($validator->fails()) {
@@ -181,7 +181,7 @@ class StoreController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name'=> ['string','max:255',Rule::unique('categories', 'name')->ignore($categoryID)],
-                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image'=> 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'notes'=> 'nullable|string|max:1000',
             ]);
             if ($validator->fails()) {
@@ -227,7 +227,7 @@ class StoreController extends Controller
                 "type"=> ["required","string","max:255"],
                 "price"=> ["required","string","max:100"],
                 "quantity"=> ["required","numeric","max:1000"],
-                'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -270,7 +270,7 @@ class StoreController extends Controller
                 "type"=> ["required","string","max:255"],
                 "price"=> ["required","numeric"],
                 "quantity"=> ["required","numeric","max:1000"],
-                'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'images.*'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
                 'sale_amount'=> ['nullable','numeric'],
 
             ]);
@@ -433,7 +433,7 @@ class StoreController extends Controller
     // Product Images (not used)
     public function addProductImages(Request $request, $productID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'notes'=> 'required|string|max:1000'
         ]);
 

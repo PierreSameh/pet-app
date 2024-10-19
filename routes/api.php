@@ -55,14 +55,14 @@ Route::get('/home/fishes', [HomeController::class,'getFishes'])->middleware('aut
 Route::get('/home/monkeys', [HomeController::class,'getMonkeys'])->middleware('auth:sanctum');
 Route::get('/home/males', [HomeController::class,'getMales'])->middleware('auth:sanctum');
 Route::get('/home/females', [HomeController::class,'getFemales'])->middleware('auth:sanctum');
-Route::get('/pets', [HomeController::class, 'filterPets'])->middleware('auth:sanctum');
-Route::get('/home/{pet}', [HomeController::class,'getPetDating'])->middleware('auth:sanctum');
+Route::get('/pets', [HomeController::class, 'filterPets']);
+Route::get('/home/{pet}', [HomeController::class,'getPetDating']);
 
 // LostController
 Route::post('/lost/add-pet', [LostController::class,'addLostPet'])->middleware('auth:sanctum');
-Route::get('/lost-pets', [LostController::class,'showLostPets'])->middleware('auth:sanctum');
-Route::get('/lost-pets-filter', [LostController::class, 'filterLostPets'])->middleware('auth:sanctum');
-Route::get('/lost-pets/{lostpet}', [LostController::class,'getLostPet'])->middleware('auth:sanctum');
+Route::get('/lost-pets', [LostController::class,'showLostPets']);
+Route::get('/lost-pets-filter', [LostController::class, 'filterLostPets']);
+Route::get('/lost-pets/{lostpet}', [LostController::class,'getLostPet']);
 Route::post('/lost-pets/{lostpet}/delete', [LostController::class,'deleteLostPet'])->middleware('auth:sanctum');
 Route::post('/lost-pets/{lostpet}/update', [LostController::class,'editLostPet'])->middleware('auth:sanctum');
 Route::post('/lost-pets/{lostpet}/found', [LostController::class,'isFound'])->middleware('auth:sanctum');
@@ -71,20 +71,20 @@ Route::post('/lost-pets/{image}/delete-image', [LostController::class,'deleteIma
 Route::get('/lost-pets/my-lost-pets/list', [LostController::class,'getMyLostPets'])->middleware('auth:sanctum');
 // FoundPets
 Route::post('/found/add-pet', [LostController::class,'addFoundPet'])->middleware('auth:sanctum');
-Route::get('/found-pets', [LostController::class,'showFoundPets'])->middleware('auth:sanctum');
-Route::get('/found-pets-filter', [LostController::class, 'filterFoundPets'])->middleware('auth:sanctum');
-Route::get('/found-pets/{foundpet}', [LostController::class,'getFoundPet'])->middleware('auth:sanctum');
+Route::get('/found-pets', [LostController::class,'showFoundPets']);
+Route::get('/found-pets-filter', [LostController::class, 'filterFoundPets']);
+Route::get('/found-pets/{foundpet}', [LostController::class,'getFoundPet']);
 Route::post('/found-pets/{foundpet}/delete', [LostController::class,'deleteFoundPet'])->middleware('auth:sanctum');
 Route::post('/found-pets/{foundpet}/update', [LostController::class,'editFoundPet'])->middleware('auth:sanctum');
 Route::post('/found-pets/{foundpet}/add-image', [LostController::class,'addImageF'])->middleware('auth:sanctum');
 Route::post('/found-pets/{image}/delete-image', [LostController::class,'deleteImageF'])->middleware('auth:sanctum');
-Route::get('/found-pets/my-found-pets/list', [LostController::class,'getMyFoundPets'])->middleware('auth:sanctum');
+Route::get('/found-pets/my-found-pets/list', [LostController::class,'getMyFoundPets']);
 
 // StoreController
 Route::post('/store/add-store', [StoreController::class,'addStore'])->middleware('auth:sanctum');
 Route::post('/store/{store}/edit-store', [StoreController::class, 'editStore'])->middleware('auth:sanctum');
-Route::get('/store/{store}', [StoreController::class,'getStore'])->middleware('auth:sanctum');
-Route::get('/store', [StoreController::class,'allStore'])->middleware('auth:sanctum');
+Route::get('/store/{store}', [StoreController::class,'getStore']);
+Route::get('/store', [StoreController::class,'allStore']);
 Route::post('/store/{store}/delete-store', [StoreController::class,'deleteStore'])->middleware('auth:sanctum');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('/store/{store}/add-category', [StoreController::class, 'addCategory'])->middleware('auth:sanctum');
@@ -93,11 +93,11 @@ Route::post('/store/{category}/delete-category', [StoreController::class,'delete
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('/store/add-product', [StoreController::class,'addProduct'])->middleware('auth:sanctum');
 Route::post('/store/{product}/edit-product', [StoreController::class, 'editProduct'])->middleware('auth:sanctum');
-Route::get('/store/category/{category}', [StoreController::class,'getCategory'])->middleware('auth:sanctum');
-Route::get('/store/product/{product}', [StoreController::class,'getProduct'])->middleware('auth:sanctum');
-Route::get('/products/all-products', [StoreController::class,'getAllProducts'])->middleware('auth:sanctum');
-Route::get('/products/all-offers', [StoreController::class,'getAllOffers'])->middleware('auth:sanctum');
-Route::get('/products/type', [StoreController::class,'getProductByType'])->middleware('auth:sanctum');
+Route::get('/store/category/{category}', [StoreController::class,'getCategory']);
+Route::get('/store/product/{product}', [StoreController::class,'getProduct']);
+Route::get('/products/all-products', [StoreController::class,'getAllProducts']);
+Route::get('/products/all-offers', [StoreController::class,'getAllOffers']);
+Route::get('/products/type', [StoreController::class,'getProductByType']);
 Route::post('/store/{product}/delete-product', [StoreController::class,'deleteProduct'])->middleware('auth:sanctum');
 Route::post('/store/{product}/add-product-image', [StoreController::class,'addProductImages'])->middleware('auth:sanctum');
 Route::post('/store/{image}/delete-product-image', [StoreController::class,'deleteProductImage'])->middleware('auth:sanctum');
@@ -126,8 +126,8 @@ Route::get('/market/fishes', [MarketController::class,'getMarketFishes'])->middl
 Route::get('/market/monkeys', [MarketController::class,'getMarketMonkeys'])->middleware('auth:sanctum');
 Route::get('/market/males', [MarketController::class,'getMarketMales'])->middleware('auth:sanctum');
 Route::get('/market/females', [MarketController::class,'getMarketFemales'])->middleware('auth:sanctum');
-Route::get('/market/pets', [MarketController::class, 'filterMarketPets'])->middleware('auth:sanctum');
-Route::get('/market/{pet}', [MarketController::class,'getMarketPet'])->middleware('auth:sanctum');
+Route::get('/market/pets', [MarketController::class, 'filterMarketPets']);
+Route::get('/market/{pet}', [MarketController::class,'getMarketPet']);
 Route::post('/market/{pet}/add-image', [MarketController::class,'addMarketImage'])->middleware('auth:sanctum');
 Route::post('/market/{image}/delete-image', [MarketController::class,'deleteMarketImage'])->middleware('auth:sanctum');
 // ClinicController
@@ -137,8 +137,8 @@ Route::get('/clinic/{clinic}', [ClinicController::class,'getClinic'])->middlewar
 Route::get('/clinic', [ClinicController::class,'allClinic'])->middleware('auth:sanctum');
 Route::post('/clinic/{clinic}/delete-clinic', [ClinicController::class,'deleteClinic'])->middleware('auth:sanctum');
 Route::post('/clinic/{clinic}/book-visit', [ClinicController::class,'book'])->middleware('auth:sanctum');
-Route::get('/book/{book}', [ClinicController::class,'getBook'])->middleware('auth:sanctum');
-Route::get('/book', [ClinicController::class,'allBooks'])->middleware('auth:sanctum');
+Route::get('/book/{book}', [ClinicController::class,'getBook']);
+Route::get('/book', [ClinicController::class,'allBooks']);
 Route::post('/book/{book}/cancel-book', [ClinicController::class,'cancelBook'])->middleware('auth:sanctum');
 // Chat Section
 Route::post('/chats', [ChatController::class, 'store'])->middleware('auth:sanctum');

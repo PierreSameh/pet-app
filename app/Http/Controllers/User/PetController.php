@@ -78,7 +78,7 @@ class PetController extends Controller
             'type'=> 'required|string',
             'gender'=> 'required|string',
             'breed'=> 'nullable|string',
-            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($validator->fails()) {
@@ -138,7 +138,7 @@ class PetController extends Controller
                 'type'=> 'nullable|string',
                 'gender'=> 'nullable|string',
                 'breed'=> 'nullable|string',
-                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif',
             ]);
     
             if ($validator->fails()) {
@@ -226,7 +226,7 @@ class PetController extends Controller
 
     public function addImage(Request $request, $petID) {
         $validator = Validator::make($request->all(), [
-            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*'=> 'required|image|mimes:jpeg,png,jpg,gif'
         ]);
 
         if ($validator->fails()) {
