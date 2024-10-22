@@ -57,14 +57,14 @@ Route::post('/user/{pet}/delete', [PetController::class,'deletePet'])->middlewar
 Route::post('/user/{pet}/add-image', [PetController::class,'addImage'])->middleware('auth:sanctum');
 Route::post('/user/{image}/delete-image', [PetController::class,'deleteImage'])->middleware('auth:sanctum');
 // HomeController
-Route::get('/home/dogs', [HomeController::class,'getDogs'])->middleware('auth:sanctum');
-Route::get('/home/cats', [HomeController::class,'getCats'])->middleware('auth:sanctum');
-Route::get('/home/birds', [HomeController::class,'getBirds'])->middleware('auth:sanctum');
-Route::get('/home/turtles', [HomeController::class,'getTurtles'])->middleware('auth:sanctum');
-Route::get('/home/fishes', [HomeController::class,'getFishes'])->middleware('auth:sanctum');
-Route::get('/home/monkeys', [HomeController::class,'getMonkeys'])->middleware('auth:sanctum');
-Route::get('/home/males', [HomeController::class,'getMales'])->middleware('auth:sanctum');
-Route::get('/home/females', [HomeController::class,'getFemales'])->middleware('auth:sanctum');
+Route::get('/home/dogs', [HomeController::class,'getDogs']);
+Route::get('/home/cats', [HomeController::class,'getCats']);
+Route::get('/home/birds', [HomeController::class,'getBirds']);
+Route::get('/home/turtles', [HomeController::class,'getTurtles']);
+Route::get('/home/fishes', [HomeController::class,'getFishes']);
+Route::get('/home/monkeys', [HomeController::class,'getMonkeys']);
+Route::get('/home/males', [HomeController::class,'getMales']);
+Route::get('/home/females', [HomeController::class,'getFemales']);
 Route::get('/pets', [HomeController::class, 'filterPets']);
 Route::get('/home/{pet}', [HomeController::class,'getPetDating']);
 
@@ -128,14 +128,14 @@ Route::get('/order/payment/number', [CheckoutController::class, 'getPayment'])->
 Route::post('/market/add-pet', [MarketController::class,'addMarketPet'])->middleware('auth:sanctum');
 Route::post('/market/{pet}/update', [MarketController::class,'editMarketPet'])->middleware('auth:sanctum');
 Route::post('/market/{pet}/delete', [MarketController::class,'deleteMarketPet'])->middleware('auth:sanctum');
-Route::get('/market/dogs', [MarketController::class,'getMarketDogs'])->middleware('auth:sanctum');
-Route::get('/market/cats', [MarketController::class,'getMarketCats'])->middleware('auth:sanctum');
-Route::get('/market/birds', [MarketController::class,'getMarketBirds'])->middleware('auth:sanctum');
-Route::get('/market/turtles', [MarketController::class,'getMarketTurtles'])->middleware('auth:sanctum');
-Route::get('/market/fishes', [MarketController::class,'getMarketFishes'])->middleware('auth:sanctum');
-Route::get('/market/monkeys', [MarketController::class,'getMarketMonkeys'])->middleware('auth:sanctum');
-Route::get('/market/males', [MarketController::class,'getMarketMales'])->middleware('auth:sanctum');
-Route::get('/market/females', [MarketController::class,'getMarketFemales'])->middleware('auth:sanctum');
+Route::get('/market/dogs', [MarketController::class,'getMarketDogs']);
+Route::get('/market/cats', [MarketController::class,'getMarketCats']);
+Route::get('/market/birds', [MarketController::class,'getMarketBirds']);
+Route::get('/market/turtles', [MarketController::class,'getMarketTurtles']);
+Route::get('/market/fishes', [MarketController::class,'getMarketFishes']);
+Route::get('/market/monkeys', [MarketController::class,'getMarketMonkeys']);
+Route::get('/market/males', [MarketController::class,'getMarketMales']);
+Route::get('/market/females', [MarketController::class,'getMarketFemales']);
 Route::get('/market/pets', [MarketController::class, 'filterMarketPets']);
 Route::get('/market/{pet}', [MarketController::class,'getMarketPet']);
 Route::post('/market/{pet}/add-image', [MarketController::class,'addMarketImage'])->middleware('auth:sanctum');
@@ -147,8 +147,8 @@ Route::get('/clinic/{clinic}', [ClinicController::class,'getClinic']);
 Route::get('/clinic', [ClinicController::class,'allClinic']);
 Route::post('/clinic/{clinic}/delete-clinic', [ClinicController::class,'deleteClinic'])->middleware('auth:sanctum');
 Route::post('/clinic/{clinic}/book-visit', [ClinicController::class,'book'])->middleware('auth:sanctum');
-Route::get('/book/{book}', [ClinicController::class,'getBook']);
-Route::get('/book', [ClinicController::class,'allBooks']);
+Route::get('/book/{book}', [ClinicController::class,'getBook'])->middleware('auth:sanctum');
+Route::get('/book', [ClinicController::class,'allBooks'])->middleware('auth:sanctum');
 Route::post('/book/{book}/cancel-book', [ClinicController::class,'cancelBook'])->middleware('auth:sanctum');
 Route::post('/clinic/rate', [ClinicController::class, 'rate'])->middleware('auth:sanctum');
 // Chat Section

@@ -134,7 +134,7 @@ class PetController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name'=> 'nullable|string|max:255',
-                'age'=> 'nullable|integer',
+                'age'=> 'nullable|date_format:Y-m-d H:i:s',
                 'type'=> 'nullable|string',
                 'gender'=> 'nullable|string',
                 'breed'=> 'nullable|string',
