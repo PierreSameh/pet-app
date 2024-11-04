@@ -231,4 +231,27 @@ class AddressController extends Controller
             []
         );
     }
+
+    public function getDefault(Request $request){
+        $user = $request->user();
+        $default = Address::where('user_id', $user->id)->where('default', 1)->first();
+        if($default){
+            return $this->handleResponse(
+                true,
+                "",
+                [],
+                [
+                    "default_address" => $default
+                ],
+                []
+            );
+        }
+        return $this->handleResponse(
+            false,
+            "You don't have a default address",
+            [],
+            [],
+            []
+        );
+    }
 }
