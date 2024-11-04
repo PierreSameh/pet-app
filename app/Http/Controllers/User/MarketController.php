@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\MarketPet;
@@ -337,43 +338,67 @@ class MarketController extends Controller
     public function filterMarketPets(Request $request)
     {
         $query = MarketPet::query();
-
+    
         // Filter by age if provided
         if ($request->has('age')) {
             $query->where('age', $request->input('age'));
         }
-
+    
         // Filter by type if provided
         if ($request->has('type')) {
             $query->where('type', $request->input('type'));
         }
-
+    
         // Filter by gender if provided
         if ($request->has('gender')) {
             $query->where('gender', $request->input('gender'));
         }
-
+    
         if ($request->has('breed')) {
             $query->where('breed', $request->input('breed'));
         }
-
+    
         if ($request->has('for_adoption')) {
             $query->where('for_adoption', $request->input('for_adoption'));
         }
-
-        // Get the filtered results
-        $pets = $query->with('user','marketpetgallery')->paginate(20);
-        if (count($pets) > 0) {
-        // Return the filtered data as a JSON response
-        return $this->handleResponse(
-            true,
-            '',
-            [],
-            [
-                "pets" => $pets
-            ],
-            []
-        );
+    
+        // Get the filtered results with user and marketpetgallery
+        $pets = $query->with('user', 'marketpetgallery')->paginate(20);
+    
+        if ($pets->isNotEmpty()) {
+            // Transform the market pets data to include user address information
+            $petsData = $pets->map(function ($pet) {
+                $petData = $pet->toArray();
+    
+                // Include user information with default address as a direct key-value
+                if ($pet->user) {
+                    $userData = $pet->user->toArray();
+    
+                    // Fetch the user's default address
+                    $defaultAddress = Address::where('user_id', $pet->user->id)
+                                             ->where('default', true)
+                                             ->first();
+                    
+                    // Add the address directly to the user data if available
+                    $userData['address'] = $defaultAddress ? $defaultAddress->address : null;
+                    
+                    // Attach the updated user data to the pet data
+                    $petData['user'] = $userData;
+                }
+    
+                return $petData;
+            });
+    
+            // Return the filtered data as a JSON response
+            return $this->handleResponse(
+                true,
+                '',
+                [],
+                [
+                    "pets" => $petsData
+                ],
+                []
+            );
         }
         
         return $this->handleResponse(
@@ -384,6 +409,7 @@ class MarketController extends Controller
             []
         );
     }
+    
 
     // Pet Dating Profile
     public function getMarketPet($petID) {
