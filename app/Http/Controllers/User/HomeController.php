@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -244,63 +245,83 @@ class HomeController extends Controller
     // }
 
     public function filterPets(Request $request)
-{
-    $query = Pet::query();
-
-    // Filter by age if provided
-    if ($request->has('age')) {
-        $query->where('age', $request->input('age'));
-    }
-
-    // Filter by type if provided
-    if ($request->has('type')) {
-        $query->where('type', $request->input('type'));
-    }
-
-    // Filter by gender if provided
-    if ($request->has('gender')) {
-        $query->where('gender', $request->input('gender'));
-    }
-
-    if ($request->has('breed')) {
-        $query->where('breed', $request->input('breed'));
-    }
-
-    // Get the filtered results
-    $pets = $query->with(['user', 'petgallery'])->get();
-
-    if ($pets->isNotEmpty()) {
-        // Transform the pets data to include breed information
-        $petsData = $pets->map(function ($pet) {
-            $petData = $pet->toArray();
-            if ($pet->breed) {
-                // If no breed is found, you might want to search for it
-                $breed = Breed::where('name', $pet->breed)->first();
-                $petData['breed_info'] = $breed ? $breed->toArray() : null;
-            }
-            return $petData;
-        });
-
-        // Return the filtered data as a JSON response
+    {
+        $query = Pet::query();
+    
+        // Filter by age if provided
+        if ($request->has('age')) {
+            $query->where('age', $request->input('age'));
+        }
+    
+        // Filter by type if provided
+        if ($request->has('type')) {
+            $query->where('type', $request->input('type'));
+        }
+    
+        // Filter by gender if provided
+        if ($request->has('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+    
+        if ($request->has('breed')) {
+            $query->where('breed', $request->input('breed'));
+        }
+    
+        // Get the filtered results
+        $pets = $query->with(['user', 'petgallery'])->get();
+    
+        if ($pets->isNotEmpty()) {
+            // Transform the pets data to include breed and user address information
+            $petsData = $pets->map(function ($pet) {
+                $petData = $pet->toArray();
+    
+                // Include breed information if available
+                if ($pet->breed) {
+                    $breed = Breed::where('name', $pet->breed)->first();
+                    $petData['breed_info'] = $breed ? $breed->toArray() : null;
+                }
+    
+                // Include user information with default address as a direct key-value
+                if ($pet->user) {
+                    $userData = $pet->user->toArray();
+    
+                    // Fetch the user's default address
+                    $defaultAddress = Address::where('user_id', $pet->user->id)
+                                             ->where('default', true)
+                                             ->first();
+                    
+                    // Add the address directly to the user data if available
+                    $userData['address'] = $defaultAddress ? $defaultAddress->address : null;
+                    
+                    // Attach the updated user data to the pet data
+                    $petData['user'] = $userData;
+                }
+    
+                return $petData;
+            });
+    
+            // Return the filtered data as a JSON response
+            return $this->handleResponse(
+                true,
+                '',
+                [],
+                [
+                    "pets" => $petsData
+                ],
+                []
+            );
+        }
+        
         return $this->handleResponse(
             true,
-            '',
+            'No Search Matches',
             [],
-            [
-                "pets" => $petsData
-            ],
+            [],
             []
         );
     }
     
-    return $this->handleResponse(
-        true,
-        'No Search Matches',
-        [],
-        [],
-        []
-    );
-}
+    
     // Pet Dating Profile
     public function getPetDating($petID) {
         $pet = Pet::with('petgallery')->where('id', $petID)->first();

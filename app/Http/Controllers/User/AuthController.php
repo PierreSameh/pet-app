@@ -557,7 +557,8 @@ class AuthController extends Controller
        $user = $request->user();
         $bankCards = $request->user()->bankcard;
         $wallets   = $request->user()->wallet;
-
+        $address = Address::where('user_id', $user->id)->where('default', 1)->first();
+        $user->address = $address->address;
        return $this->handleResponse(
         true,
         "User Data",
