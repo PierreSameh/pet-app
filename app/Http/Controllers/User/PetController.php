@@ -152,6 +152,15 @@ class PetController extends Controller
             }
     
             $pet = Pet::find( $petID );
+            if (!$pet){
+                return $this->handleResponse(
+                    false,
+                    "undefined pet id",
+                    [],
+                    [],
+                    []
+                );
+            }
                 if ($request->name){
                 $pet->name = $request->name;
                 }
