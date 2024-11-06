@@ -137,6 +137,68 @@ class AuthController extends Controller
         }
 
     } 
+
+    public function socialRegister(Request $request){
+        try{
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|regex:/^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+){1})$/',
+            'email' => 'required|email|unique:users,email',
+            'joined_with'=>"required|in:2,3,4",
+        ]);
+
+        if ($validator->fails()) {
+                return $this->handleResponse(
+                false,
+                "",
+                [$validator->errors()->first()],
+                [],
+                [
+                    "joined_with" => [
+                        "2" => "تعني تسجيل عن طريق جوجل ولا يشترط ارسال كلمة مرور",
+                        "3" => "تعني تسجيل عن طريق فيس بوك ولا يشترط ارسال كلمة مرور",
+                        "4" => "تعني تسجيل الدخول عن طريق أبل ولا يشترط ارسال كلمة مرور"
+                    ],
+                    "NOTE" => "Don't use joined with 1 in this endpoint, use social joined with only"
+                ]
+            );
+        }
+        $explode = explode(' ', $request->name);
+        $firstName = $explode[0];
+        $lastName = $explode[1];
+        $user = User::create([
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $request->email,
+            'joined_with'=> $request->joined_with,
+            "password" => (int) $request->joined_with === 2 ? Hash::make("Google") : Hash::make("Facebook"),
+        ]);
+
+        if($user){
+            $token = $user->createToken('token')->plainTextToken;
+
+            return $this->handleResponse(
+                true,
+                "You are Signed Up",
+                [],
+                [
+                   "user" => $user,
+                    "token" => $token
+                ],
+                []
+            );
+        }
+        } catch (\Exception $e) {
+
+            return $this->handleResponse(
+                false,
+                "Error Signing UP",
+                [$e->getMessage()],
+                [],
+                []
+            );
+        }
+    }
+
     public function askEmailCode(Request $request) {
         $user = $request->user();
 
