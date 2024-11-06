@@ -624,7 +624,9 @@ class AuthController extends Controller
         $bankCards = $request->user()->bankcard;
         $wallets   = $request->user()->wallet;
         $address = Address::where('user_id', $user->id)->where('default', 1)->first();
+        if($address){
         $user->address = $address->address;
+        }
        return $this->handleResponse(
         true,
         "User Data",
@@ -644,7 +646,6 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
             'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif'
         ]);
 
@@ -664,9 +665,6 @@ class AuthController extends Controller
         }
         if ($request->last_name) {
         $user->last_name = $request->last_name;
-        }
-        if ($request->address) {
-        $user->address = $request->address;
         }
 
         if ($request->picture) {
