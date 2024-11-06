@@ -646,6 +646,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|numeric|digits:11|unique:users,phone',
             'picture'=> 'nullable|image|mimes:jpeg,png,jpg,gif'
         ]);
 
@@ -667,6 +668,10 @@ class AuthController extends Controller
         $user->last_name = $request->last_name;
         }
 
+        if ($request->phone){
+            $user->phone = $request->phone;
+        }
+        
         if ($request->picture) {
             $imagePath = $request->file('picture')->store('/storage/profile', 'public');
             $user->picture = $imagePath;
