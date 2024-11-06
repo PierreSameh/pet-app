@@ -142,7 +142,7 @@ class AuthController extends Controller
         try{
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|regex:/^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+){1})$/',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'joined_with'=>"required|in:2,3,4",
         ]);
 
@@ -162,6 +162,8 @@ class AuthController extends Controller
                 ]
             );
         }
+        $exists = User::where('email', $request->email)->first();
+        if(!isset($exists)){
         $explode = explode(' ', $request->name);
         $firstName = $explode[0];
         $lastName = $explode[1];
@@ -172,7 +174,9 @@ class AuthController extends Controller
             'joined_with'=> $request->joined_with,
             "password" => (int) $request->joined_with === 2 ? Hash::make("Google") : Hash::make("Facebook"),
         ]);
-
+        } else {
+            $user = $exists;
+        }
         if($user){
             $token = $user->createToken('token')->plainTextToken;
 
