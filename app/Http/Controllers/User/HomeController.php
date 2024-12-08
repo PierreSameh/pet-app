@@ -266,6 +266,9 @@ class HomeController extends Controller
         if ($request->has('breed')) {
             $query->where('breed', $request->input('breed'));
         }
+        if ($request->has('mate')) {
+            $query->where('mating', $request->input('mating'));
+        }
     
         // Get the filtered results
         $pets = $query->with(['user', 'petgallery'])->get();

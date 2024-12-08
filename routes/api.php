@@ -55,6 +55,7 @@ Route::get('/user/all/pets', [PetController::class,'getUserPets'])->middleware('
 Route::post('/user/add-pet', [PetController::class,'addPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/update', [PetController::class,'editPet'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/delete', [PetController::class,'deletePet'])->middleware('auth:sanctum');
+Route::post('/user/mate', [PetController::class,'mate'])->middleware('auth:sanctum');
 Route::post('/user/{pet}/add-image', [PetController::class,'addImage'])->middleware('auth:sanctum');
 Route::post('/user/{image}/delete-image', [PetController::class,'deleteImage'])->middleware('auth:sanctum');
 // HomeController

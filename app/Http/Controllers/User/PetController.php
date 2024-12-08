@@ -229,6 +229,26 @@ class PetController extends Controller
         }
 
     }
+
+    public function mate(Request $request){
+        $validator = Validator::make($request->all(), [
+            "pet_id" => "required|exists:pets,id",
+            "mating" => "required|in:0,1"
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                "message" => $validator->errors()->first(),
+                "notes" => "mating: choose 0 or 1" 
+            ], 422);
+        }
+        $pet = Pet::find($request->pet_id);
+        if(!$pet){
+            return response()->json(["message" => "not found"], 404);
+        }
+        $pet->mating = $request->mating;
+        $pet->save();
+        return response()->json(["message" => "mating changed successfully"], 200);
+    }
     //////////////////////////////////////
     //        GALLERY METHODS           //
     /////////////////////////////////////
