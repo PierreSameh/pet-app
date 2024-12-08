@@ -266,7 +266,7 @@ class HomeController extends Controller
         if ($request->has('breed')) {
             $query->where('breed', $request->input('breed'));
         }
-        if ($request->has('mate')) {
+        if ($request->has('mating')) {
             $query->where('mating', $request->input('mating'));
         }
     
